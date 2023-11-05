@@ -1,8 +1,8 @@
 from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import QMainWindow, QListWidget, QPushButton, QVBoxLayout, QWidget, QListWidgetItem, QHBoxLayout, \
-    QInputDialog
+    QInputDialog, QDialog
 
-from ViewController.AddEditPageView import AddEditPageView
+from ViewController.AddEditPageView import AddPageView, UpdatePageView
 from ViewController.TournamentPageView import TournamentPageView
 
 
@@ -56,21 +56,24 @@ class MainPageView(QMainWindow):
             ind += 1
 
     def add_tournament(self):
-        # Тут должен создаться турнир
-        tournament, ok = QInputDialog.getText(self, "Добавить турнир", "Введите название турнира:")
-        if ok:
-            self._model.add_tournament(tournament)
-            self.update_view()
+        self.add_window = AddPageView()
+        self.add_window.show()
+        # tournament, ok = QInputDialog.getText(self, "Добавить турнир", "Введите название турнира:")
+        # if ok:
+        #     self._model.add_tournament(tournament)
+        #     self.update_view()
 
     def remove_tournament(self, tournament):
         self._model.delete_tournament(tournament)
         self.update_view()
 
     def update_tournament(self, index):
-        new_tournament, ok = QInputDialog.getText(self, "Обновить турнир", "Введите новое название турнира:")
-        if ok:
-            self._model.update_tournament(index, new_tournament)
-            self.update_view()
+        self.update_window = UpdatePageView()
+        self.update_window.show()
+        # new_tournament, ok = QInputDialog.getText(self, "Обновить турнир", "Введите новое название турнира:")
+        # if ok:
+        #     self._model.update_tournament(index, new_tournament)
+        #     self.update_view()
 
     def go_to_tournament(self, tournament):
         # Тут открывается окно турнира

@@ -1,5 +1,8 @@
+import math
+
 from PyQt6.QtCore import QSize
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QLabel, QPushButton
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QLabel, QPushButton, QGraphicsView, QGraphicsScene, \
+    QTreeWidgetItem, QTreeWidget
 
 from Model.Bracket import *
 from Model.MainPage import MainPage
@@ -23,16 +26,10 @@ class TournamentPageView(QMainWindow):
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
+        self.generate_bracket()
 
-
-    def create_bracket(self):
-        bracket = Bracket(BracketType.UPPER)
-        bracket.generate_bracket([Participant(str(i)) for i in range(7)])
-        print(*[[(bracket.matches[i][j].participant1.name, bracket.matches[i][j].participant2.name) for j in
-                 range(len(bracket.matches[i]))] for i in range(len(bracket.matches))], sep='\n')
-        bracket.update_result(0, 2, (3, 2))
-        print(*[[(bracket.matches[i][j].participant1.name, bracket.matches[i][j].participant2.name) for j in
-                 range(len(bracket.matches[i]))] for i in range(len(bracket.matches))], sep='\n')
+    def generate_bracket(self):
+        pass
 
     def got_to_main_page(self):
         from ViewController.MainPageView import MainPageView
