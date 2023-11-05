@@ -1,7 +1,7 @@
 from enum import Enum
 
-from Match import Match
-from Participant import Participant
+from Model.Match import Match
+from Model.Participant import Participant
 
 
 class BracketType(Enum):

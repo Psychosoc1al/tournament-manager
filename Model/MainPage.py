@@ -23,11 +23,9 @@ class MainPage:
         self._tournaments.remove(tournament)
         self.save_to_file()
 
-    def update_tournament(self, old_tournament, new_tournament):
-        index = self.tournaments.index(old_tournament)
-        self.tournaments[index] = new_tournament
+    def update_tournament(self, index, new_tournament):
+        self._tournaments[index] = new_tournament
         self.save_to_file()
 
-    @property
-    def tournaments(self):
+    def get_tournaments(self):
         return self._tournaments

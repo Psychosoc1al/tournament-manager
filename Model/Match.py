@@ -1,4 +1,4 @@
-from Participant import Participant
+from Model.Participant import Participant
 
 
 class Match:
