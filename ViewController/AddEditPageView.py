@@ -1,9 +1,12 @@
+from datetime import datetime
 
-from PyQt6.QtCore import QSize
-from PyQt6.QtWidgets import QDialog, QWidget, QVBoxLayout, QLabel, QLineEdit, QTextEdit, QPushButton
+from PyQt6.QtCore import QSize, pyqtSignal, QDate
+from PyQt6.QtWidgets import QDialog, QWidget, QVBoxLayout, QLabel, QLineEdit, QTextEdit, QPushButton, QComboBox, \
+    QDateEdit
 
 
-class AddPageView(QDialog):
+class AddPageView(QWidget):
+    data = pyqtSignal(str, str, int, int, str, str)
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Добавление турнира")
@@ -18,13 +21,14 @@ class AddPageView(QDialog):
         self.sport_edit = QLineEdit()
 
         self.format_label = QLabel('Формат проведения:')
-        self.format_edit = QTextEdit()
+        self.format_edit = QComboBox()
+        self.format_edit.addItems(['Single elimination', 'Double elimination'])
 
         self.participants_label = QLabel('Количество участников:')
         self.participants_edit = QLineEdit()
 
         self.date_label = QLabel('Дата проведения:')
-        self.date_edit = QLineEdit()
+        self.date_edit = QDateEdit()
 
         self.participants_form_label = QLabel('Участники:')
         self.participants_form_edit = QTextEdit()
@@ -52,23 +56,20 @@ class AddPageView(QDialog):
     def saveData(self): # Нужно как-то вернуть эти данные
         self.name = self.name_edit.text()
         self.sport = self.sport_edit.text()
-        self.format = self.format_edit.toPlainText()
-        self.participants = self.participants_edit.text()
-        self.date = self.date_edit.text()
+        self.format = self.format_edit.currentIndex()
+        self.participants = int(self.participants_edit.text())
+        self.date = self.date_edit.date()
         self.participants_form = self.participants_form_edit.toPlainText()
+        self.data.emit(self.name, self.sport, self.format, self.participants, self.date.toPyDate(), self.participants_form)
         self.close()
-        # print('Название:', name)
-        # print('Вид спорта:', sport)
-        # print('Формат проведения:', format)
-        # print('Количество участников:', participants)
-        # print('Дата проведения:', date)
-        # print('Участники:', participants_form)
 
 
 
 class UpdatePageView(QWidget):
-    def __init__(self):
+    data = pyqtSignal(int, str, str, int, int, str, str)
+    def __init__(self, index):
         super().__init__()
+        self._index = index
         self.setWindowTitle("Изменение турнира")
         self.setFixedSize(QSize(450, 450))
         self.initUI()
@@ -81,13 +82,17 @@ class UpdatePageView(QWidget):
         self.sport_edit = QLineEdit()
 
         self.format_label = QLabel('Формат проведения:')
-        self.format_edit = QTextEdit()
+        self.format_edit = QComboBox()
+        self.format_edit.addItems(['Single elimination', 'Double elimination'])
 
         self.participants_label = QLabel('Количество участников:')
         self.participants_edit = QLineEdit()
 
         self.date_label = QLabel('Дата проведения:')
-        self.date_edit = QLineEdit()
+        self.date_edit = QDateEdit()
+
+        self.participants_form_label = QLabel('Участники:')
+        self.participants_form_edit = QTextEdit()
 
         self.save_button = QPushButton('Сохранить')
         self.save_button.clicked.connect(self.saveData)
@@ -103,21 +108,22 @@ class UpdatePageView(QWidget):
         vbox.addWidget(self.participants_edit)
         vbox.addWidget(self.date_label)
         vbox.addWidget(self.date_edit)
+        vbox.addWidget(self.participants_form_label)
+        vbox.addWidget(self.participants_form_edit)
         vbox.addWidget(self.save_button)
 
         self.setLayout(vbox)
 
     def saveData(self): # Нужно как-то вернуть эти данные
-        name = self.name_edit.text()
-        sport = self.sport_edit.text()
-        format = self.format_edit.toPlainText()
-        participants = self.participants_edit.text()
-        date = self.date_edit.text()
+        self.name = self.name_edit.text()
+        self.sport = self.sport_edit.text()
+        self.format = self.format_edit.currentIndex()
+        self.participants = self.participants_edit.text()
+        self.date = self.date_edit.text()
+        self.participants_form = self.participants_form_edit.toPlainText()
+        self.data.emit(self._index, self.name, self.sport, self.format, self.participants, self.date.toPyDate(), self.participants_form)
+        self.close()
 
-        print('Название:', name)
-        print('Вид спорта:', sport)
-        print('Формат проведения:', format)
-        print('Количество участников:', participants)
-        print('Дата проведения:', date)
+
 
 

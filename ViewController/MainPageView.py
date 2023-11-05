@@ -1,7 +1,10 @@
+from datetime import datetime
+
 from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import QMainWindow, QListWidget, QPushButton, QVBoxLayout, QWidget, QListWidgetItem, QHBoxLayout, \
     QInputDialog, QDialog
 
+from Model.Tournament import Tournament
 from ViewController.AddEditPageView import AddPageView, UpdatePageView
 from ViewController.TournamentPageView import TournamentPageView
 
@@ -11,8 +14,6 @@ class MainPageView(QMainWindow):
         super().__init__()
         self._model = model
         self.setWindowTitle("Главное меню")
-        # self._tournamentWindow = TournamentPageView()
-        # self._addWindow = AddEditPageView()
         self.setFixedSize(QSize(800, 600))
 
         self.list_widget = QListWidget()
@@ -40,6 +41,7 @@ class MainPageView(QMainWindow):
             layout = QHBoxLayout(widget)
 
             tournament_button = QPushButton(tournament)
+            tournament_button.setFixedSize(500, 24)
             tournament_button.clicked.connect(lambda _, t=tournament: self.go_to_tournament(t))
             remove_button = QPushButton("Delete")
             remove_button.clicked.connect(lambda _, t=tournament: self.remove_tournament(t))
@@ -58,6 +60,7 @@ class MainPageView(QMainWindow):
     def add_tournament(self):
         self.add_window = AddPageView()
         self.add_window.show()
+        self.add_window.data[str, str, int, int, str, str].connect(self.add_data)
         # tournament, ok = QInputDialog.getText(self, "Добавить турнир", "Введите название турнира:")
         # if ok:
         #     self._model.add_tournament(tournament)
@@ -68,8 +71,9 @@ class MainPageView(QMainWindow):
         self.update_view()
 
     def update_tournament(self, index):
-        self.update_window = UpdatePageView()
+        self.update_window = UpdatePageView(index)
         self.update_window.show()
+        self.update_window.data[int, str, str, int, int, str, str].connect(self.update_data)
         # new_tournament, ok = QInputDialog.getText(self, "Обновить турнир", "Введите новое название турнира:")
         # if ok:
         #     self._model.update_tournament(index, new_tournament)
@@ -80,4 +84,29 @@ class MainPageView(QMainWindow):
         self.window = TournamentPageView(tournament)
         self.hide()
         self.window.show()
+
+    def add_data(self, name, sport, d_format, participants, date, participants_form):
+        new_tournament = Tournament(name, sport, date, participants_form.split(","), d_format)
+        self._model.add_tournament(new_tournament)
+        self.update_view()
+
+        # print('Название:', name)
+        # print('Вид спорта:', sport)
+        # print('Формат проведения:', d_format)
+        # print('Количество участников:', participants)
+        # print('Дата проведения:', date)
+        # print('Участники:', participants_form)
+
+    def update_data(self, index, name, sport, d_format, participants, date, participants_form):
+        new_tournament = Tournament(name, sport, date, participants_form.split(","), d_format)
+        self._model.update_tournament(index, new_tournament)
+        self.update_view()
+
+        # print('Название:', name)
+        # print('Вид спорта:', sport)
+        # print('Формат проведения:', d_format)
+        # print('Количество участников:', participants)
+        # print('Дата проведения:', date)
+        # print('Участники:', participants_form)
+
 

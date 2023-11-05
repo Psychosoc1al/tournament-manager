@@ -1,17 +1,19 @@
-from datetime import datetime
+from datetime import date
 
-from Bracket import Bracket
-from Participant import Participant
+from Model.Bracket import Bracket
+from Model.Participant import Participant
 
 
 class Tournament:
     def __init__(self,
                  name: str,
-                 date: datetime,
+                 sport: str,
+                 tour_date: date,
                  participants: list[Participant],
                  brackets: list[Bracket]):
         self._name = name
-        self._date = date
+        self._sport = sport
+        self._date = tour_date
         self._winner = None
         self._participants = participants
         self._brackets = brackets
@@ -29,7 +31,7 @@ class Tournament:
         return self._date
 
     @date.setter
-    def date(self, value: datetime):
+    def date(self, value: date):
         self._date = value
 
     @property
