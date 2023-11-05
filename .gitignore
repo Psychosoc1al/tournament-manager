@@ -1,5 +1,9 @@
-*
+/*
 
 !.gitignore
 !README.md
+!data.json
 !main.py
+!Model/
+!ViewController/
+!controllers/

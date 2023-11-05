@@ -1,8 +1,5 @@
-from datetime import datetime
-
 from PyQt6.QtCore import QSize
-from PyQt6.QtWidgets import QMainWindow, QListWidget, QPushButton, QVBoxLayout, QWidget, QListWidgetItem, QHBoxLayout, \
-    QInputDialog, QDialog
+from PyQt6.QtWidgets import QMainWindow, QListWidget, QPushButton, QVBoxLayout, QWidget, QListWidgetItem, QHBoxLayout
 
 from Model.Tournament import Tournament
 from ViewController.AddEditPageView import AddPageView, UpdatePageView
@@ -10,9 +7,8 @@ from ViewController.TournamentPageView import TournamentPageView
 
 
 class MainPageView(QMainWindow):
-    def __init__(self, model):
+    def __init__(self):
         super().__init__()
-        self._model = model
         self.setWindowTitle("Главное меню")
         self.setFixedSize(QSize(800, 600))
 
@@ -108,5 +104,3 @@ class MainPageView(QMainWindow):
         # print('Количество участников:', participants)
         # print('Дата проведения:', date)
         # print('Участники:', participants_form)
-
-
