@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QPushButton, 
 from AddEditPageView import AddEditPageView
 from MainPage import MainPage
 from MainPageView import MainPageView
+from Participant import Participant
 from Tournament import Tournament
 from TournamentPageView import TournamentPageView
 from add_edit_page_controller import AddEditPageController
@@ -86,16 +87,15 @@ class MainController:
     def add_data(self,
                  name: str,
                  sport: str,
-                 d_format: int,
-                 participants_amount: int,
+                 tournament_type: str,
                  start_date: date,
-                 participants: str
+                 participants_strings: str
                  ) -> None:
 
         # TODO: sync with model
-        # participants_list = participants.split('\n')
-        # new_tournament = Tournament(name, sport, start_date, participants_list, d_format)
-        # self._model.add_tournament(new_tournament)
+        participants = [Participant(name) for name in participants_strings.split('\n')]
+        new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
+        self._model.add_tournament(new_tournament)
 
         self.show_main_page()
 

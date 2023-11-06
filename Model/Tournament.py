@@ -8,7 +8,7 @@ class Tournament:
     def __init__(self,
                  name: str,
                  sport: str,
-                 bracket_type: int,
+                 bracket_type: str,
                  tour_date: date,
                  participants: list[Participant],
                  ):
