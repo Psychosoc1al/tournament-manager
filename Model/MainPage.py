@@ -2,9 +2,10 @@ import json
 
 
 class MainPage:
-    def __init__(self, filename):
+    _filename = 'data.json'
+
+    def __init__(self):
         self._tournaments = []
-        self._filename = filename
         self.load_from_file()
 
     def load_from_file(self):

@@ -29,3 +29,4 @@ class AddEditPageController:
         self._view.participants_edit.setText('\n'.join(self._model.participants))
 
     # def on_form_submit
+    # TODO: [in future] input validation
