@@ -5,12 +5,7 @@ from MainPage import MainPage
 from MainPageView import MainPageView
 from Tournament import Tournament
 from TournamentPageView import TournamentPageView
-
-
-PAGE_INDEX_BY_NAME = {
-    'main': 0,
-    'view': 1
-}
+from tournament_page_controller import TournamentPageController
 
 
 class MainController:
@@ -18,9 +13,11 @@ class MainController:
         self._model = model
         self._view = view
 
-        self.set_tournaments()
+        self.show_main_page()
 
-    def set_tournaments(self):
+        self._view.show()
+
+    def show_main_page(self):
         self._view.tournaments_list_widget.clear()  # Это список турниров
         tournaments = self._model.get_tournaments()
 
@@ -31,7 +28,7 @@ class MainController:
 
             tournament_button = QPushButton(tournament, item_inner_widget)
             tournament_button.setStyleSheet('padding: 5px 0px 5px 0px; margin: 3px 0px 3px 0px;')
-            tournament_button.clicked.connect(lambda _, t=tournament: self.go_to_tournament(t))
+            tournament_button.clicked.connect(lambda _, i=index: self.go_to_tournament(i))
 
             update_button = QPushButton('Update', item_inner_widget)
             update_button.setStyleSheet('padding: 5px 10px 5px 10px;')
@@ -50,6 +47,8 @@ class MainController:
             list_item.setSizeHint(item_inner_widget.sizeHint())
             self._view.tournaments_list_widget.setItemWidget(list_item, item_inner_widget)
 
+        self._view.central_stacked_widget.setCurrentIndex(0)
+
     def add_tournament(self):
         add_window = AddPageView()
         add_window.show()
@@ -62,7 +61,7 @@ class MainController:
     def remove_tournament(self, tournament):
         self._model.delete_tournament(tournament)
         # TODO: add logic
-        self.set_tournaments()
+        self.show_main_page()
 
     def update_tournament(self, index):
         self.update_window = UpdatePageView(index)
@@ -73,14 +72,18 @@ class MainController:
         #     self._model.update_tournament(index, new_tournament)
         #     self.update_view()
 
-    def go_to_tournament(self, tournament):
-        # Тут открывается окно турнира
-        self._view.central_stacked_widget.setCurrentIndex(PAGE_INDEX_BY_NAME['view'])
+    def go_to_tournament(self, tournament_index: int):
+        tournaments = self._model.get_tournaments()
+        tournament_view = TournamentPageView(self._view.central_stacked_widget)
+        _ = TournamentPageController(tournaments[tournament_index], tournament_view, self)
+
+        self._view.central_stacked_widget.addWidget(tournament_view)
+        self._view.central_stacked_widget.setCurrentWidget(tournament_view)
 
     def add_data(self, name, sport, d_format, participants, date, participants_form):
         new_tournament = Tournament(name, sport, date, participants_form.split(','), d_format)
         self._model.add_tournament(new_tournament)
-        self.set_tournaments()
+        self.show_main_page()
 
     def update_data(self, index, name, sport, d_format, participants, date, participants_form):
         print('Название:', name)
@@ -91,7 +94,7 @@ class MainController:
         print('Участники:', participants_form)
         new_tournament = Tournament(name, sport, date, participants_form.split(','), d_format)
         self._model.update_tournament(index, new_tournament)
-        self.set_tournaments()
+        self.show_main_page()
 
         # print('Название:', name)
         # print('Вид спорта:', sport)

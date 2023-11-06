@@ -14,7 +14,6 @@ class MainPageView(QMainWindow):
         self.setCentralWidget(self.central_stacked_widget)
 
         self._create_main_menu_widget()
-        self._create_tournament_page_widget()
 
         qdarktheme.setup_theme(custom_colors={'primary': '#d79df1'})
 
@@ -30,8 +29,3 @@ class MainPageView(QMainWindow):
         main_layout.addWidget(self.tournaments_list_widget)
 
         self.central_stacked_widget.addWidget(main_widget)
-
-    def _create_tournament_page_widget(self):
-        tournament_widget = TournamentPageView(self)
-        self.central_stacked_widget.addWidget(tournament_widget)
-        # TODO: add logic

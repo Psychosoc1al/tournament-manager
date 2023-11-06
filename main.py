@@ -12,7 +12,6 @@ def main():
     window = MainPageView()
     _ = MainController(model, window)
 
-    window.show()
     app.exec()
 
 
