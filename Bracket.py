@@ -45,12 +45,12 @@ class Bracket:
             for i in range(start_size - size//2):
                 self.matches[0].append(Match(0, i, participants[2*i], participants[2*i+1]))
             for i in range((start_size - size//2)*2, start_size):
-                self.matches[0].append(Match(0, i, participants[i], Participant(None)))
+                self.matches[0].append(Match(0, i, participants[i], Participant("???")))
             size //= 2
             while size > 1:
                 self.matches.append([])
                 for i in range(size//2):
-                    self.matches[-1].append(Match(len(self._matches)-1, i, Participant(None), Participant(None)))
+                    self.matches[-1].append(Match(len(self._matches)-1, i, Participant("???"), Participant("???")))
                     if self.matches[-2][2*i].participant2.name is None and\
                             self.matches[-2][2*i].participant1.name is not None:
                         self.matches[-1][-1].participant1 = self.matches[-2][2*i].participant1
@@ -64,7 +64,7 @@ class Bracket:
                 for _ in range(2):
                     self.matches.append([])
                     for i in range(size):
-                        self.matches[-1].append(Match(len(self._matches)-1, i, Participant(None), Participant(None)))
+                        self.matches[-1].append(Match(len(self._matches)-1, i, Participant("???"), Participant("???")))
                 size //= 2
         else:
             raise ValueError
@@ -85,9 +85,22 @@ class Bracket:
             else:
                 self.matches[stage + 1][match_number_stage//2].participant2 = winner
         elif self.type == BracketType.LOWER:
-            pass
-            # if match_number_stage % 4 == 0:
-            #     self.matches[stage + 1][match_number_stage//4].participant1 = winner
-            # else:
-            #     self.matches[stage + 1][match_number_stage//4].participant2 = winner
+            self._take_losers(stage, match_number_stage, result)
 
+    def _take_losers(self, stage: int, match_number_stage: int, result: (int, int)):
+        if self.type == BracketType.LOWER:
+            if result[0] > result[1]:
+                loser = self.matches[stage][match_number_stage].participant2
+            else:
+                loser = self.matches[stage][match_number_stage].participant1
+            if stage == 0:
+                if match_number_stage % 2 == 0:
+                    self.matches[0][match_number_stage//2].participant1 = loser
+                else:
+                    self.matches[0][match_number_stage//2].participant2 = loser
+            else:
+                if stage % 2 != 0:
+                    number = len(self.matches[stage * 2 - 1]) - 1 - match_number_stage
+                else:
+                    number = match_number_stage
+                self.matches[stage * 2 - 1][number].participant1 = loser
