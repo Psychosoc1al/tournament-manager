@@ -27,6 +27,14 @@ class Tournament:
         self._name = value
 
     @property
+    def sport(self):
+        return self._sport
+
+    @sport.setter
+    def sport(self, value: str):
+        self._sport = value
+
+    @property
     def date(self):
         return self._date
 

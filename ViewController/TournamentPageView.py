@@ -1,12 +1,4 @@
-import math
-
-from PyQt6.QtCore import QSize
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QLabel, QPushButton, QGraphicsView, QGraphicsScene, \
-    QTreeWidgetItem, QTreeWidget
-
-from Model.Bracket import *
-from Model.MainPage import MainPage
-from Model.Participant import Participant
+from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton
 
 
 class TournamentPageView(QWidget):
