@@ -8,12 +8,12 @@ class MainPage:
         self.load_from_file()
 
     def load_from_file(self):
-        with open(self._filename, 'r') as f:
-            self._tournaments = json.load(f)
+        with open(self._filename, 'r', encoding='utf-8') as f:
+            self._tournaments = json.loads(f.read())
 
     def save_to_file(self):
-        with open(self._filename, 'w') as f:
-            json.dump(self._tournaments, f)
+        with open(self._filename, 'w', encoding='utf-8') as f:
+            f.write(json.dumps(self._tournaments, indent=4, ensure_ascii=False))
 
     def add_tournament(self, tournament):
         self._tournaments.append(tournament)

@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QPushButton, QStackedWidget
 
-from AddEditPageView import AddPageView, UpdatePageView
+from AddEditPageView import AddEditPageView
 from MainPage import MainPage
 from MainPageView import MainPageView
 from Tournament import Tournament
@@ -30,7 +30,7 @@ class MainController:
             tournament_button.setStyleSheet('padding: 5px 0px 5px 0px; margin: 3px 0px 3px 0px;')
             tournament_button.clicked.connect(lambda _, i=index: self.go_to_tournament(i))
 
-            update_button = QPushButton('Update', item_inner_widget)
+            update_button = QPushButton('Edit', item_inner_widget)
             update_button.setStyleSheet('padding: 5px 10px 5px 10px;')
             update_button.clicked.connect(lambda _, i=index: self.update_tournament(i))
 
@@ -48,9 +48,10 @@ class MainController:
             self._view.tournaments_list_widget.setItemWidget(list_item, item_inner_widget)
 
         self._view.central_stacked_widget.setCurrentIndex(0)
+        self._view.setWindowTitle('Main menu')
 
     def add_tournament(self):
-        add_window = AddPageView()
+        add_window = AddEditPageView()
         add_window.show()
         add_window.data[str, str, int, int, str, str].connect(self.add_data)
         # tournament, ok = QInputDialog.getText(self, 'Добавить турнир', 'Введите название турнира:')
@@ -58,19 +59,19 @@ class MainController:
         #     self._model.add_tournament(tournament)
         #     self.update_view()
 
-    def remove_tournament(self, tournament):
-        self._model.delete_tournament(tournament)
-        # TODO: add logic
-        self.show_main_page()
-
     def update_tournament(self, index):
-        self.update_window = UpdatePageView(index)
-        self.update_window.show()
-        self.update_window.data[int, str, str, int, int, str, str].connect(self.update_data)
+        update_window = AddEditPageView(index)
+        update_window.show()
+        update_window.data[int, str, str, int, int, str, str].connect(self.update_data)
         # new_tournament, ok = QInputDialog.getText(self, 'Обновить турнир', 'Введите новое название турнира:')
         # if ok:
         #     self._model.update_tournament(index, new_tournament)
         #     self.update_view()
+
+    def remove_tournament(self, tournament):
+        self._model.delete_tournament(tournament)
+        # TODO: add logic
+        self.show_main_page()
 
     def go_to_tournament(self, tournament_index: int):
         tournaments = self._model.get_tournaments()
@@ -79,6 +80,7 @@ class MainController:
 
         self._view.central_stacked_widget.addWidget(tournament_view)
         self._view.central_stacked_widget.setCurrentWidget(tournament_view)
+        self._view.setWindowTitle(tournaments[tournament_index] + ' - bracket')
 
     def add_data(self, name, sport, d_format, participants, date, participants_form):
         new_tournament = Tournament(name, sport, date, participants_form.split(','), d_format)

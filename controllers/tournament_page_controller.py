@@ -8,6 +8,8 @@ class TournamentPageController:
         self._view = view
         self._main_controller = main_controller
 
-        self._view.back_button.clicked.connect(main_controller.show_main_page)
+        self._view.back_button.clicked.connect(self._main_controller.show_main_page)
 
-    # TODO: add logic
+    def show_tournament_page(self):
+        ...
+        # TODO: add logic

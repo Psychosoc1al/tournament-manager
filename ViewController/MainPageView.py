@@ -7,7 +7,7 @@ from ViewController.TournamentPageView import TournamentPageView
 class MainPageView(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Главное меню')
+        self.setWindowTitle('Main menu')
         self.setMinimumSize(800, 600)
 
         self.central_stacked_widget = QStackedWidget()
