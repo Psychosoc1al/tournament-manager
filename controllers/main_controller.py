@@ -5,7 +5,10 @@ from MainPage import MainPage
 from MainPageView import MainPageView
 from Tournament import Tournament
 from TournamentPageView import TournamentPageView
+from add_edit_page_controller import AddEditPageController
 from tournament_page_controller import TournamentPageController
+
+from datetime import date
 
 
 class MainController:
@@ -15,10 +18,10 @@ class MainController:
 
         self.show_main_page()
 
-        self._view.show()
-
     def show_main_page(self):
-        self._view.tournaments_list_widget.clear()  # Это список турниров
+        self._view.add_tournament_button.clicked.connect(self._add_tournament)
+
+        self._view.tournaments_list_widget.clear()
         tournaments = self._model.get_tournaments()
 
         for index, tournament in enumerate(tournaments):
@@ -49,11 +52,13 @@ class MainController:
 
         self._view.central_stacked_widget.setCurrentIndex(0)
         self._view.setWindowTitle('Main menu')
+        self._view.show()
 
-    def add_tournament(self):
-        add_window = AddEditPageView()
-        add_window.show()
-        add_window.data[str, str, int, int, str, str].connect(self.add_data)
+    def _add_tournament(self):
+        self.add_tournament_window = AddEditPageView('add')
+        _ = AddEditPageController(self.add_tournament_window, 'add', self)
+
+        self.add_tournament_window.form_submitted.connect(self.add_data)
         # tournament, ok = QInputDialog.getText(self, 'Добавить турнир', 'Введите название турнира:')
         # if ok:
         #     self._model.add_tournament(tournament)
@@ -82,9 +87,15 @@ class MainController:
         self._view.central_stacked_widget.setCurrentWidget(tournament_view)
         self._view.setWindowTitle(tournaments[tournament_index] + ' - bracket')
 
-    def add_data(self, name, sport, d_format, participants, date, participants_form):
-        new_tournament = Tournament(name, sport, date, participants_form.split(','), d_format)
-        self._model.add_tournament(new_tournament)
+    def add_data(self, name: str, sport: str, d_format: int, participants_amount: int, start_date: date, participants: str):
+        print('Название:', name)
+        print('Вид спорта:', sport)
+        print('Формат проведения:', d_format)
+        print('Количество участников:', participants_amount)
+        print('Дата проведения:', start_date)
+        print('Участники:', participants)
+        # new_tournament = Tournament(name, sport, start_date, participants, d_format)
+        # self._model.add_tournament(new_tournament)
         self.show_main_page()
 
     def update_data(self, index, name, sport, d_format, participants, date, participants_form):

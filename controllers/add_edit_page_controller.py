@@ -1,10 +1,9 @@
 from AddEditPageView import AddEditPageView
 from Tournament import Tournament
-from TournamentPageView import TournamentPageView
 
 
 class AddEditPageController:
-    def __init__(self, model: Tournament, view: AddEditPageView, page_type: str, main_controller):
+    def __init__(self, view: AddEditPageView, page_type: str, main_controller, model: Tournament = None):
         self._model = model
         self._view = view
         self._page_type = page_type
@@ -15,6 +14,8 @@ class AddEditPageController:
             self._view.setWindowTitle('Edit tournament')
         else:
             self._view.setWindowTitle('Add tournament')
+
+        self._view.save_button.clicked.connect(self._view.get_data)
 
     def _set_edit_form(self):
         self._view.name_edit.setReadOnly(True)
