@@ -8,10 +8,11 @@ from main_controller import MainController
 def main():
     app = QApplication([])
 
-    model = MainPage("data.json")
+    model = MainPage('data.json')
     window = MainPageView()
     _ = MainController(model, window)
 
+    window.show()
     app.exec()
 
 
