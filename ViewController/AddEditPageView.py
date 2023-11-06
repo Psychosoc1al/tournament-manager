@@ -34,10 +34,12 @@ class AddEditPageView(QWidget):
         self.format_edit.addItems(['Single elimination', 'Double elimination'])
 
         self.participants_label = QLabel('Participants amount:')
-        self.participants_amount_edit = QLineEdit()
+        self.participants_amount_choose = QComboBox()
+        self.participants_amount_choose.addItems(['4', '8', '16', '32', '64'])
 
         self.participants_form_label = QLabel('Participants:')
-        self.participants_edit = QTextEdit()
+        # TODO: add cycle
+        self.participants_edit = QLineEdit()
 
         self.save_button = QPushButton('Save')
 
@@ -49,7 +51,7 @@ class AddEditPageView(QWidget):
         vbox.addWidget(self.format_label)
         vbox.addWidget(self.format_edit)
         vbox.addWidget(self.participants_label)
-        vbox.addWidget(self.participants_amount_edit)
+        vbox.addWidget(self.participants_amount_choose)
         vbox.addWidget(self.date_label)
         vbox.addWidget(self.date_edit)
         vbox.addWidget(self.participants_form_label)
@@ -61,8 +63,8 @@ class AddEditPageView(QWidget):
     def get_data(self):
         name = self.name_edit.text()
         sport = self.sport_edit.text()
-        _format = self.format_edit.currentIndex()
-        participants_amount = int(self.participants_amount_edit.text())
+        _format = self.format_edit.currentText()
+        participants_amount = int(self.participants_amount_choose.currentText())
         _date = self.date_edit.date()
         participants = self.participants_edit.toPlainText()
 

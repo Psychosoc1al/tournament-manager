@@ -8,60 +8,67 @@ class Tournament:
     def __init__(self,
                  name: str,
                  sport: str,
+                 bracket_type: int,
                  tour_date: date,
                  participants: list[Participant],
-                 brackets: list[Bracket]):
+                 ):
+
         self._name = name
         self._sport = sport
         self._date = tour_date
-        self._winner = None
+        self._type = bracket_type
         self._participants = participants
-        self._brackets = brackets
+
+        self._winner = None
+        self._brackets = []
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         self._name = value
 
     @property
-    def sport(self):
+    def sport(self) -> str:
         return self._sport
 
     @sport.setter
-    def sport(self, value: str):
+    def sport(self, value: str) -> None:
         self._sport = value
 
     @property
-    def date(self):
+    def date(self) -> date:
         return self._date
 
     @date.setter
-    def date(self, value: date):
+    def date(self, value: date) -> None:
         self._date = value
 
     @property
-    def winner(self):
+    def winner(self) -> Participant:
         return self._winner
 
     @winner.setter
-    def winner(self, value: Participant):
+    def winner(self, value: Participant) -> None:
         self._winner = value
 
     @property
-    def participants(self):
+    def participants(self) -> list[Participant]:
         return self._participants
 
     @participants.setter
-    def participants(self, value: list[Participant]):
+    def participants(self, value: list[Participant]) -> None:
         self._participants = value
 
     @property
-    def brackets(self):
+    def brackets(self) -> list[Bracket]:
         return self._brackets
 
-    @brackets.setter
-    def brackets(self, value: list[Bracket]):
-        self._brackets = value
+    def set_brackets(self) -> None:
+        pass
+        # TODO: generate brackets
+
+    def add_participant(self, participant: Participant) -> None:
+        self._participants.append(participant)

@@ -24,9 +24,8 @@ class AddEditPageController:
         self._view.date_edit.setDate(self._model.date)
         self._view.format_edit.setCurrentIndex(0 if len(self._model.brackets) == 1 else 1)
         self._view.participants_amount_edit.setReadOnly(True)
-        self._view.participants_amount_edit.setText(self._model.participants)
+        self._view.participants_amount_edit.setText(len(self._model.participants))
         self._view.participants_edit.setReadOnly(True)
-        self._view.participants_edit.setText('\n'.join(self._model.participants))
+        self._view.participants_edit.setText('\n'.join(str(participant) for participant in self._model.participants))
 
-    # def on_form_submit
     # TODO: [in future] input validation

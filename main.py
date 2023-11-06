@@ -8,9 +8,9 @@ from main_controller import MainController
 def main():
     app = QApplication([])
 
-    model = MainPage('data.json')
+    model = MainPage()
     window = MainPageView()
-    _ = MainController(model, window)
+    MainController(model, window)
 
     app.exec()
 
