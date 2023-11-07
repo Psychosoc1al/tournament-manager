@@ -14,12 +14,12 @@ class Tournament:
                  name: str,
                  date: datetime,
                  participants: list[Participant],
-                 brackets: list[Bracket], type: TournamentType):
+                 type: TournamentType):
         self._name = name
         self._date = date
         self._winner = None
+        self._brackets = []
         self._participants = participants
-        self._brackets = brackets
         self._type = type
 
     @property
@@ -79,7 +79,14 @@ class Tournament:
         for bracket in self.brackets:
             bracket.generate_bracket(self.participants)
 
-    def update_result(self, stage: int, match_number_stage: int, result: (int, int)):
-        self.brackets[0].update_result(stage, match_number_stage, result)
-        if self.type == TournamentType.DOUBLE:
+    def update_result(self, stage: int, match_number_stage: int, result: (int, int), type=BracketType.SINGLE):
+        if type == BracketType.LOWER:
             self.brackets[1].update_result(stage, match_number_stage, result)
+        else:
+            self.brackets[0].update_result(stage, match_number_stage, result)
+            if self.type == TournamentType.DOUBLE:
+                self.brackets[1].take_losers(self.brackets[0].matches[stage][match_number_stage])
+        if self.brackets[0].matches[-1][0].score_participant1 > self.brackets[0].matches[-1][0].score_participant2:
+            self.winner = self.brackets[0].matches[-1][0].participant1
+        elif self.brackets[0].matches[-1][0].score_participant1 < self.brackets[0].matches[-1][0].score_participant2:
+            self.winner = self.brackets[0].matches[-1][0].participant2
