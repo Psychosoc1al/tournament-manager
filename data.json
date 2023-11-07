@@ -1,7 +1,26 @@
 [
-    "Tournament 1",
-    "Tournament 2",
-    "Tournament 3",
-    "Tournament 5",
-    "Tournament 6"
+  {
+    "name": "432",
+    "sport": "rytr",
+    "bracket_type": "Single elimination",
+    "tour_date": "2000-01-01",
+    "participants": [
+      "jghjgf",
+      "h",
+      "jhg",
+      "gd"
+    ]
+  },
+  {
+    "name": "423t",
+    "sport": "trey",
+    "bracket_type": "Single elimination",
+    "tour_date": "2008-01-06",
+    "participants": [
+      "423",
+      "uyt",
+      "dtr",
+      "jkljg"
+    ]
+  }
 ]

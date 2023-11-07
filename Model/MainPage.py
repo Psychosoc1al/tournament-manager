@@ -1,8 +1,27 @@
 import json
 
+from marshmallow import Schema, fields, post_load
+
+from Tournament import Tournament
+
+
+class TournamentSchema(Schema):
+    name = fields.String()
+    sport = fields.String()
+    bracket_type = fields.String()
+    tour_date = fields.Date()
+    participants = fields.List(fields.String())
+
+    @post_load
+    def make_tournament(self, data, **kwargs):
+        print(data)
+        print(kwargs)
+        return Tournament(**data)
+
 
 class MainPage:
     _filename = 'data.json'
+    _schema = TournamentSchema(many=True)
 
     def __init__(self):
         self._tournaments = []
@@ -10,11 +29,11 @@ class MainPage:
 
     def load_from_file(self):
         with open(self._filename, 'r', encoding='utf-8') as f:
-            self._tournaments = json.loads(f.read())
+            self._tournaments = self._schema.loads(f.read())
 
     def save_to_file(self):
         with open(self._filename, 'w', encoding='utf-8') as f:
-            f.write(json.dumps(self._tournaments, indent=4, ensure_ascii=False))
+            f.write(self._schema.dumps(self._tournaments))
 
     def add_tournament(self, tournament):
         self._tournaments.append(tournament)

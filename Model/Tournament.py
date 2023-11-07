@@ -12,11 +12,10 @@ class Tournament:
                  tour_date: date,
                  participants: list[Participant],
                  ):
-
         self._name = name
         self._sport = sport
-        self._date = tour_date
-        self._type = bracket_type
+        self._bracket_type = bracket_type
+        self._tour_date = tour_date
         self._participants = participants
 
         self._winner = None
@@ -39,12 +38,16 @@ class Tournament:
         self._sport = value
 
     @property
-    def date(self) -> date:
-        return self._date
+    def bracket_type(self) -> str:
+        return self._bracket_type
 
-    @date.setter
-    def date(self, value: date) -> None:
-        self._date = value
+    @property
+    def tour_date(self) -> date:
+        return self._tour_date
+
+    @tour_date.setter
+    def tour_date(self, value: date) -> None:
+        self._tour_date = value
 
     @property
     def winner(self) -> Participant:

@@ -63,7 +63,6 @@ class AddEditPageView(QWidget):
         self.setLayout(vbox)
 
     def send_data_to_main(self, participants: str):
-        print(participants)
         name = self.name_edit.text()
         sport = self.sport_edit.text()
         tournament_format = self.format_edit.currentText()

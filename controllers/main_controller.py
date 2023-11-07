@@ -30,7 +30,7 @@ class MainController:
             item_inner_widget = QWidget()
             item_inner_layout = QHBoxLayout(item_inner_widget)
 
-            tournament_button = QPushButton(tournament, item_inner_widget)
+            tournament_button = QPushButton(tournament.name, item_inner_widget)
             tournament_button.setStyleSheet('padding: 5px 0px 5px 0px; margin: 3px 0px 3px 0px;')
             tournament_button.clicked.connect(lambda _, i=index: self.go_to_tournament(i))
 
@@ -56,10 +56,13 @@ class MainController:
         self._view.show()
 
     def _add_tournament(self):
-        self.add_tournament_window = AddEditPageView('add')
-        AddEditPageController(self.add_tournament_window, 'add', self)
+        try:
+            self.add_tournament_window = AddEditPageView('add')
+            AddEditPageController(self.add_tournament_window, 'add', self)
 
-        self.add_tournament_window.form_submitted.connect(self.add_data)
+            self.add_tournament_window.form_submitted.connect(self.add_data)
+        except Exception as e:
+            print(e)
 
         # TODO: connect with model
 
@@ -91,11 +94,13 @@ class MainController:
                  start_date: date,
                  participants_strings: str
                  ) -> None:
-
-        # TODO: sync with model
-        participants = [Participant(name) for name in participants_strings.split('\n')]
-        new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
-        self._model.add_tournament(new_tournament)
+        try:
+            # TODO: complete model
+            participants = [Participant(name) for name in participants_strings.split('\n')]
+            new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
+            self._model.add_tournament(new_tournament)
+        except Exception as e:
+            print(e)
 
         self.show_main_page()
 

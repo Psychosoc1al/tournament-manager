@@ -4,6 +4,6 @@
 !README.md
 !data.json
 !main.py
-!Model/
-!ViewController/
-!controllers/
+!Model/*.py
+!ViewController/*.py
+!controllers/*.py
