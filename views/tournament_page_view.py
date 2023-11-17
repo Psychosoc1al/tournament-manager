@@ -16,7 +16,7 @@ class TournamentPageView(QWidget):
         main_layout = QVBoxLayout(self)
         self.setLayout(main_layout)
 
-        self.back_button = QPushButton('Back', self)
+        self.back_button = QPushButton('Back to main menu', self)
         main_layout.addWidget(self.back_button)
 
         graphics_view = GraphicsView(self)
