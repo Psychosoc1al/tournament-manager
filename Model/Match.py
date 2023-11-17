@@ -1,4 +1,4 @@
-from model.participant import Participant
+from Model.Participant import Participant
 
 
 class Match:

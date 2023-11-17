@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QApplication
 
-from model.main_page import MainPage
-from views.main_page_view import MainPageView
+from Model.MainPage import MainPage
+from ViewController.MainPageView import MainPageView
 from main_controller import MainController
 
 
