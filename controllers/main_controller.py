@@ -1,4 +1,7 @@
-from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QPushButton, QStackedWidget
+import math
+from datetime import date
+
+from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QPushButton
 
 from AddEditPageView import AddEditPageView
 from MainPage import MainPage
@@ -8,8 +11,6 @@ from Tournament import Tournament
 from TournamentPageView import TournamentPageView
 from add_edit_page_controller import AddEditPageController
 from tournament_page_controller import TournamentPageController
-
-from datetime import date
 
 
 class MainController:
@@ -80,27 +81,27 @@ class MainController:
 
     def go_to_tournament(self, tournament_index: int) -> None:
         tournaments = self._model.get_tournaments()
-        tournament_view = TournamentPageView(self._view.central_stacked_widget)
-        _ = TournamentPageController(tournaments[tournament_index], tournament_view, self)
+        tournament_view = TournamentPageView(
+            self._view.central_stacked_widget,
+            int(math.log2(len(tournaments[tournament_index].participants)))
+        )
+        TournamentPageController(tournaments[tournament_index], tournament_view, self)
 
         self._view.central_stacked_widget.addWidget(tournament_view)
         self._view.central_stacked_widget.setCurrentWidget(tournament_view)
-        self._view.setWindowTitle(tournaments[tournament_index] + ' - bracket')
+        self._view.setWindowTitle(tournaments[tournament_index].name + ' - bracket')
 
     def add_data(self,
                  name: str,
                  sport: str,
                  tournament_type: str,
                  start_date: date,
-                 participants_strings: str
+                 participants_string: str
                  ) -> None:
-        try:
-            # TODO: complete model
-            participants = [Participant(name) for name in participants_strings.split('\n')]
-            new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
-            self._model.add_tournament(new_tournament)
-        except Exception as e:
-            print(e)
+
+        participants = [Participant(name) for name in participants_string.split('\n')]
+        new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
+        self._model.add_tournament(new_tournament)
 
         self.show_main_page()
 
