@@ -12,10 +12,9 @@ class TournamentSchema(Schema):
     tour_date = fields.Date()
     participants = fields.List(fields.String())
 
+    # noinspection PyUnusedLocal
     @post_load
     def make_tournament(self, data, **kwargs):
-        print(data)
-        print(kwargs)
         return Tournament(**data)
 
 
@@ -33,7 +32,12 @@ class MainPage:
 
     def save_to_file(self):
         with open(self._filename, 'w', encoding='utf-8') as f:
-            f.write(self._schema.dumps(self._tournaments))
+            f.write(
+                json.dumps(
+                    self._schema.dump(self._tournaments),
+                    ensure_ascii=False
+                )
+            )
 
     def add_tournament(self, tournament):
         self._tournaments.append(tournament)
