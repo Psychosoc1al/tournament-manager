@@ -3,12 +3,12 @@ from datetime import date
 
 from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QPushButton
 
-from AddEditPageView import AddEditPageView
-from MainPage import MainPage
-from MainPageView import MainPageView
-from Participant import Participant
-from Tournament import Tournament
-from TournamentPageView import TournamentPageView
+from add_edit_page_view import AddEditPageView
+from main_page import MainPage
+from main_page_view import MainPageView
+from participant import Participant
+from tournament import Tournament
+from tournament_page_view import TournamentPageView
 from add_edit_page_controller import AddEditPageController
 from tournament_page_controller import TournamentPageController
 

@@ -1,7 +1,7 @@
 from datetime import date
 
-from Model.Bracket import Bracket
-from Model.Participant import Participant
+from model.bracket import Bracket
+from model.participant import Participant
 
 
 class Tournament:
