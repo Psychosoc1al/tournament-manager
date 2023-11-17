@@ -5,11 +5,10 @@ from tournament import Tournament
 
 
 class AddEditPageController:
-    def __init__(self, view: AddEditPageView, page_type: str, main_controller, model: Tournament = None):
+    def __init__(self, view: AddEditPageView, page_type: str, model: Tournament = None):
         self._model = model
         self._view = view
         self._page_type = page_type
-        self._main_controller = main_controller
         self._participants_items = []
         self._handle_participants_enter()
 
@@ -22,11 +21,13 @@ class AddEditPageController:
         self._view.save_button.clicked.connect(self.send_data_to_main)
         self._view.participants_amount_choose.currentIndexChanged.connect(lambda _: self._handle_participants_enter())
 
+        self._view.show()
+
     def _set_edit_form(self):
         self._view.name_edit.setReadOnly(True)
         self._view.name_edit.setText(self._model.name)
         self._view.sport_edit.setText(self._model.sport)
-        self._view.date_edit.setDate(self._model.date)
+        self._view.date_edit.setDate(self._model.tour_date)
         self._view.format_edit.setCurrentIndex(0 if len(self._model.brackets) == 1 else 1)
         self._view.participants_amount_choose.setReadOnly(True)
         self._view.participants_amount_choose.setCurrentText(str(len(self._model.participants)))

@@ -1,8 +1,6 @@
 import qdarktheme  # install as pyqtdarktheme
 from PyQt6.QtWidgets import QMainWindow, QListWidget, QPushButton, QVBoxLayout, QWidget, QStackedWidget, QApplication
 
-from views.tournament_page_view import TournamentPageView
-
 
 class MainPageView(QMainWindow):
     def __init__(self):

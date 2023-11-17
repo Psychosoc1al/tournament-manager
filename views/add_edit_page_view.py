@@ -1,23 +1,18 @@
 from datetime import date
 
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, \
-    QDateEdit, QListWidget
+from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, \
+    QDateEdit, QListWidget, QDialog, QMainWindow
 
 
-class AddEditPageView(QWidget):
+class AddEditPageView(QDialog):
     form_submitted = pyqtSignal(str, str, str, date, str)
 
-    def __init__(self, window_type: str):
-        super().__init__()
-
+    def __init__(self, parent: QMainWindow):
+        super().__init__(parent)
         self.setMinimumSize(450, 500)
 
-        self._window_type = window_type
-
         self._create_add_edit_form()
-
-        self.show()
 
     def _create_add_edit_form(self):
         self.name_label = QLabel('Tournament name:')

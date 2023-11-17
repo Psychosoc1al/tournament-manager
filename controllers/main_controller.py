@@ -54,25 +54,22 @@ class MainController:
 
         self._view.central_stacked_widget.setCurrentIndex(0)
         self._view.setWindowTitle('Main menu')
-        self._view.resize_and_center(800, 600)
         self._view.show()
+        self._view.resize_and_center(800, 600)
 
     def _add_tournament(self):
-        try:
-            self.add_tournament_window = AddEditPageView('add')
-            AddEditPageController(self.add_tournament_window, 'add', self)
+        add_tournament_window = AddEditPageView(self._view)
+        AddEditPageController(add_tournament_window, 'add')
 
-            self.add_tournament_window.form_submitted.connect(self.add_data)
-        except Exception as e:
-            print(e)
+        add_tournament_window.form_submitted.connect(self.add_data)
 
         # TODO: connect with model
 
     def _update_tournament(self, tournament: Tournament):
-        self.update_tournament_window = AddEditPageView('edit')
-        AddEditPageController(self.update_tournament_window, 'edit', self, tournament)
+        update_tournament_window = AddEditPageView(self._view)
+        AddEditPageController(update_tournament_window, 'edit', tournament)
 
-        self.update_tournament_window.form_submitted.connect(self.update_data)
+        update_tournament_window.form_submitted.connect(self.update_data)
 
         # TODO: connect with model
 
@@ -100,7 +97,6 @@ class MainController:
                  start_date: date,
                  participants_string: str
                  ) -> None:
-
         participants = [Participant(name) for name in participants_string.split('\n')]
         new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
         self._model.add_tournament(new_tournament)
@@ -115,7 +111,6 @@ class MainController:
                     start_date: date,
                     participants: str
                     ) -> None:
-
         # TODO: sync with model
         # new_tournament = Tournament(name, sport, date, participants_form.split(','), d_format)
         # self._model.update_tournament(index, new_tournament)
