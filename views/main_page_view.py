@@ -1,5 +1,5 @@
 import qdarktheme  # install as pyqtdarktheme
-from PyQt6.QtWidgets import QMainWindow, QListWidget, QPushButton, QVBoxLayout, QWidget, QStackedWidget
+from PyQt6.QtWidgets import QMainWindow, QListWidget, QPushButton, QVBoxLayout, QWidget, QStackedWidget, QApplication
 
 from views.tournament_page_view import TournamentPageView
 
@@ -8,7 +8,7 @@ class MainPageView(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Main menu')
-        self.setMinimumSize(1100, 900)
+        self.setMinimumSize(800, 600)
 
         self.central_stacked_widget = QStackedWidget()
         self.setCentralWidget(self.central_stacked_widget)
@@ -29,3 +29,12 @@ class MainPageView(QMainWindow):
         main_layout.addWidget(self.tournaments_list_widget)
 
         self.central_stacked_widget.addWidget(main_widget)
+
+    def resize_and_center(self, width, height):
+        self.resize(width, height)
+
+        window_geometry = self.frameGeometry()
+        center_point = QApplication.primaryScreen().availableGeometry().center()
+        window_geometry.moveCenter(center_point)
+
+        self.move(window_geometry.topLeft())

@@ -54,6 +54,7 @@ class MainController:
 
         self._view.central_stacked_widget.setCurrentIndex(0)
         self._view.setWindowTitle('Main menu')
+        self._view.resize_and_center(800, 600)
         self._view.show()
 
     def _add_tournament(self):
@@ -87,6 +88,7 @@ class MainController:
         )
         TournamentPageController(tournaments[tournament_index], tournament_view, self)
 
+        self._view.resize_and_center(1200, 900)
         self._view.central_stacked_widget.addWidget(tournament_view)
         self._view.central_stacked_widget.setCurrentWidget(tournament_view)
         self._view.setWindowTitle(tournaments[tournament_index].name + ' - bracket')

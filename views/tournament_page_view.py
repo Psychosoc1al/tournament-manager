@@ -52,8 +52,8 @@ class GraphicsView(QGraphicsView):
         else:
             super().wheelEvent(event)
 
-    def create_bracket(self, round_x, round_y, round_width, round_height, stage):
-        if stage == 0:
+    def create_bracket(self, round_x, round_y, round_width, round_height, stages_left):
+        if stages_left == 0:
             return
 
         top = round_y + round_height / 4
@@ -82,12 +82,12 @@ class GraphicsView(QGraphicsView):
             round_y,
             round_width,
             round_height / 2,
-            stage - 1
+            stages_left - 1
         )
         self.create_bracket(
             round_x - round_width / 2,
             round_y + round_height / 2,
             round_width,
             round_height / 2,
-            stage - 1
+            stages_left - 1
         )
