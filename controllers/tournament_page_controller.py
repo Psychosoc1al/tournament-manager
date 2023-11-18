@@ -1,4 +1,4 @@
-from Tournament import Tournament
+from tournament import Tournament
 from tournament_page_view import TournamentPageView
 
 

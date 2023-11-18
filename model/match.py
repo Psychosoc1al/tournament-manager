@@ -1,4 +1,4 @@
-from Participant import Participant
+from participant import Participant
 
 
 class Match:

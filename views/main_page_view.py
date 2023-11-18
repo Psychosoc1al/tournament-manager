@@ -2,7 +2,7 @@ import qdarktheme  # install as pyqtdarktheme
 from PyQt6.QtWidgets import QMainWindow, QListWidget, QPushButton, QVBoxLayout, QWidget, QStackedWidget, QApplication, \
     QListWidgetItem, QHBoxLayout
 
-from Tournament import Tournament
+from tournament import Tournament
 
 
 class MainPageView(QMainWindow):
