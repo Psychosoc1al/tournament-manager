@@ -113,3 +113,6 @@ class Bracket:
                 self.matches[stage * 2 - 1][number].participant1 = loser
         else:
             raise ValueError
+
+
+# TODO: last match

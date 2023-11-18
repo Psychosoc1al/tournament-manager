@@ -27,8 +27,7 @@ class AddEditPageView(QDialog):
 
         format_label = QLabel('Tournament type:')
         self.format_edit = QComboBox()
-        # self.format_edit.addItems(['Single elimination', 'Double elimination'])
-        self.format_edit.addItems(['Single elimination'])
+        self.format_edit.addItems(['Single elimination', 'Double elimination'])
 
         participants_label = QLabel('Participants amount:')
         self.participants_amount_choose = QComboBox()
@@ -60,14 +59,14 @@ class AddEditPageView(QDialog):
     def send_data_to_main(self, participants: str) -> None:
         name = self.name_edit.text()
         sport = self.sport_edit.text()
-        tournament_date = self.date_edit.date()
+        tournament_date = self.date_edit.date().toPyDate()
         tournament_format = self.format_edit.currentText()
 
         self.form_submitted.emit(
             name,
             sport,
             tournament_format,
-            tournament_date.toPyDate(),
+            tournament_date,
             participants
         )
 

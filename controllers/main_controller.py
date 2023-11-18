@@ -43,15 +43,12 @@ class MainController:
 
         add_tournament_window.form_submitted.connect(self._add_tournament)
 
-        # TODO: connect with model
-
     def _update_tournament_show(self, tournament: Tournament) -> None:
         update_tournament_window = AddEditPageView(self._view)
         AddEditPageController(update_tournament_window, 'edit', tournament)
+        self._updating_tournament = tournament
 
         update_tournament_window.form_submitted.connect(self._update_tournament)
-
-        # TODO: connect with model
 
     def _remove_tournament(self, tournament: Tournament) -> None:
         self._model.delete_tournament(tournament)
@@ -75,15 +72,11 @@ class MainController:
                         tournament_type: str,
                         start_date: date,
                         participants_string: str,
-                        created_tournament: Tournament = None
                         ) -> None:
-        
-        if created_tournament:
-            self._model.add_tournament(created_tournament)
-        else:
-            participants = [Participant(name) for name in participants_string.split('\n')]
-            new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
-            self._model.add_tournament(new_tournament)
+
+        participants = [Participant(name) for name in participants_string.split('\n')]
+        new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
+        self._model.add_tournament(new_tournament)
 
         self.show_main_page()
 
@@ -94,8 +87,6 @@ class MainController:
                            start_date: date,
                            participants_string: str
                            ) -> None:
-        participants = [Participant(name) for name in participants_string.split('\n')]
-        new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
-        self._remove_tournament(new_tournament)
 
-        self._add_tournament(name, sport, tournament_type, start_date, participants_string, new_tournament)
+        self._remove_tournament(self._updating_tournament)
+        self._add_tournament(name, sport, tournament_type, start_date, participants_string)
