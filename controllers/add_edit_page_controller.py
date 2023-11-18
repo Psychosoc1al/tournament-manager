@@ -21,8 +21,6 @@ class AddEditPageController:
         self._view.save_button.clicked.connect(self.send_data_to_main)
         self._view.participants_amount_choose.currentIndexChanged.connect(lambda _: self._handle_participants_enter())
 
-        self._view.show()
-
     def _set_edit_form(self):
         self._view.name_edit.setReadOnly(True)
         self._view.name_edit.setText(self._model.name)
