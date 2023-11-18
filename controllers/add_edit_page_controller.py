@@ -26,7 +26,7 @@ class AddEditPageController:
         self._view.name_edit.setText(self._model.name)
         self._view.sport_edit.setText(self._model.sport)
         self._view.date_edit.setDate(self._model.tour_date)
-        self._view.format_edit.setCurrentIndex(0 if len(self._model.brackets) == 1 else 1)
+        self._view.format_edit.setCurrentIndex(0 if len(self._model._brackets) == 1 else 1)
         self._view.participants_amount_choose.setReadOnly(True)
         self._view.participants_amount_choose.setCurrentText(str(len(self._model.participants)))
         self._handle_participants_enter()

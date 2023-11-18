@@ -1,7 +1,13 @@
 from datetime import date
+from enum import Enum
 
-from bracket import Bracket
+from bracket import Bracket, BracketType
 from participant import Participant
+
+
+class TournamentType(Enum):
+    SINGLE = 0
+    DOUBLE = 1
 
 
 class Tournament:
@@ -38,7 +44,7 @@ class Tournament:
         self._sport = value
 
     @property
-    def bracket_type(self) -> str:
+    def _bracket_type(self) -> str:
         return self._bracket_type
 
     @property
@@ -66,12 +72,47 @@ class Tournament:
         self._participants = value
 
     @property
-    def brackets(self) -> list[Bracket]:
+    def _brackets(self) -> list[Bracket]:
         return self._brackets
 
-    def set_brackets(self) -> None:
-        pass
-        # TODO: generate brackets
+    @_brackets.setter
+    def _brackets(self, value) -> None:
+        self._brackets = value
+
+    @_bracket_type.setter
+    def _bracket_type(self, value) -> None:
+        self._bracket_type = value
 
     def add_participant(self, participant: Participant) -> None:
         self._participants.append(participant)
+
+    def create_brackets(self) -> None:
+        if self._bracket_type == TournamentType.SINGLE:
+            self._brackets.append(Bracket(BracketType.SINGLE))
+
+        elif self._bracket_type == TournamentType.DOUBLE:
+            self._brackets.append(Bracket(BracketType.UPPER))
+            self._brackets.append(Bracket(BracketType.LOWER))
+
+        for bracket in self._brackets:
+            bracket.generate_bracket(self.participants)
+
+    def update_result(self,
+                      stage: int,
+                      match_number_stage: int,
+                      result: (int, int),
+                      bracket_type=BracketType.SINGLE
+                      ) -> None:
+
+        if bracket_type == BracketType.LOWER:
+            self._brackets[1].update_result(stage, match_number_stage, result)
+        else:
+            self._brackets[0].update_result(stage, match_number_stage, result)
+            if self._bracket_type == TournamentType.DOUBLE:
+                self._brackets[1].take_losers(self._brackets[0].matches[stage][match_number_stage])
+
+        match = self._brackets[0].matches[-1][0]
+        if match.score_participant1 > match.score_participant2:
+            self.winner = match.participant1
+        elif match.score_participant1 < match.score_participant2:
+            self.winner = match.participant2
