@@ -14,7 +14,7 @@ class TournamentSchema(Schema):
 
     # noinspection PyUnusedLocal
     @post_load
-    def make_tournament(self, data, **kwargs):
+    def make_tournament(self, data, **kwargs) -> Tournament:
         return Tournament(**data)
 
 
@@ -22,15 +22,15 @@ class MainPage:
     _filename = 'data.json'
     _schema = TournamentSchema(many=True)
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._tournaments = []
         self.load_from_file()
 
-    def load_from_file(self):
+    def load_from_file(self) -> None:
         with open(self._filename, 'r', encoding='utf-8') as f:
             self._tournaments = self._schema.loads(f.read())
 
-    def save_to_file(self):
+    def save_to_file(self) -> None:
         with open(self._filename, 'w', encoding='utf-8') as f:
             f.write(
                 json.dumps(
@@ -39,17 +39,17 @@ class MainPage:
                 )
             )
 
-    def add_tournament(self, tournament):
+    def add_tournament(self, tournament) -> None:
         self._tournaments.append(tournament)
         self.save_to_file()
 
-    def delete_tournament(self, tournament):
+    def delete_tournament(self, tournament) -> None:
         self._tournaments.remove(tournament)
         self.save_to_file()
 
-    def update_tournament(self, index, new_tournament):
+    def update_tournament(self, index, new_tournament) -> None:
         self._tournaments[index] = new_tournament
         self.save_to_file()
 
-    def get_tournaments(self):
+    def get_tournaments(self) -> list[Tournament]:
         return self._tournaments

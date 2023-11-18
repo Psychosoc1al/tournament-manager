@@ -11,7 +11,7 @@ class Tournament:
                  bracket_type: str,
                  tour_date: date,
                  participants: list[Participant],
-                 ):
+                 ) -> None:
         self._name = name
         self._sport = sport
         self._bracket_type = bracket_type
