@@ -1,8 +1,6 @@
 import math
 from datetime import date
 
-from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QPushButton
-
 from add_edit_page_controller import AddEditPageController
 from add_edit_page_view import AddEditPageView
 from main_page import MainPage
@@ -18,101 +16,86 @@ class MainController:
         self._model = model
         self._view = view
 
+        self._view.add_tournament_button.clicked.connect(self._add_tournament_show)
         self.show_main_page()
 
     def show_main_page(self):
-        self._view.add_tournament_button.clicked.connect(self._add_tournament)
-
         self._view.tournaments_list_widget.clear()
         tournaments = self._model.get_tournaments()
+        buttons_to_connect = self._view.show_tournaments(tournaments)
 
-        for index, tournament in enumerate(tournaments):
-            list_item = QListWidgetItem(self._view.tournaments_list_widget)
-            item_inner_widget = QWidget()
-            item_inner_layout = QHBoxLayout(item_inner_widget)
-
-            tournament_button = QPushButton(tournament.name, item_inner_widget)
-            tournament_button.setStyleSheet('padding: 5px 0px 5px 0px; margin: 3px 0px 3px 0px;')
-            tournament_button.clicked.connect(lambda _, i=index: self.go_to_tournament(i))
-
-            update_button = QPushButton('Edit', item_inner_widget)
-            update_button.setStyleSheet('padding: 5px 10px 5px 10px;')
-            update_button.clicked.connect(lambda _, i=index: self._update_tournament(i))
-
-            remove_button = QPushButton('Delete', item_inner_widget)
-            remove_button.setStyleSheet('padding: 5px 10px 5px 10px;')
-            remove_button.clicked.connect(lambda _, t=tournament: self.remove_tournament(t))
-
-            item_inner_layout.addWidget(tournament_button, stretch=1)
-            item_inner_layout.addWidget(update_button)
-            item_inner_layout.addWidget(remove_button)
-            item_inner_layout.setContentsMargins(0, 0, 0, 0)
-
-            item_inner_widget.setLayout(item_inner_layout)
-            list_item.setSizeHint(item_inner_widget.sizeHint())
-            self._view.tournaments_list_widget.setItemWidget(list_item, item_inner_widget)
+        for button_type, buttons in buttons_to_connect.items():
+            for index, button in enumerate(buttons):
+                if button_type == 'update':
+                    button.clicked.connect(lambda _, ind=index: self._update_tournament_show(tournaments[ind]))
+                elif button_type == 'remove':
+                    button.clicked.connect(lambda _, ind=index: self._remove_tournament(tournaments[ind]))
+                else:
+                    button.clicked.connect(lambda _, ind=index: self._go_to_tournament(tournaments[ind]))
 
         self._view.central_stacked_widget.setCurrentIndex(0)
         self._view.setWindowTitle('Main menu')
-        self._view.show()
         self._view.resize_and_center(800, 600)
 
-    def _add_tournament(self):
+    def _add_tournament_show(self):
         add_tournament_window = AddEditPageView(self._view)
         AddEditPageController(add_tournament_window, 'add')
 
-        add_tournament_window.form_submitted.connect(self.add_data)
+        add_tournament_window.form_submitted.connect(self._add_tournament)
 
         # TODO: connect with model
 
-    def _update_tournament(self, tournament: Tournament):
+    def _update_tournament_show(self, tournament: Tournament):
         update_tournament_window = AddEditPageView(self._view)
         AddEditPageController(update_tournament_window, 'edit', tournament)
 
-        update_tournament_window.form_submitted.connect(self.update_data)
+        update_tournament_window.form_submitted.connect(self._update_tournament)
 
         # TODO: connect with model
 
-    def remove_tournament(self, tournament):
+    def _remove_tournament(self, tournament: Tournament):
         self._model.delete_tournament(tournament)
         self.show_main_page()
 
-    def go_to_tournament(self, tournament_index: int) -> None:
-        tournaments = self._model.get_tournaments()
+    def _go_to_tournament(self, tournament: Tournament) -> None:
         tournament_view = TournamentPageView(
             self._view.central_stacked_widget,
-            int(math.log2(len(tournaments[tournament_index].participants)))
+            int(math.log2(len(tournament.participants)))
         )
-        TournamentPageController(tournaments[tournament_index], tournament_view, self)
+        TournamentPageController(tournament, tournament_view, self)
 
         self._view.resize_and_center(1200, 900)
         self._view.central_stacked_widget.addWidget(tournament_view)
         self._view.central_stacked_widget.setCurrentWidget(tournament_view)
-        self._view.setWindowTitle(tournaments[tournament_index].name + ' - bracket')
+        self._view.setWindowTitle(tournament.name + ' - bracket')
 
-    def add_data(self,
-                 name: str,
-                 sport: str,
-                 tournament_type: str,
-                 start_date: date,
-                 participants_string: str
-                 ) -> None:
+    def _add_tournament(self,
+                        name: str,
+                        sport: str,
+                        tournament_type: str,
+                        start_date: date,
+                        participants_string: str,
+                        created_tournament: Tournament = None
+                        ) -> None:
+        
+        if created_tournament:
+            self._model.add_tournament(created_tournament)
+        else:
+            participants = [Participant(name) for name in participants_string.split('\n')]
+            new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
+            self._model.add_tournament(new_tournament)
+
+        self.show_main_page()
+
+    def _update_tournament(self,
+                           name: str,
+                           sport: str,
+                           tournament_type: str,
+                           start_date: date,
+                           participants_string: str
+                           ) -> None:
         participants = [Participant(name) for name in participants_string.split('\n')]
         new_tournament = Tournament(name, sport, tournament_type, start_date, participants)
-        self._model.add_tournament(new_tournament)
+        self._remove_tournament(new_tournament)
 
-        self.show_main_page()
-
-    def update_data(self,
-                    name: str,
-                    sport: str,
-                    d_format: int,
-                    participants_amount: int,
-                    start_date: date,
-                    participants: str
-                    ) -> None:
-        # TODO: sync with model
-        # new_tournament = Tournament(name, sport, date, participants_form.split(','), d_format)
-        # self._model.update_tournament(index, new_tournament)
-
-        self.show_main_page()
+        self._add_tournament(name, sport, tournament_type, start_date, participants_string, new_tournament)
