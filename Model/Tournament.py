@@ -1,8 +1,8 @@
 from datetime import date
 from enum import Enum
 
-from bracket import Bracket, BracketType
-from participant import Participant
+from Bracket import Bracket, BracketType
+from Participant import Participant
 
 
 class TournamentType(Enum):

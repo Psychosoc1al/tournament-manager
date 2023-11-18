@@ -5,8 +5,8 @@ from add_edit_page_controller import AddEditPageController
 from add_edit_page_view import AddEditPageView
 from main_page import MainPage
 from main_page_view import MainPageView
-from participant import Participant
-from tournament import Tournament
+from Participant import Participant
+from Tournament import Tournament
 from tournament_page_controller import TournamentPageController
 from tournament_page_view import TournamentPageView
 
@@ -43,7 +43,7 @@ class MainController:
 
         add_tournament_window.form_submitted.connect(self._add_tournament)
 
-        # TODO: connect with model
+        # TODO: connect with Model
 
     def _update_tournament_show(self, tournament: Tournament) -> None:
         update_tournament_window = AddEditPageView(self._view)
@@ -51,7 +51,7 @@ class MainController:
 
         update_tournament_window.form_submitted.connect(self._update_tournament)
 
-        # TODO: connect with model
+        # TODO: connect with Model
 
     def _remove_tournament(self, tournament: Tournament) -> None:
         self._model.delete_tournament(tournament)

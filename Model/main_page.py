@@ -2,7 +2,7 @@ import json
 
 from marshmallow import Schema, fields, post_load
 
-from tournament import Tournament
+from Tournament import Tournament
 
 
 class TournamentSchema(Schema):
