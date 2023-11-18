@@ -2,13 +2,29 @@
   {
     "name": "йцк",
     "sport": "мпыв",
-    "bracket_type": "Single elimination",
+    "tournament_type": "Single elimination",
     "tour_date": "2016-12-11",
     "participants": [
       "авы",
       "авп",
       "олодл",
+      "пар",
+      "авы",
+      "авп",
+      "олодл",
       "пар"
+    ]
+  },
+  {
+    "name": "123",
+    "sport": "5675",
+    "tournament_type": "Single elimination",
+    "tour_date": "2000-01-06",
+    "participants": [
+      "fg",
+      "ghgfj",
+      "hj",
+      "kjhv"
     ]
   }
 ]

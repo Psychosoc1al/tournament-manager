@@ -1,31 +1,34 @@
 from datetime import date
-from enum import Enum
+from enum import StrEnum
 
 from bracket import Bracket, BracketType
 from participant import Participant
 
 
-class TournamentType(Enum):
-    SINGLE_ELIMINATION = 0
-    DOUBLE_ELIMINATION = 1
+class TournamentType(StrEnum):
+    SINGLE = "Single elimination"
+    DOUBLE = "Double elimination"
 
 
 class Tournament:
     def __init__(self,
                  name: str,
                  sport: str,
-                 bracket_type: str,
+                 tournament_type: str,
                  tour_date: date,
                  participants: list[Participant],
+                 brackets: list[Bracket] = None,
                  ) -> None:
         self.name = name
         self.sport = sport
-        self.bracket_type = bracket_type
+        self.tournament_type = tournament_type
         self.tour_date = tour_date
         self.participants = participants
+        self.brackets = brackets if brackets else []
 
         self.winner = None
-        self.brackets = []
+
+        self.create_brackets()
 
     @property
     def name(self) -> str:
@@ -76,25 +79,25 @@ class Tournament:
         self._brackets = value
 
     @property
-    def bracket_type(self) -> str:
-        return self._bracket_type
+    def tournament_type(self) -> str:
+        return self._tournament_type
 
-    @bracket_type.setter
-    def bracket_type(self, value) -> None:
-        self._bracket_type = value
+    @tournament_type.setter
+    def tournament_type(self, value) -> None:
+        self._tournament_type = value
 
     def add_participant(self, participant: Participant) -> None:
         self._participants.append(participant)
 
     def create_brackets(self) -> None:
-        if self._bracket_type == TournamentType.SINGLE_ELIMINATION:
-            self._brackets.append(Bracket(BracketType.SINGLE))
+        if self.tournament_type == TournamentType.SINGLE:
+            self.brackets.append(Bracket(BracketType.SINGLE))
 
-        elif self._bracket_type == TournamentType.DOUBLE_ELIMINATION:
-            self._brackets.append(Bracket(BracketType.UPPER))
-            self._brackets.append(Bracket(BracketType.LOWER))
+        elif self.tournament_type == TournamentType.DOUBLE:
+            self.brackets.append(Bracket(BracketType.UPPER))
+            self.brackets.append(Bracket(BracketType.LOWER))
 
-        for bracket in self._brackets:
+        for bracket in self.brackets:
             bracket.generate_bracket(self.participants)
 
     def update_result(self,
@@ -105,13 +108,13 @@ class Tournament:
                       ) -> None:
 
         if bracket_type == BracketType.LOWER:
-            self._brackets[1].update_result(stage, match_number_stage, result)
+            self.brackets[1].update_result(stage, match_number_stage, result)
         else:
-            self._brackets[0].update_result(stage, match_number_stage, result)
-            if self._bracket_type == TournamentType.DOUBLE_ELIMINATION:
-                self._brackets[1].take_losers(self._brackets[0].matches[stage][match_number_stage])
+            self.brackets[0].update_result(stage, match_number_stage, result)
+            if self.tournament_type == TournamentType.DOUBLE:
+                self.brackets[1].take_losers(self.brackets[0].matches[stage][match_number_stage])
 
-        match = self._brackets[0].matches[-1][0]
+        match = self.brackets[0].matches[-1][0]
         if match.score_participant1 > match.score_participant2:
             self.winner = match.participant1
         elif match.score_participant1 < match.score_participant2:

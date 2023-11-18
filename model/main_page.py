@@ -2,19 +2,21 @@ import json
 
 from marshmallow import Schema, fields, post_load
 
+from participant import Participant
 from tournament import Tournament
 
 
 class TournamentSchema(Schema):
     name = fields.String()
     sport = fields.String()
-    bracket_type = fields.String()
+    tournament_type = fields.String()
     tour_date = fields.Date()
     participants = fields.List(fields.String())
 
     # noinspection PyUnusedLocal
     @post_load
     def make_tournament(self, data, **kwargs) -> Tournament:
+        data['participants'] = [Participant(name) for name in data['participants']]
         return Tournament(**data)
 
 

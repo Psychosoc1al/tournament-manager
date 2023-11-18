@@ -24,16 +24,12 @@ class Bracket:
         self._type = value
 
     @property
-    def matches(self) -> list[Match]:
-        print(self._matches)
+    def matches(self) -> list[list[Match]]:
         return self._matches
 
     @matches.setter
-    def matches(self, value: list[Match]) -> None:
+    def matches(self, value: list[list[Match]]) -> None:
         self._matches = value
-
-    def add_match(self, match: Match) -> None:
-        self.matches.append(match)
 
     def generate_bracket(self, participants: list[Participant]) -> None:
         start_size = len(participants)
@@ -45,12 +41,12 @@ class Bracket:
         for i in range(start_size - size // 2):
             self.matches[0].append(Match(0, i, participants[2 * i], participants[2 * i + 1]))
         for i in range((start_size - size // 2) * 2, start_size):
-            self.matches[0].append(Match(0, i, participants[i], Participant(None)))
+            self.matches[0].append(Match(0, i, participants[i], Participant()))
         size //= 2
         while size > 1:
             self.matches.append([])
             for i in range(size // 2):
-                self.matches[-1].append(Match(len(self.matches) - 1, i, Participant(None), Participant(None)))
+                self.matches[-1].append(Match(len(self.matches) - 1, i, Participant(), Participant()))
                 if self.matches[-2][2 * i].participant2.name is None and \
                         self.matches[-2][2 * i].participant1.name is not None:
                     self.matches[-1][-1].participant1 = self.matches[-2][2 * i].participant1
@@ -66,12 +62,12 @@ class Bracket:
             for i in range(start_size - size // 2):
                 self.matches[0].append(Match(0, i, participants[2 * i], participants[2 * i + 1]))
             for i in range((start_size - size // 2) * 2, start_size):
-                self.matches[0].append(Match(0, i - (start_size - size // 2), participants[i], Participant("???")))
+                self.matches[0].append(Match(0, i - (start_size - size // 2), participants[i], Participant()))
             size //= 2
             while size > 1:
                 self.matches.append([])
                 for i in range(size // 2):
-                    self.matches[-1].append(Match(len(self.matches) - 1, i, Participant("???"), Participant("???")))
+                    self.matches[-1].append(Match(len(self.matches) - 1, i, Participant(), Participant()))
                     if self.matches[-2][2 * i].participant2.name == "???" and \
                             self.matches[-2][2 * i].participant1.name != "???":
                         self.matches[-1][-1].participant1 = self.matches[-2][2 * i].participant1
@@ -89,7 +85,7 @@ class Bracket:
                     self.matches.append([])
                     for i in range(size):
                         self.matches[-1].append(
-                            Match(len(self.matches) - 1, i, Participant("???"), Participant("???")))
+                            Match(len(self.matches) - 1, i, Participant(), Participant()))
                 size //= 2
         else:
             raise ValueError
