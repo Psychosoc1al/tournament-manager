@@ -29,7 +29,7 @@ class TournamentPageView(QWidget):
 
 
 class GraphicsView(QGraphicsView):
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: QWidget) -> None:
         super().__init__(parent)
         self._pen = QPen(QColor(175, 177, 179), 2)
         self._scene = QGraphicsScene(self)
@@ -52,7 +52,15 @@ class GraphicsView(QGraphicsView):
         else:
             super().wheelEvent(event)
 
-    def create_bracket(self, round_x, round_y, round_width, round_height, stages_left) -> None:
+    def create_bracket(
+            self,
+            round_x: float,
+            round_y: float,
+            round_width: float,
+            round_height: float,
+            stages_left: float
+    ) -> None:
+
         if stages_left == 0:
             return
 

@@ -75,7 +75,7 @@ class Tournament:
         return self._brackets
 
     @brackets.setter
-    def brackets(self, value) -> None:
+    def brackets(self, value: list[Bracket]) -> None:
         self._brackets = value
 
     @property
@@ -83,7 +83,7 @@ class Tournament:
         return self._tournament_type
 
     @tournament_type.setter
-    def tournament_type(self, value) -> None:
+    def tournament_type(self, value: str) -> None:
         self._tournament_type = value
 
     def add_participant(self, participant: Participant) -> None:

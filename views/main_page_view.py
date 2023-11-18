@@ -63,7 +63,7 @@ class MainPageView(QMainWindow):
 
         return buttons
 
-    def resize_and_center(self, width, height) -> None:
+    def resize_and_center(self, width: int, height: int) -> None:
         self.resize(width, height)
 
         window_geometry = self.frameGeometry()

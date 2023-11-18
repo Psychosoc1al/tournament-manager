@@ -63,9 +63,6 @@ class Match:
     def score_participant2(self, value: int) -> None:
         self._score_participant2 = value
 
-    def move_participant(self) -> None:
-        pass  # TODO
-
     def __str__(self) -> str:
         return (str(self.participant1) + ' ' + str(self.score_participant1) + ' vs ' +
                 str(self.score_participant2) + ' ' + str(self.participant2))

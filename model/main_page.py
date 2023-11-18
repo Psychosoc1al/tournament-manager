@@ -19,6 +19,8 @@ class TournamentSchema(Schema):
         data['participants'] = [Participant(name) for name in data['participants']]
         return Tournament(**data)
 
+# TODO: save matches
+
 
 class MainPage:
     _filename = 'data.json'
@@ -41,16 +43,12 @@ class MainPage:
                 )
             )
 
-    def add_tournament(self, tournament) -> None:
+    def add_tournament(self, tournament: Tournament) -> None:
         self._tournaments.append(tournament)
         self.save_to_file()
 
-    def delete_tournament(self, tournament) -> None:
+    def delete_tournament(self, tournament : Tournament) -> None:
         self._tournaments.remove(tournament)
-        self.save_to_file()
-
-    def update_tournament(self, index, new_tournament) -> None:
-        self._tournaments[index] = new_tournament
         self.save_to_file()
 
     def get_tournaments(self) -> list[Tournament]:

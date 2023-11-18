@@ -13,7 +13,7 @@ class AddEditPageController:
 
         if self._page_type == 'edit':
             self._set_edit_form()
-            self._view.setWindowTitle('Edit tournament')
+            self._view.setWindowTitle('Edit tournament - ' + self._model.name)
         else:
             self._handle_participants_enter()
             self._view.setWindowTitle('Add tournament')
@@ -41,7 +41,6 @@ class AddEditPageController:
             self._participants_items.append(new_line)
 
     def _handle_participants_enter(self) -> None:
-        print('handle_participants_enter')
         self._view.participants_inputs_list.clear()
         self._participants_items.clear()
         current_amount_str = self._view.participants_amount_choose.currentText()
@@ -54,7 +53,6 @@ class AddEditPageController:
 
             list_item.setSizeHint(new_line.sizeHint())
             self._view.participants_inputs_list.setItemWidget(list_item, new_line)
-
             self._participants_items.append(new_line)
 
     def send_data_to_main(self) -> None:
