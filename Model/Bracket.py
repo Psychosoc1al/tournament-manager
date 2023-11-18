@@ -12,7 +12,7 @@ class BracketType(Enum):
 
 class Bracket:
     def __init__(self, bracket_type: BracketType) -> None:
-        self._type = bracket_type
+        self.type = bracket_type
         self.matches = []
 
     @property
@@ -25,11 +25,12 @@ class Bracket:
 
     @property
     def matches(self) -> list[Match]:
-        return self.matches
+        print(self._matches)
+        return self._matches
 
     @matches.setter
     def matches(self, value: list[Match]) -> None:
-        self.matches = value
+        self._matches = value
 
     def add_match(self, match: Match) -> None:
         self.matches.append(match)
