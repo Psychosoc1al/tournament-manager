@@ -16,7 +16,7 @@ class MainController:
         self._model = model
         self._view = view
 
-        self._view.add_tournament_button.clicked.connect(self._add_tournament_show)
+        self._view.add_tournament_button.clicked.connect(lambda _: self._add_tournament_show())
         self.show_main_page()
 
     def show_main_page(self):

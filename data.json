@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "name": "йцк",
+    "sport": "мпыв",
+    "bracket_type": "Single elimination",
+    "tour_date": "2016-12-11",
+    "participants": [
+      "авы",
+      "авп",
+      "олодл",
+      "пар"
+    ]
+  }
+]
