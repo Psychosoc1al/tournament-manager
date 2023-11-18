@@ -8,14 +8,14 @@ from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboB
 class AddEditPageView(QDialog):
     form_submitted = pyqtSignal(str, str, str, date, str)
 
-    def __init__(self, parent: QMainWindow):
+    def __init__(self, parent: QMainWindow) -> None:
         super().__init__(parent)
         self.setMinimumSize(450, 500)
 
         self._create_add_edit_form()
         self.show()
 
-    def _create_add_edit_form(self):
+    def _create_add_edit_form(self) -> None:
         name_label = QLabel('Tournament name:')
         self.name_edit = QLineEdit()
 
@@ -57,7 +57,7 @@ class AddEditPageView(QDialog):
 
         self.setLayout(main_layout)
 
-    def send_data_to_main(self, participants: str):
+    def send_data_to_main(self, participants: str) -> None:
         name = self.name_edit.text()
         sport = self.sport_edit.text()
         tournament_date = self.date_edit.date()

@@ -6,7 +6,7 @@ from tournament import Tournament
 
 
 class MainPageView(QMainWindow):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle('Main menu')
         self.setMinimumSize(800, 600)
@@ -19,7 +19,7 @@ class MainPageView(QMainWindow):
         qdarktheme.setup_theme(custom_colors={'primary': '#d79df1'})
         self.show()
 
-    def _create_main_menu_widget(self):
+    def _create_main_menu_widget(self) -> None:
         main_widget = QWidget(self.central_stacked_widget)
         main_layout = QVBoxLayout(main_widget)
         main_widget.setLayout(main_layout)
@@ -63,7 +63,7 @@ class MainPageView(QMainWindow):
 
         return buttons
 
-    def resize_and_center(self, width, height):
+    def resize_and_center(self, width, height) -> None:
         self.resize(width, height)
 
         window_geometry = self.frameGeometry()

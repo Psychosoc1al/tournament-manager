@@ -10,7 +10,7 @@ class TournamentPageView(QWidget):
     _round_x = 20
     _round_y = _scene_height / 2 - _round_height / 2
 
-    def __init__(self, parent: QWidget, depth: int):
+    def __init__(self, parent: QWidget, depth: int) -> None:
         super().__init__(parent)
 
         main_layout = QVBoxLayout(self)
@@ -29,7 +29,7 @@ class TournamentPageView(QWidget):
 
 
 class GraphicsView(QGraphicsView):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self._pen = QPen(QColor(175, 177, 179), 2)
         self._scene = QGraphicsScene(self)
@@ -37,7 +37,7 @@ class GraphicsView(QGraphicsView):
         self.setRenderHints(self.renderHints() | QPainter.RenderHint.Antialiasing)
         self.setScene(self._scene)
 
-    def wheelEvent(self, event: QWheelEvent):
+    def wheelEvent(self, event: QWheelEvent) -> None:
         if event.modifiers() & Qt.KeyboardModifier.ControlModifier:
             scaleFactor = 1.15
 
@@ -52,7 +52,7 @@ class GraphicsView(QGraphicsView):
         else:
             super().wheelEvent(event)
 
-    def create_bracket(self, round_x, round_y, round_width, round_height, stages_left):
+    def create_bracket(self, round_x, round_y, round_width, round_height, stages_left) -> None:
         if stages_left == 0:
             return
 

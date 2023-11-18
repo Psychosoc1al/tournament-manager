@@ -12,14 +12,14 @@ from tournament_page_view import TournamentPageView
 
 
 class MainController:
-    def __init__(self, model: MainPage, view: MainPageView):
+    def __init__(self, model: MainPage, view: MainPageView) -> None:
         self._model = model
         self._view = view
 
         self._view.add_tournament_button.clicked.connect(lambda _: self._add_tournament_show())
         self.show_main_page()
 
-    def show_main_page(self):
+    def show_main_page(self) -> None:
         self._view.tournaments_list_widget.clear()
         tournaments = self._model.get_tournaments()
         buttons_to_connect = self._view.show_tournaments(tournaments)
@@ -37,7 +37,7 @@ class MainController:
         self._view.setWindowTitle('Main menu')
         self._view.resize_and_center(800, 600)
 
-    def _add_tournament_show(self):
+    def _add_tournament_show(self) -> None:
         add_tournament_window = AddEditPageView(self._view)
         AddEditPageController(add_tournament_window, 'add')
 
@@ -45,7 +45,7 @@ class MainController:
 
         # TODO: connect with model
 
-    def _update_tournament_show(self, tournament: Tournament):
+    def _update_tournament_show(self, tournament: Tournament) -> None:
         update_tournament_window = AddEditPageView(self._view)
         AddEditPageController(update_tournament_window, 'edit', tournament)
 
@@ -53,7 +53,7 @@ class MainController:
 
         # TODO: connect with model
 
-    def _remove_tournament(self, tournament: Tournament):
+    def _remove_tournament(self, tournament: Tournament) -> None:
         self._model.delete_tournament(tournament)
         self.show_main_page()
 

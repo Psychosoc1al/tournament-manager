@@ -5,7 +5,7 @@ from tournament import Tournament
 
 
 class AddEditPageController:
-    def __init__(self, view: AddEditPageView, page_type: str, model: Tournament = None):
+    def __init__(self, view: AddEditPageView, page_type: str, model: Tournament = None) -> None:
         self._model = model
         self._view = view
         self._page_type = page_type
@@ -21,7 +21,7 @@ class AddEditPageController:
         self._view.save_button.clicked.connect(self.send_data_to_main)
         self._view.participants_amount_choose.currentIndexChanged.connect(lambda _: self._handle_participants_enter())
 
-    def _set_edit_form(self):
+    def _set_edit_form(self) -> None:
         self._view.name_edit.setReadOnly(True)
         self._view.name_edit.setText(self._model.name)
         self._view.sport_edit.setText(self._model.sport)
@@ -45,7 +45,7 @@ class AddEditPageController:
 
     # TODO: [in future] input validation
 
-    def _handle_participants_enter(self):
+    def _handle_participants_enter(self) -> None:
         self._view.participants_inputs_list.clear()
         self._participants_items.clear()
         current_amount_str = self._view.participants_amount_choose.currentText()
@@ -61,7 +61,7 @@ class AddEditPageController:
 
             self._participants_items.append(new_line)
 
-    def send_data_to_main(self):
+    def send_data_to_main(self) -> None:
         participants = [list_item.text() for list_item in self._participants_items]
 
         self._view.send_data_to_main('\n'.join(participants))
