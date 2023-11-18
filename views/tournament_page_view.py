@@ -1,11 +1,12 @@
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QEvent
 from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent
-from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem
+from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
+    QHBoxLayout
 
 
 class TournamentPageView(QWidget):
     _scene_height = 400
-    _round_width = 300
+    _round_width = 500
     _round_height = 900
     _round_x = 20
     _round_y = _scene_height / 2 - _round_height / 2
@@ -19,6 +20,10 @@ class TournamentPageView(QWidget):
         self.back_button = QPushButton('Back to main menu', self)
         main_layout.addWidget(self.back_button)
 
+        self._info_widget = QWidget(self)
+        self._create_info_widget()
+        main_layout.addWidget(self._info_widget)
+
         graphics_view = GraphicsView(self)
         graphics_view.installEventFilter(self)
         main_layout.addWidget(graphics_view)
@@ -26,6 +31,29 @@ class TournamentPageView(QWidget):
         graphics_view.create_bracket(self._round_x, self._round_y, self._round_width, self._round_height, depth)
 
         self.show()
+
+    def _create_info_widget(self) -> None:
+        info_layout = QHBoxLayout(self._info_widget)
+        info_layout.setContentsMargins(0, 0, 0, 0)
+        self._info_widget.setLayout(info_layout)
+
+        self._name_label = InfoButton(self._info_widget)
+        info_layout.addWidget(self._name_label)
+
+        self._sport_label = InfoButton(self._info_widget)
+        info_layout.addWidget(self._sport_label)
+
+        self._date_label = InfoButton(self._info_widget)
+        info_layout.addWidget(self._date_label)
+
+        self._participants_amount_label = InfoButton(self._info_widget)
+        info_layout.addWidget(self._participants_amount_label)
+
+    def set_info_data(self, name: str, sport: str, date: str, participants_amount: str) -> None:
+        self._name_label.setText('Name: ' + name)
+        self._sport_label.setText('Sport: ' + sport)
+        self._date_label.setText('Date: ' + date)
+        self._participants_amount_label.setText('Participants: ' + participants_amount)
 
 
 class GraphicsView(QGraphicsView):
@@ -99,3 +127,17 @@ class GraphicsView(QGraphicsView):
             round_height / 2,
             stages_left - 1
         )
+
+
+class InfoButton(QPushButton):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self._is_enabled = True
+        self.setDown(True)
+        self.setStyleSheet('font-size: 14px')
+
+    def event(self, event):
+        if (event.type() == QEvent.Type.MouseButtonPress or event.type() == QEvent.Type.MouseButtonDblClick or
+                event.type() == QEvent.Type.MouseMove or event.type() == QEvent.Type.MouseButtonRelease):
+            return False
+        return super().event(event)
