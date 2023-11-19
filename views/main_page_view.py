@@ -63,11 +63,13 @@ class MainPageView(QMainWindow):
 
         return buttons
 
-    def resize_and_center(self, width: int, height: int) -> None:
-        self.resize(width, height)
+    def resize_screen_percent_and_center(self, width_percent: float, height_percent: float) -> None:
+        screen_geometry = QApplication.primaryScreen().availableGeometry()
+        screen_width, screen_height = screen_geometry.width(), screen_geometry.height()
+        self.resize(int(width_percent * screen_width), int(height_percent * screen_height))
 
         window_geometry = self.frameGeometry()
-        center_point = QApplication.primaryScreen().availableGeometry().center()
+        center_point = screen_geometry.center()
         window_geometry.moveCenter(center_point)
 
         self.move(window_geometry.topLeft())

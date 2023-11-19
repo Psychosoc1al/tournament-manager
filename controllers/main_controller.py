@@ -35,7 +35,7 @@ class MainController:
 
         self._view.central_stacked_widget.setCurrentIndex(0)
         self._view.setWindowTitle('Main menu')
-        self._view.resize_and_center(800, 600)
+        self._view.resize_screen_percent_and_center(1 / 2, 1 / 2)
 
     def _add_tournament_show(self) -> None:
         add_tournament_window = AddEditPageView(self._view)
@@ -61,7 +61,7 @@ class MainController:
         )
         TournamentPageController(tournament, tournament_view, self)
 
-        self._view.resize_and_center(1200, 900)
+        self._view.resize_screen_percent_and_center(3 / 4, 5 / 6)
         self._view.central_stacked_widget.addWidget(tournament_view)
         self._view.central_stacked_widget.setCurrentWidget(tournament_view)
         self._view.setWindowTitle(tournament.name + ' - bracket')
