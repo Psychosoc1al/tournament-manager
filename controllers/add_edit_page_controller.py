@@ -44,7 +44,7 @@ class AddEditPageController(QObject):
 
             new_line = QLineEdit(self._view)
             new_line.setText(participant.name)
-            new_line.setMaxLength(15)
+            new_line.setDisabled(True)
 
             list_item.setSizeHint(new_line.sizeHint())
             self._view.participants_inputs_list.setItemWidget(list_item, new_line)
@@ -58,7 +58,7 @@ class AddEditPageController(QObject):
         for i in range(int(current_amount_str)):
             list_item = QListWidgetItem(self._view.participants_inputs_list)
 
-            new_line = QLineEdit(self._view.participants_inputs_list)
+            new_line = QLineEdit(self._view)
             new_line.setPlaceholderText(f'Participant {i + 1}')
             new_line.setMaxLength(15)
 
@@ -69,9 +69,10 @@ class AddEditPageController(QObject):
         self._handle_input_validation()
 
     def _handle_input_validation(self) -> None:
+        self._view.save_button.setDisabled(True)
         self._view.name_edit.setValidator(
             QRegularExpressionValidator(
-                QRegularExpression("[^ 0-9][A-Za-zА-Яа-я0-9 ]+"),
+                QRegularExpression("[^ ][A-Za-zА-Яа-я0-9 ]+"),
             )
         )
 

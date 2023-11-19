@@ -1,4 +1,5 @@
 import json
+from datetime import date
 
 from marshmallow import Schema, fields, post_load
 
@@ -19,7 +20,7 @@ class TournamentSchema(Schema):
         data['participants'] = [Participant(name) for name in data['participants']]
         return Tournament(**data)
 
-# TODO: save matches
+# TODO: save brackets
 
 
 class MainPage:
@@ -28,13 +29,13 @@ class MainPage:
 
     def __init__(self) -> None:
         self._tournaments = []
-        self.load_from_file()
+        self.load_data()
 
-    def load_from_file(self) -> None:
+    def load_data(self) -> None:
         with open(self._filename, 'r', encoding='utf-8') as f:
             self._tournaments = self._schema.loads(f.read())
 
-    def save_to_file(self) -> None:
+    def save_data(self) -> None:
         with open(self._filename, 'w', encoding='utf-8') as f:
             f.write(
                 json.dumps(
@@ -45,11 +46,25 @@ class MainPage:
 
     def add_tournament(self, tournament: Tournament) -> None:
         self._tournaments.append(tournament)
-        self.save_to_file()
+        self.save_data()
+
+    def update_tournament(self,
+                          tournament: Tournament,
+                          name: str,
+                          sport: str,
+                          start_date: date,
+                          ) -> None:
+
+        tournament_id = self._tournaments.index(tournament)
+        self._tournaments[tournament_id].name = name
+        self._tournaments[tournament_id].sport = sport
+        self._tournaments[tournament_id].tour_date = start_date
+
+        self.save_data()
 
     def delete_tournament(self, tournament : Tournament) -> None:
         self._tournaments.remove(tournament)
-        self.save_to_file()
+        self.save_data()
 
     def get_tournaments(self) -> list[Tournament]:
         return self._tournaments

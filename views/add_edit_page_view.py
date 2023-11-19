@@ -1,5 +1,5 @@
-from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, \
-    QDateEdit, QListWidget, QDialog, QMainWindow
+from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QDateEdit, QListWidget, QDialog, \
+    QMainWindow
 
 
 class AddEditPageView(QDialog):

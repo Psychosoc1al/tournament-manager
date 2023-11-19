@@ -71,7 +71,7 @@ class MainController:
                         sport: str,
                         tournament_type: str,
                         start_date: date,
-                        participants_string: str,
+                        participants_string: str
                         ) -> None:
 
         participants = [Participant(name) for name in participants_string.split('\n')]
@@ -83,10 +83,11 @@ class MainController:
     def _update_tournament(self,
                            name: str,
                            sport: str,
-                           tournament_type: str,
+                           _: str,
                            start_date: date,
-                           participants_string: str
+                           __: str
                            ) -> None:
 
-        self._remove_tournament(self._updating_tournament)
-        self._add_tournament(name, sport, tournament_type, start_date, participants_string)
+        self._model.update_tournament(self._updating_tournament, name, sport, start_date)
+
+        self.show_main_page()
