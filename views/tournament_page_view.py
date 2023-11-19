@@ -5,13 +5,13 @@ from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, Q
 
 
 class TournamentPageView(QWidget):
-    _scene_height = 400
+    _scene_height = 900
     _round_width = 500
-    _round_height = 900
-    _round_x = 20
-    _round_y = _scene_height / 2 - _round_height / 2
+    _round_height = _scene_height
+    _round_x = 0
+    _round_y = - _scene_height / 2
 
-    def __init__(self, parent: QWidget, depth: int) -> None:
+    def __init__(self, parent: QWidget, stages_amount: int) -> None:
         super().__init__(parent)
 
         main_layout = QVBoxLayout(self)
@@ -24,11 +24,11 @@ class TournamentPageView(QWidget):
         self._create_info_widget()
         main_layout.addWidget(self._info_widget)
 
-        graphics_view = GraphicsView(self)
+        graphics_view = GraphicsView(self, stages_amount)
         graphics_view.installEventFilter(self)
         main_layout.addWidget(graphics_view)
 
-        graphics_view.create_bracket(self._round_x, self._round_y, self._round_width, self._round_height, depth)
+        graphics_view.create_bracket(self._round_x, self._round_y, self._round_width, self._round_height, stages_amount)
 
         self.show()
 
@@ -57,10 +57,12 @@ class TournamentPageView(QWidget):
 
 
 class GraphicsView(QGraphicsView):
-    def __init__(self, parent: QWidget) -> None:
+    def __init__(self, parent: QWidget, stages_amount: int) -> None:
         super().__init__(parent)
         self._pen = QPen(QColor(175, 177, 179), 2)
         self._scene = QGraphicsScene(self)
+        self._general_stages_left = stages_amount
+        self._stages_to_left = stages_amount // 2
 
         self.setRenderHints(self.renderHints() | QPainter.RenderHint.Antialiasing)
         self.setScene(self._scene)
@@ -90,6 +92,11 @@ class GraphicsView(QGraphicsView):
     ) -> None:
 
         if stages_left == 0:
+            self._general_stages_left -= 1
+            if self._general_stages_left:
+                return
+
+            self._scale_view(round_width)
             return
 
         top = round_y + round_height / 4
@@ -127,6 +134,30 @@ class GraphicsView(QGraphicsView):
             round_height / 2,
             stages_left - 1
         )
+
+    def _scale_view(self, round_width: float) -> None:
+        x_center = - self._stages_to_left * round_width / 2
+
+        horizontal_aligning_line = QGraphicsLineItem(
+            x_center - self._scene.width(),
+            0,
+            x_center + self._scene.width(),
+            0
+        )
+        horizontal_aligning_line.setOpacity(0)
+        self._scene.addItem(horizontal_aligning_line)
+
+        vertical_aligning_line = QGraphicsLineItem(
+            x_center,
+            -self._scene.height() * 3 / 4,
+            x_center,
+            self._scene.height() * 3 / 4
+        )
+        vertical_aligning_line.setOpacity(0)
+        self._scene.addItem(vertical_aligning_line)
+
+        self.scale(1 / (self._stages_to_left * 1.5), 1 / (self._stages_to_left * 1.5))
+        self.scale(self._stages_to_left, self._stages_to_left)
 
 
 class InfoButton(QPushButton):

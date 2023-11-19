@@ -27,7 +27,8 @@ class AddEditPageView(QDialog):
 
         format_label = QLabel('Tournament type:')
         self.format_edit = QComboBox()
-        self.format_edit.addItems(['Single elimination', 'Double elimination'])
+        # self.format_edit.addItems(['Single elimination', 'Double elimination'])
+        self.format_edit.addItems(['Single elimination'])
 
         participants_label = QLabel('Participants amount:')
         self.participants_amount_choose = QComboBox()
