@@ -168,7 +168,5 @@ class InfoButton(QPushButton):
         self.setStyleSheet('font-size: 14px')
 
     def event(self, event):
-        if (event.type() == QEvent.Type.MouseButtonPress or event.type() == QEvent.Type.MouseButtonDblClick or
-                event.type() == QEvent.Type.MouseMove or event.type() == QEvent.Type.MouseButtonRelease):
-            return False
+        self.setDown(True)
         return super().event(event)
