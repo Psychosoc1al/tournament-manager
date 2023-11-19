@@ -39,16 +39,16 @@ class MainController:
 
     def _add_tournament_show(self) -> None:
         add_tournament_window = AddEditPageView(self._view)
-        AddEditPageController(add_tournament_window, 'add')
+        add_tournament_controller = AddEditPageController(add_tournament_window, 'add')
 
-        add_tournament_window.form_submitted.connect(self._add_tournament)
+        add_tournament_controller.form_submitted.connect(self._add_tournament)
 
     def _update_tournament_show(self, tournament: Tournament) -> None:
         update_tournament_window = AddEditPageView(self._view)
-        AddEditPageController(update_tournament_window, 'edit', tournament)
+        update_tournament_controller = AddEditPageController(update_tournament_window, 'edit', tournament)
         self._updating_tournament = tournament
 
-        update_tournament_window.form_submitted.connect(self._update_tournament)
+        update_tournament_controller.form_submitted.connect(self._update_tournament)
 
     def _remove_tournament(self, tournament: Tournament) -> None:
         self._model.delete_tournament(tournament)

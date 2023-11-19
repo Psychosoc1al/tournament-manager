@@ -1,4 +1,6 @@
-from PyQt6.QtCore import QRegularExpression
+from datetime import date
+
+from PyQt6.QtCore import QRegularExpression, pyqtSignal, QObject
 from PyQt6.QtGui import QRegularExpressionValidator
 from PyQt6.QtWidgets import QLineEdit, QListWidgetItem
 
@@ -6,8 +8,11 @@ from add_edit_page_view import AddEditPageView
 from tournament import Tournament
 
 
-class AddEditPageController:
+class AddEditPageController(QObject):
+    form_submitted = pyqtSignal(str, str, str, date, str)
+
     def __init__(self, view: AddEditPageView, page_type: str, model: Tournament = None) -> None:
+        super().__init__()
         self._model = model
         self._view = view
         self._page_type = page_type
@@ -93,6 +98,19 @@ class AddEditPageController:
         self._view.save_button.setEnabled(True)
 
     def send_data_to_main(self) -> None:
-        participants = [list_item.text() for list_item in self._participants_items]
+        participants = '\n'.join(list_item.text() for list_item in self._participants_items)
 
-        self._view.send_data_to_main('\n'.join(participants))
+        name = self._view.name_edit.text()
+        sport = self._view.sport_edit.text()
+        tournament_date = self._view.date_edit.date().toPyDate()
+        tournament_format = self._view.format_edit.currentText()
+
+        self.form_submitted.emit(
+            name,
+            sport,
+            tournament_format,
+            tournament_date,
+            participants
+        )
+
+        self._view.close()

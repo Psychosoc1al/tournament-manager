@@ -1,14 +1,8 @@
-from datetime import date
-
-from PyQt6.QtCore import pyqtSignal, QRegularExpression
-from PyQt6.QtGui import QRegularExpressionValidator
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, \
     QDateEdit, QListWidget, QDialog, QMainWindow
 
 
 class AddEditPageView(QDialog):
-    form_submitted = pyqtSignal(str, str, str, date, str)
-
     def __init__(self, parent: QMainWindow) -> None:
         super().__init__(parent)
         self.setMinimumSize(450, 500)
@@ -60,19 +54,3 @@ class AddEditPageView(QDialog):
         main_layout.addWidget(self.save_button)
 
         self.setLayout(main_layout)
-
-    def send_data_to_main(self, participants: str) -> None:
-        name = self.name_edit.text()
-        sport = self.sport_edit.text()
-        tournament_date = self.date_edit.date().toPyDate()
-        tournament_format = self.format_edit.currentText()
-
-        self.form_submitted.emit(
-            name,
-            sport,
-            tournament_format,
-            tournament_date,
-            participants
-        )
-
-        self.close()
