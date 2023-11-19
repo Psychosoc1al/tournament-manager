@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QLineEdit, QListWidgetItem
 
-from add_edit_page_view import AddEditPageView
-from tournament import Tournament
+from views.add_edit_page_view import AddEditPageView
+from Model.tournament import Tournament
 
 
 class AddEditPageController:

@@ -2,8 +2,8 @@ import json
 
 from marshmallow import Schema, fields, post_load
 
-from participant import Participant
-from tournament import Tournament
+from Model.participant import Participant
+from Model.tournament import Tournament
 
 
 class TournamentSchema(Schema):

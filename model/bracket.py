@@ -1,7 +1,7 @@
 from enum import Enum
 
-from match import Match
-from participant import Participant
+from Model.match import Match
+from Model.participant import Participant
 
 
 class BracketType(Enum):
@@ -66,6 +66,7 @@ class Bracket:
                         self.matches[-1].append(
                             Match(len(self.matches) - 1, i, Participant(), Participant()))
                 size //= 2
+            self.matches.append([Match(len(self.matches) - 1, 0, Participant(), Participant())])
         else:
             raise ValueError
 
@@ -114,5 +115,16 @@ class Bracket:
         else:
             raise ValueError
 
+    def take_winner(self) -> Participant:
+        if self.matches[-1][0].score_participant1 > self.matches[-1][0].score_participant2:
+            return self.matches[-1][0].participant1
+        elif self.matches[-1][0].score_participant1 < self.matches[-1][0].score_participant2:
+            return self.matches[-1][0].participant2
+        else:
+            return Participant()
 
-# TODO: last match
+    def create_final(self, participant: Participant):
+        if self.type == BracketType.LOWER:
+            self.matches[-1][0].participant2 = participant
+        else:
+            raise ValueError
