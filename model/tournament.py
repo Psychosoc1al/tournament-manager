@@ -1,11 +1,11 @@
 from datetime import date
-from enum import StrEnum
+from enum import Enum
 
 from bracket import Bracket, BracketType
 from participant import Participant
 
 
-class TournamentType(StrEnum):
+class TournamentType(str, Enum):
     SINGLE = "Single elimination"
     DOUBLE = "Double elimination"
 

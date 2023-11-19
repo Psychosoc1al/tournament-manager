@@ -1,6 +1,7 @@
 from datetime import date
 
-from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtCore import pyqtSignal, QRegularExpression
+from PyQt6.QtGui import QRegularExpressionValidator
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, \
     QDateEdit, QListWidget, QDialog, QMainWindow
 
@@ -18,9 +19,11 @@ class AddEditPageView(QDialog):
     def _create_add_edit_form(self) -> None:
         name_label = QLabel('Tournament name:')
         self.name_edit = QLineEdit()
+        self.name_edit.setMaxLength(20)
 
         sport_label = QLabel('Sport type:')
         self.sport_edit = QLineEdit()
+        self.sport_edit.setMaxLength(20)
 
         date_label = QLabel('Date:')
         self.date_edit = QDateEdit()
@@ -39,6 +42,7 @@ class AddEditPageView(QDialog):
         self.participants_inputs_list.setSpacing(1)
 
         self.save_button = QPushButton('Save')
+        self.save_button.setDisabled(True)
 
         main_layout = QVBoxLayout(self)
         main_layout.addWidget(name_label)
