@@ -1,12 +1,12 @@
 from PyQt6.QtCore import Qt, QEvent
 from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
-    QHBoxLayout
+    QHBoxLayout, QGraphicsTextItem
 
 
 class TournamentPageView(QWidget):
     _scene_height = 900
-    _round_width = 500
+    _round_width = 450
     _round_height = _scene_height
     _round_x = 0
     _round_y = - _scene_height / 2
@@ -61,8 +61,8 @@ class GraphicsView(QGraphicsView):
         super().__init__(parent)
         self._pen = QPen(QColor(175, 177, 179), 2)
         self._scene = QGraphicsScene(self)
+        self._initial_stages_amount = stages_amount
         self._general_stages_left = stages_amount
-        self._stages_to_left = stages_amount // 2
 
         self.setRenderHints(self.renderHints() | QPainter.RenderHint.Antialiasing)
         self.setScene(self._scene)
@@ -90,17 +90,30 @@ class GraphicsView(QGraphicsView):
             round_height: float,
             stages_left: float
     ) -> None:
+        top = round_y + round_height / 4
+        bottom = round_y + round_height / 4 * 3
 
         if stages_left == 0:
+            horizontal_line_right = QGraphicsLineItem(
+                round_x,
+                (top + bottom) / 2,
+                round_x + round_width / 2,
+                (top + bottom) / 2
+            )
+            horizontal_line_right.setPen(self._pen)
+            self._scene.addItem(horizontal_line_right)
+
+            text = QGraphicsTextItem("Participant")
+            text.setScale(2)
+            text.setPos(round_x, (top + bottom) / 2 - 50)
+            self._scene.addItem(text)
+
             self._general_stages_left -= 1
             if self._general_stages_left:
                 return
 
             self._scale_view(round_width)
             return
-
-        top = round_y + round_height / 4
-        bottom = round_y + round_height / 4 * 3
 
         vertical_line = QGraphicsLineItem(
             round_x,
@@ -120,6 +133,12 @@ class GraphicsView(QGraphicsView):
         horizontal_line_right.setPen(self._pen)
         self._scene.addItem(horizontal_line_right)
 
+        if stages_left != self._initial_stages_amount:
+            text = QGraphicsTextItem("Participant")
+            text.setScale(2)
+            text.setPos(round_x, (top + bottom) / 2 - 50)
+            self._scene.addItem(text)
+
         self.create_bracket(
             round_x - round_width / 2,
             round_y,
@@ -136,12 +155,12 @@ class GraphicsView(QGraphicsView):
         )
 
     def _scale_view(self, round_width: float) -> None:
-        x_center = - self._stages_to_left * round_width / 2
+        x_center = - (self._initial_stages_amount - 1) / 2 * round_width / 2
 
         horizontal_aligning_line = QGraphicsLineItem(
-            x_center - self._scene.width(),
+            x_center - self._scene.width() * 3 / 4,
             0,
-            x_center + self._scene.width(),
+            x_center + self._scene.width() * 3 / 4,
             0
         )
         horizontal_aligning_line.setOpacity(0)
@@ -156,8 +175,8 @@ class GraphicsView(QGraphicsView):
         vertical_aligning_line.setOpacity(0)
         self._scene.addItem(vertical_aligning_line)
 
-        self.scale(1 / (self._stages_to_left * 1.5), 1 / (self._stages_to_left * 1.5))
-        self.scale(self._stages_to_left, self._stages_to_left)
+        self.scale(1 / (self._initial_stages_amount * 1.5), 1 / (self._initial_stages_amount * 1.5))
+        self.scale(self._initial_stages_amount, self._initial_stages_amount)
 
 
 class InfoButton(QPushButton):

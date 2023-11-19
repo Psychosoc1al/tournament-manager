@@ -29,7 +29,7 @@ class AddEditPageView(QDialog):
 
         participants_label = QLabel('Participants amount:')
         self.participants_amount_choose = QComboBox()
-        self.participants_amount_choose.addItems(['4', '8', '16', '32'])
+        self.participants_amount_choose.addItems(['4', '8', '16'])
 
         participants_form_label = QLabel('Participants:')
         self.participants_inputs_list = QListWidget()

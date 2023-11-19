@@ -40,7 +40,8 @@ class MainPage:
             f.write(
                 json.dumps(
                     self._schema.dump(self._tournaments),
-                    ensure_ascii=False
+                    ensure_ascii=False,
+                    indent=4
                 )
             )
 
