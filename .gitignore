@@ -7,3 +7,4 @@
 !model/*.py
 !views/*.py
 !controllers/*.py
+!icon/*
