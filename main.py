@@ -1,6 +1,6 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication
-from win32comext.shell.shell import SetCurrentProcessExplicitAppUserModelID  # install as pywin3
+from win32comext.shell.shell import SetCurrentProcessExplicitAppUserModelID  # install as pywin32
 
 from controllers.main_controller import MainController
 from model.main_page import MainPage
