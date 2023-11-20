@@ -3,7 +3,7 @@ from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
     QHBoxLayout, QGraphicsTextItem
 
-from match import Match
+from model.match import Match
 
 
 class TournamentPageView(QWidget):

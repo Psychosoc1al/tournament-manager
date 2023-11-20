@@ -3,10 +3,10 @@ from datetime import date
 
 from controllers.add_edit_page_controller import AddEditPageController
 from views.add_edit_page_view import AddEditPageView
-from Model.main_page import MainPage
+from model.main_page import MainPage
 from views.main_page_view import MainPageView
-from Model.participant import Participant
-from Model.tournament import Tournament
+from model.participant import Participant
+from model.tournament import Tournament
 from controllers.tournament_page_controller import TournamentPageController
 from views.tournament_page_view import TournamentPageView
 

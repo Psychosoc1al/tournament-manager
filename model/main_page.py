@@ -3,8 +3,8 @@ from datetime import date
 
 from marshmallow import Schema, fields, post_load
 
-from Model.participant import Participant
-from Model.tournament import Tournament
+from model.participant import Participant
+from model.tournament import Tournament
 
 
 class TournamentSchema(Schema):

@@ -5,7 +5,7 @@ from PyQt6.QtGui import QRegularExpressionValidator
 from PyQt6.QtWidgets import QLineEdit, QListWidgetItem
 
 from views.add_edit_page_view import AddEditPageView
-from Model.tournament import Tournament
+from model.tournament import Tournament
 
 
 class AddEditPageController(QObject):

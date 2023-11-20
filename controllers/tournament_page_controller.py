@@ -1,4 +1,4 @@
-from Model.tournament import Tournament
+from model.tournament import Tournament
 from views.tournament_page_view import TournamentPageView
 
 
