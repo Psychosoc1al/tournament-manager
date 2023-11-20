@@ -19,6 +19,10 @@ class MainController:
         self._view.add_tournament_button.clicked.connect(lambda _: self._add_tournament_show())
         self.show_main_page()
 
+    @property
+    def view(self) -> MainPageView:
+        return self._view
+
     def show_main_page(self) -> None:
         self._view.tournaments_list_widget.clear()
         tournaments = self._model.get_tournaments()

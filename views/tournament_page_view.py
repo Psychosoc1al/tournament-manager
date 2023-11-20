@@ -1,7 +1,7 @@
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent
+from PyQt6.QtCore import Qt, QRectF, pyqtSignal
+from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent, QMouseEvent, QBrush, QPainterPath
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
-    QHBoxLayout, QGraphicsTextItem
+    QHBoxLayout, QGraphicsTextItem, QGraphicsRectItem, QGraphicsItem, QGraphicsObject, QGraphicsSceneMouseEvent
 
 from model.match import Match
 
@@ -26,11 +26,11 @@ class TournamentPageView(QWidget):
         self._create_info_widget()
         main_layout.addWidget(self._info_widget)
 
-        graphics_view = GraphicsView(self, stages_amount, matches)
-        graphics_view.installEventFilter(self)
-        main_layout.addWidget(graphics_view)
+        self.graphics_view = GraphicsView(self, stages_amount, matches)
+        self.graphics_view.installEventFilter(self)
+        main_layout.addWidget(self.graphics_view)
 
-        graphics_view.create_bracket(
+        self.graphics_view.create_bracket(
             self._round_x,
             self._round_y,
             self._round_width,
@@ -93,6 +93,13 @@ class GraphicsView(QGraphicsView):
         else:
             super().wheelEvent(event)
 
+    def mouseDoubleClickEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            position = self.mapToScene(event.pos())
+            for item in self.items():
+                if isinstance(item, RectangleObject) and item.contains(position):
+                    item.handle_click()
+
     def create_bracket(
             self,
             round_x: float,
@@ -120,7 +127,8 @@ class GraphicsView(QGraphicsView):
                 (top + bottom) / 2,
                 round_width,
                 stages_left,
-                branch_index
+                branch_index,
+                round_height
             )
             self._general_stages_left -= 1
             if self._general_stages_left:
@@ -178,14 +186,15 @@ class GraphicsView(QGraphicsView):
                               round_y: float,
                               round_width: float,
                               stages_left: int,
-                              branch_index: int
+                              branch_index: int,
+                              round_height: float = 0
                               ) -> None:
         match = self._matches[stages_left][branch_index // 2]
         if match.participant1.name == '???':
             return
 
         if branch_index % 2 == 0:
-            name = QGraphicsTextItem(match.participant1.name)
+            name = QGraphicsTextItem(match.participant1.name, )
             score = QGraphicsTextItem(str(match.score_participant1))
         else:
             name = QGraphicsTextItem(match.participant2.name)
@@ -195,9 +204,22 @@ class GraphicsView(QGraphicsView):
         score.setScale(2)
         name.setPos(round_x, round_y - 40)
         score.setPos(round_x + round_width / 2 - 25 - score.boundingRect().width(), round_y - 45)
+        name.setZValue(-1)
+        score.setZValue(-1)
 
         self._scene.addItem(name)
         self._scene.addItem(score)
+
+        if branch_index % 2 == 1:
+            background_rect = RectangleObject(
+                round_x,
+                round_y,
+                round_width / 2,
+                -(round_height + 40),
+                stages_left,
+                branch_index // 2
+            )
+            self._scene.addItem(background_rect)
 
     def _scale_view(self, round_width: float) -> None:
         x_center = - (self._initial_stages_amount - 1) / 2 * round_width / 2
@@ -222,6 +244,32 @@ class GraphicsView(QGraphicsView):
 
         self.scale(1 / (self._initial_stages_amount * 1.5), 1 / (self._initial_stages_amount * 1.5))
         self.scale(self._initial_stages_amount, self._initial_stages_amount)
+
+
+class RectangleObject(QGraphicsObject):
+    clicked_signal = pyqtSignal(int, int)
+
+    def __init__(self, x: float, y: float, width: float, height: float, stage: int, match_number: int):
+        super().__init__()
+        self._x = int(x)
+        self._y = int(y)
+        self._width = int(width)
+        self._height = int(height)
+
+        self._stage = stage
+        self._match_number = match_number
+
+        self.setOpacity(0)
+
+    def paint(self, painter, options, widget=None):
+        painter.setBrush(QBrush(QColor(100, 100, 200)))
+        painter.drawRect(self._x, self._y, self._width, self._height)
+
+    def boundingRect(self):
+        return QRectF(self._x, self._y, self._width, self._height)
+
+    def handle_click(self):
+        self.clicked_signal.emit(self._stage, self._match_number)
 
 
 class InfoButton(QPushButton):
