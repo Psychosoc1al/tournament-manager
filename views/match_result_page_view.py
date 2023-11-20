@@ -54,6 +54,7 @@ class MatchResultPageView(QDialog):
         main_layout.addWidget(second_widget)
 
         self.save_button = QPushButton('Save')
+        self.save_button.setDisabled(True)
         main_layout.addWidget(self.save_button)
 
         self.show()
