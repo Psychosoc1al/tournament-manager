@@ -45,3 +45,4 @@ class TournamentPageController:
             self._model.brackets[0].update_result(match_stage, match_number, (score1, score2))
             self._view.redraw()
             self._connect_match_areas()
+            self._main_controller.model.save_data()

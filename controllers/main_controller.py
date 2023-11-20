@@ -23,6 +23,10 @@ class MainController:
     def view(self) -> MainPageView:
         return self._view
 
+    @property
+    def model(self) -> MainPage:
+        return self._model
+
     def show_main_page(self) -> None:
         self._view.tournaments_list_widget.clear()
         tournaments = self._model.get_tournaments()

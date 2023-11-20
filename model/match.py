@@ -6,14 +6,16 @@ class Match:
                  stage: int,
                  match_number_stage: int,
                  participant1: Participant,
-                 participant2: Participant
+                 participant2: Participant,
+                 score_participant1: int = 0,
+                 score_participant2: int = 0
                  ) -> None:
         self.stage = stage
         self.match_number_stage = match_number_stage
-        self.score_participant1 = 0
-        self.score_participant2 = 0
         self.participant1 = participant1
         self.participant2 = participant2
+        self.score_participant1 = score_participant1
+        self.score_participant2 = score_participant2
 
     @property
     def stage(self) -> int:

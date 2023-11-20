@@ -17,18 +17,43 @@ class Tournament:
                  tournament_type: str,
                  tour_date: date,
                  participants: list[Participant],
-                 brackets: list[Bracket] = None,
+                 results: list[list[tuple[int, int, int, int]]] = None,
                  ) -> None:
         self.name = name
         self.sport = sport
         self.tournament_type = tournament_type
         self.tour_date = tour_date
         self.participants = participants
-        self.brackets = brackets if brackets else []
+        self.brackets = []
 
         self.winner = None
+        self.results = results
 
         self.create_brackets()
+        if results:
+            self._restore_results()
+
+    def save_results(self) -> None:
+        self.results = []
+        for bracket in self.brackets:
+            self.results.append([])
+            for stage in bracket.matches:
+                self.results[-1].append([])
+                for match in stage:
+                    self.results[-1][-1].append(
+                        (match.stage, match.match_number_stage, match.score_participant1, match.score_participant2)
+                    )
+
+    def _restore_results(self) -> None:
+        for bracket, result in zip(self.brackets, self.results):
+            for stage, stage_result in zip(bracket.matches, result):
+                for match, match_result in zip(stage, stage_result):
+                    if match_result[2] > 0 or match_result[3] > 0:
+                        bracket.update_result(
+                            match.stage,
+                            match.match_number_stage,
+                            (match_result[2], match_result[3])
+                        )
 
     @property
     def name(self) -> str:
@@ -152,7 +177,6 @@ if __name__ == '__main__':
     tournament.update_result(2, 0, (1, 0), BracketType.LOWER)
     tournament.update_result(3, 0, (1, 0), BracketType.LOWER)
     tournament.update_result(4, 0, (1, 0), BracketType.LOWER)
-
 
     print(*[[(bracket0.matches[i][j].participant1.name, bracket0.matches[i][j].participant2.name) for j in
              range(len(bracket0.matches[i]))] for i in range(len(bracket0.matches))], sep='\n')

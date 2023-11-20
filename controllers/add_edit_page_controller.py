@@ -71,21 +71,21 @@ class AddEditPageController(QObject):
         self._view.save_button.setDisabled(True)
         self._view.name_edit.setValidator(
             QRegularExpressionValidator(
-                QRegularExpression("[^ ][A-Za-zА-Яа-я0-9 ]{1,20}"),
+                QRegularExpression("[^ ][A-Za-zА-Яа-я0-9 ]{19}"),
             )
         )
 
         self._view.sport_edit.setValidator(
             QRegularExpressionValidator(
-                QRegularExpression("[^ 0-9][A-Za-zА-Яа-я ]{1,20}"),
+                QRegularExpression("[^ 0-9][A-Za-zА-Яа-я ]{19}"),
             )
         )
 
         self._line_edits = self._view.findChildren(QLineEdit)
-        for widget in self._line_edits:
+        for widget in self._line_edits[2:]:
             widget.setValidator(
                 QRegularExpressionValidator(
-                    QRegularExpression("[^ ][A-Za-zА-Яа-я0-9 ]{1,10}"),
+                    QRegularExpression("[^ ][A-Za-zА-Яа-я0-9 ]{9}"),
                 )
             )
             widget.textChanged.connect(self._handle_button_enabling)

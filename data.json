@@ -1,62 +1,206 @@
 [
     {
-        "name": "йцк123",
-        "sport": "мпыв",
-        "tournament_type": "Single elimination",
-        "tour_date": "2016-12-11",
-        "participants": [
-            "авы",
-            "авп",
-            "олодл",
-            "пар",
-            "авы1",
-            "авп1",
-            "олодл1",
-            "пар1",
-            "авы",
-            "авп",
-            "олодл",
-            "пар",
-            "авы1",
-            "авп1",
-            "олодл1",
-            "пар1"
-        ]
-    },
-    {
-        "name": "шшшшшшш7",
-        "sport": "bcvb",
-        "tournament_type": "Single elimination",
-        "tour_date": "2000-01-06",
-        "participants": [
-            "fg1",
-            "ghgfj1",
-            "hj1",
-            "kjhv11"
-        ]
-    },
-    {
-        "name": "g",
-        "sport": "gd",
+        "name": "3214ек",
+        "sport": "ап",
         "tournament_type": "Single elimination",
         "tour_date": "2000-01-01",
         "participants": [
-            "gh",
-            "h",
-            "h",
-            "???"
+            {
+                "name": "124"
+            },
+            {
+                "name": "ё5епи"
+            },
+            {
+                "name": "екнц"
+            },
+            {
+                "name": "ткр"
+            }
+        ],
+        "results": [
+            [
+                [
+                    [
+                        0,
+                        0,
+                        6,
+                        1
+                    ],
+                    [
+                        0,
+                        1,
+                        0,
+                        5
+                    ]
+                ],
+                [
+                    [
+                        1,
+                        0,
+                        6,
+                        3
+                    ]
+                ]
+            ]
         ]
     },
     {
-        "name": "пfр",
-        "sport": "ор",
+        "name": "16 participants",
+        "sport": "Cyberpunk ",
         "tournament_type": "Single elimination",
-        "tour_date": "2000-01-01",
+        "tour_date": "2023-11-21",
         "participants": [
-            "ШШШШШШШШШШ",
-            "уууууууууу",
-            "пппппппппп",
-            "йййййййййй"
+            {
+                "name": "Gamer 1"
+            },
+            {
+                "name": "Gamer 2"
+            },
+            {
+                "name": "Gamer 3"
+            },
+            {
+                "name": "Gamer 4"
+            },
+            {
+                "name": "Gamer 5"
+            },
+            {
+                "name": "Gamer 6"
+            },
+            {
+                "name": "Gamer 7"
+            },
+            {
+                "name": "Gamer 8"
+            },
+            {
+                "name": "Gamer 9"
+            },
+            {
+                "name": "Gamer 10"
+            },
+            {
+                "name": "Gamer 11"
+            },
+            {
+                "name": "Gamer 12"
+            },
+            {
+                "name": "Gamer 13"
+            },
+            {
+                "name": "Gamer 14"
+            },
+            {
+                "name": "Gamer 15"
+            },
+            {
+                "name": "Gamer 16"
+            }
+        ],
+        "results": [
+            [
+                [
+                    [
+                        0,
+                        0,
+                        5,
+                        2
+                    ],
+                    [
+                        0,
+                        1,
+                        0,
+                        7
+                    ],
+                    [
+                        0,
+                        2,
+                        0,
+                        0
+                    ],
+                    [
+                        0,
+                        3,
+                        0,
+                        0
+                    ],
+                    [
+                        0,
+                        4,
+                        4,
+                        1
+                    ],
+                    [
+                        0,
+                        5,
+                        2,
+                        3
+                    ],
+                    [
+                        0,
+                        6,
+                        3,
+                        0
+                    ],
+                    [
+                        0,
+                        7,
+                        2,
+                        1
+                    ]
+                ],
+                [
+                    [
+                        1,
+                        0,
+                        0,
+                        0
+                    ],
+                    [
+                        1,
+                        1,
+                        0,
+                        0
+                    ],
+                    [
+                        1,
+                        2,
+                        8,
+                        2
+                    ],
+                    [
+                        1,
+                        3,
+                        8,
+                        9
+                    ]
+                ],
+                [
+                    [
+                        2,
+                        0,
+                        0,
+                        0
+                    ],
+                    [
+                        2,
+                        1,
+                        0,
+                        0
+                    ]
+                ],
+                [
+                    [
+                        3,
+                        0,
+                        0,
+                        0
+                    ]
+                ]
+            ]
         ]
     }
 ]

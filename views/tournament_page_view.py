@@ -179,15 +179,6 @@ class GraphicsView(QGraphicsView):
                 branch_index,
                 round_height
             )
-        elif self._is_final:
-            match = self._matches[stages_left - 1][0]
-            winner = match.participant1 if match.score_participant1 > match.score_participant2 else match.participant2
-
-            name = QGraphicsTextItem(winner.name)
-            name.setPos(round_width / 2, -25)
-            name.setScale(1.75)
-
-            self._scene.addItem(name)
 
         self.create_bracket(
             round_x - round_width / 2,
@@ -246,7 +237,17 @@ class GraphicsView(QGraphicsView):
             self._scene.addItem(background_rect)
 
             if self._initial_stages_amount - stages_left == 1:
-                self._is_final = True
+                self._print_winner(round_width)
+
+    def _print_winner(self, round_width: float) -> None:
+        match = self._matches[-1][0]
+        winner = match.participant1 if match.score_participant1 > match.score_participant2 else match.participant2
+
+        name = QGraphicsTextItem(winner.name)
+        name.setPos(round_width / 2, -25)
+        name.setScale(1.75)
+
+        self._scene.addItem(name)
 
     def _scale_view(self, round_width: float) -> None:
         x_center = - (self._initial_stages_amount - 1) / 2 * round_width / 2

@@ -12,15 +12,15 @@ class BracketType(Enum):
 
 class Bracket:
     def __init__(self, bracket_type: BracketType) -> None:
-        self.type = bracket_type
+        self.bracket_type = bracket_type
         self.matches = []
 
     @property
-    def type(self) -> BracketType:
+    def bracket_type(self) -> BracketType:
         return self._type
 
-    @type.setter
-    def type(self, value: BracketType) -> None:
+    @bracket_type.setter
+    def bracket_type(self, value: BracketType) -> None:
         self._type = value
 
     @property
@@ -36,7 +36,7 @@ class Bracket:
         size = 2
         while size < start_size:
             size *= 2
-        if self.type == BracketType.UPPER or self.type == BracketType.SINGLE:
+        if self.bracket_type == BracketType.UPPER or self.bracket_type == BracketType.SINGLE:
             self.matches.append([])
             for i in range(start_size - size // 2):
                 self.matches[0].append(Match(0, i, participants[2 * i], participants[2 * i + 1]))
@@ -57,7 +57,7 @@ class Bracket:
             for match in self.matches[0]:
                 if match.participant2.name == "???":
                     self.update_result(match.stage, match.match_number_stage, (0, -1))
-        elif self.type == BracketType.LOWER:
+        elif self.bracket_type == BracketType.LOWER:
             size //= 4
             while size >= 1:
                 for _ in range(2):
@@ -78,12 +78,12 @@ class Bracket:
         else:
             winner = self.matches[stage][match_number_stage].participant2
         if stage < len(self.matches) - 1:
-            if self.type == BracketType.UPPER or self.type == BracketType.SINGLE:
+            if self.bracket_type == BracketType.UPPER or self.bracket_type == BracketType.SINGLE:
                 if match_number_stage % 2 == 0:
                     self.matches[stage + 1][match_number_stage // 2].participant1 = winner
                 else:
                     self.matches[stage + 1][match_number_stage // 2].participant2 = winner
-            elif self.type == BracketType.LOWER:
+            elif self.bracket_type == BracketType.LOWER:
                 if stage % 2 != 0:
                     if match_number_stage % 2 == 0:
                         self.matches[stage + 1][match_number_stage // 2].participant1 = winner
@@ -93,7 +93,7 @@ class Bracket:
                     self.matches[stage + 1][match_number_stage].participant2 = winner
 
     def take_losers(self, match: Match):
-        if self.type == BracketType.LOWER:
+        if self.bracket_type == BracketType.LOWER:
             stage = match.stage
             match_number_stage = match.match_number_stage
             result = (match.score_participant1, match.score_participant2)
@@ -124,7 +124,7 @@ class Bracket:
             return Participant()
 
     def create_final(self, participant: Participant):
-        if self.type == BracketType.LOWER:
+        if self.bracket_type == BracketType.LOWER:
             self.matches[-1][0].participant2 = participant
         else:
             raise ValueError
