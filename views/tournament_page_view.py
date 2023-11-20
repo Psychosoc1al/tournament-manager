@@ -1,17 +1,19 @@
-from PyQt6.QtCore import Qt, QEvent
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
     QHBoxLayout, QGraphicsTextItem
 
+from match import Match
+
 
 class TournamentPageView(QWidget):
     _scene_height = 900
-    _round_width = 450
+    _round_width = 500
     _round_height = _scene_height
     _round_x = 0
     _round_y = - _scene_height / 2
 
-    def __init__(self, parent: QWidget, stages_amount: int) -> None:
+    def __init__(self, parent: QWidget, stages_amount: int, matches: list[list[Match]]) -> None:
         super().__init__(parent)
 
         main_layout = QVBoxLayout(self)
@@ -24,11 +26,18 @@ class TournamentPageView(QWidget):
         self._create_info_widget()
         main_layout.addWidget(self._info_widget)
 
-        graphics_view = GraphicsView(self, stages_amount)
+        graphics_view = GraphicsView(self, stages_amount, matches)
         graphics_view.installEventFilter(self)
         main_layout.addWidget(graphics_view)
 
-        graphics_view.create_bracket(self._round_x, self._round_y, self._round_width, self._round_height, stages_amount)
+        graphics_view.create_bracket(
+            self._round_x,
+            self._round_y,
+            self._round_width,
+            self._round_height,
+            stages_amount,
+            0
+        )
 
         self.show()
 
@@ -57,11 +66,13 @@ class TournamentPageView(QWidget):
 
 
 class GraphicsView(QGraphicsView):
-    def __init__(self, parent: QWidget, stages_amount: int) -> None:
+    def __init__(self, parent: QWidget, stages_amount: int, matches: list[list[Match]]) -> None:
         super().__init__(parent)
+        self._initial_stages_amount = stages_amount
+        self._matches = matches
+
         self._pen = QPen(QColor(175, 177, 179), 2)
         self._scene = QGraphicsScene(self)
-        self._initial_stages_amount = stages_amount
         self._general_stages_left = stages_amount
 
         self.setRenderHints(self.renderHints() | QPainter.RenderHint.Antialiasing)
@@ -88,7 +99,8 @@ class GraphicsView(QGraphicsView):
             round_y: float,
             round_width: float,
             round_height: float,
-            stages_left: float
+            stages_left: int,
+            branch_index: int
     ) -> None:
         top = round_y + round_height / 4
         bottom = round_y + round_height / 4 * 3
@@ -103,11 +115,13 @@ class GraphicsView(QGraphicsView):
             horizontal_line_right.setPen(self._pen)
             self._scene.addItem(horizontal_line_right)
 
-            text = QGraphicsTextItem("Participant")
-            text.setScale(2)
-            text.setPos(round_x, (top + bottom) / 2 - 50)
-            self._scene.addItem(text)
-
+            self._print_name_and_score(
+                round_x,
+                (top + bottom) / 2,
+                round_width,
+                stages_left,
+                branch_index
+            )
             self._general_stages_left -= 1
             if self._general_stages_left:
                 return
@@ -134,25 +148,56 @@ class GraphicsView(QGraphicsView):
         self._scene.addItem(horizontal_line_right)
 
         if stages_left != self._initial_stages_amount:
-            text = QGraphicsTextItem("Participant")
-            text.setScale(2)
-            text.setPos(round_x, (top + bottom) / 2 - 50)
-            self._scene.addItem(text)
+            self._print_name_and_score(
+                round_x,
+                (top + bottom) / 2,
+                round_width,
+                stages_left,
+                branch_index
+            )
 
         self.create_bracket(
             round_x - round_width / 2,
             round_y,
             round_width,
             round_height / 2,
-            stages_left - 1
+            stages_left - 1,
+            branch_index * 2
         )
         self.create_bracket(
             round_x - round_width / 2,
             round_y + round_height / 2,
             round_width,
             round_height / 2,
-            stages_left - 1
+            stages_left - 1,
+            branch_index * 2 + 1
         )
+
+    def _print_name_and_score(self,
+                              round_x: float,
+                              round_y: float,
+                              round_width: float,
+                              stages_left: int,
+                              branch_index: int
+                              ) -> None:
+        match = self._matches[stages_left][branch_index // 2]
+        if match.participant1.name == '???':
+            return
+
+        if branch_index % 2 == 0:
+            name = QGraphicsTextItem(match.participant1.name)
+            score = QGraphicsTextItem(str(match.score_participant1))
+        else:
+            name = QGraphicsTextItem(match.participant2.name)
+            score = QGraphicsTextItem(str(match.score_participant2))
+
+        name.setScale(1.75)
+        score.setScale(2)
+        name.setPos(round_x, round_y - 40)
+        score.setPos(round_x + round_width / 2 - 25 - score.boundingRect().width(), round_y - 45)
+
+        self._scene.addItem(name)
+        self._scene.addItem(score)
 
     def _scale_view(self, round_width: float) -> None:
         x_center = - (self._initial_stages_amount - 1) / 2 * round_width / 2

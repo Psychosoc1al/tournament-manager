@@ -60,7 +60,7 @@ class AddEditPageController(QObject):
 
             new_line = QLineEdit(self._view)
             new_line.setPlaceholderText(f'Participant {i + 1}')
-            new_line.setMaxLength(15)
+            new_line.setMaxLength(10)
 
             list_item.setSizeHint(new_line.sizeHint())
             self._view.participants_inputs_list.setItemWidget(list_item, new_line)
