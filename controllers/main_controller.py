@@ -1,14 +1,14 @@
 import math
 from datetime import date
 
-from add_edit_page_controller import AddEditPageController
-from add_edit_page_view import AddEditPageView
-from main_page import MainPage
-from main_page_view import MainPageView
-from participant import Participant
-from tournament import Tournament
-from tournament_page_controller import TournamentPageController
-from tournament_page_view import TournamentPageView
+from controllers.add_edit_page_controller import AddEditPageController
+from views.add_edit_page_view import AddEditPageView
+from Model.main_page import MainPage
+from views.main_page_view import MainPageView
+from Model.participant import Participant
+from Model.tournament import Tournament
+from controllers.tournament_page_controller import TournamentPageController
+from views.tournament_page_view import TournamentPageView
 
 
 class MainController:

@@ -1,5 +1,5 @@
-from tournament import Tournament
-from tournament_page_view import TournamentPageView
+from Model.tournament import Tournament
+from views.tournament_page_view import TournamentPageView
 
 
 class TournamentPageController:

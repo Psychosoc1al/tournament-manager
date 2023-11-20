@@ -1,8 +1,8 @@
 from datetime import date
 from enum import Enum
 
-from bracket import Bracket, BracketType
-from participant import Participant
+from Model.bracket import Bracket, BracketType
+from Model.participant import Participant
 
 
 class TournamentType(str, Enum):
@@ -113,9 +113,51 @@ class Tournament:
             self.brackets[0].update_result(stage, match_number_stage, result)
             if self.tournament_type == TournamentType.DOUBLE:
                 self.brackets[1].take_losers(self.brackets[0].matches[stage][match_number_stage])
+                self.brackets[1].create_final(self.brackets[0].take_winner())
 
-        match = self.brackets[0].matches[-1][0]
+        if self.tournament_type == TournamentType.DOUBLE:
+            match = self.brackets[1].matches[-1][0]
+        else:
+            match = self.brackets[0].matches[-1][0]
+
         if match.score_participant1 > match.score_participant2:
             self.winner = match.participant1
         elif match.score_participant1 < match.score_participant2:
             self.winner = match.participant2
+
+
+if __name__ == '__main__':
+    tournament = Tournament(
+        name="Test",
+        sport="Test",
+        tournament_type=TournamentType.DOUBLE,
+        tour_date=date.today(),
+        participants=[Participant(f"Test{i}") for i in range(1, 9)],
+    )
+    bracket0 = tournament.brackets[0]
+    bracket1 = tournament.brackets[1]
+
+    tournament.update_result(0, 0, (1, 0), BracketType.UPPER)
+    tournament.update_result(0, 1, (1, 0), BracketType.UPPER)
+    tournament.update_result(0, 2, (1, 0), BracketType.UPPER)
+    tournament.update_result(0, 3, (1, 0), BracketType.UPPER)
+    tournament.update_result(1, 0, (1, 0), BracketType.UPPER)
+    tournament.update_result(1, 1, (1, 0), BracketType.UPPER)
+    tournament.update_result(2, 0, (1, 0), BracketType.UPPER)
+
+    tournament.update_result(0, 0, (1, 0), BracketType.LOWER)
+    tournament.update_result(0, 1, (1, 0), BracketType.LOWER)
+    tournament.update_result(1, 0, (1, 0), BracketType.LOWER)
+    tournament.update_result(1, 1, (1, 0), BracketType.LOWER)
+    tournament.update_result(2, 0, (1, 0), BracketType.LOWER)
+    tournament.update_result(3, 0, (1, 0), BracketType.LOWER)
+    tournament.update_result(4, 0, (1, 0), BracketType.LOWER)
+
+
+    print(*[[(bracket0.matches[i][j].participant1.name, bracket0.matches[i][j].participant2.name) for j in
+             range(len(bracket0.matches[i]))] for i in range(len(bracket0.matches))], sep='\n')
+    print()
+    print(*[[(bracket1.matches[i][j].participant1.name, bracket1.matches[i][j].participant2.name) for j in
+             range(len(bracket1.matches[i]))] for i in range(len(bracket1.matches))], sep='\n')
+    print()
+    print(tournament.winner)
