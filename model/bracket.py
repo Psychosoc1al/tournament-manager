@@ -70,7 +70,7 @@ class Bracket:
         else:
             raise ValueError
 
-    def update_result(self, stage: int, match_number_stage: int, result: (int, int)) -> None:
+    def update_result(self, stage: int, match_number_stage: int, result: tuple[int, int]) -> None:
         self.matches[stage][match_number_stage].score_participant1 = result[0]
         self.matches[stage][match_number_stage].score_participant2 = result[1]
         if result[0] > result[1]:

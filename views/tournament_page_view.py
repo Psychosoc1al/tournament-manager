@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt, QRectF, pyqtSignal
-from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent, QMouseEvent, QBrush, QPainterPath
+from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent, QBrush
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
-    QHBoxLayout, QGraphicsTextItem, QGraphicsRectItem, QGraphicsItem, QGraphicsObject, QGraphicsSceneMouseEvent
+    QHBoxLayout, QGraphicsTextItem, QGraphicsObject
 
 from model.match import Match
 
@@ -15,6 +15,7 @@ class TournamentPageView(QWidget):
 
     def __init__(self, parent: QWidget, stages_amount: int, matches: list[list[Match]]) -> None:
         super().__init__(parent)
+        self._stages_amount = stages_amount
 
         main_layout = QVBoxLayout(self)
         self.setLayout(main_layout)
@@ -40,6 +41,18 @@ class TournamentPageView(QWidget):
         )
 
         self.show()
+
+    def redraw(self) -> None:
+        self.graphics_view.scene().clear()
+
+        self.graphics_view.create_bracket(
+            self._round_x,
+            self._round_y,
+            self._round_width,
+            self._round_height,
+            self._stages_amount,
+            0
+        )
 
     def _create_info_widget(self) -> None:
         info_layout = QHBoxLayout(self._info_widget)
@@ -190,7 +203,7 @@ class GraphicsView(QGraphicsView):
                               round_height: float = 0
                               ) -> None:
         match = self._matches[stages_left][branch_index // 2]
-        if match.participant1.name == '???':
+        if match.participant1.name == '???' and match.participant2.name == '???':
             return
 
         if branch_index % 2 == 0:
@@ -259,10 +272,10 @@ class RectangleObject(QGraphicsObject):
         self._stage = stage
         self._match_number = match_number
 
-        self.setOpacity(0)
+        self.setOpacity(0.1)
 
     def paint(self, painter, options, widget=None):
-        painter.setBrush(QBrush(QColor(100, 100, 200)))
+        painter.setBrush(QBrush(QColor(100, 100, 100)))
         painter.drawRect(self._x, self._y, self._width, self._height)
 
     def boundingRect(self):

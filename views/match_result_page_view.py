@@ -10,6 +10,8 @@ class MatchResultPageView(QDialog):
     def __init__(self, parent: QMainWindow, match: Match) -> None:
         super().__init__(parent)
         self.setMinimumSize(250, 150)
+        self.setWindowTitle('Match result')
+        self.setModal(True)
 
         main_layout = QVBoxLayout(self)
         self.setLayout(main_layout)
