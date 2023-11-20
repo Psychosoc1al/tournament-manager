@@ -1,6 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QIntValidator
-from PyQt6.QtWidgets import QDialog, QMainWindow, QLabel, QVBoxLayout, QWidget, QHBoxLayout, QLineEdit, QDoubleSpinBox, \
+from PyQt6.QtWidgets import QDialog, QMainWindow, QLabel, QVBoxLayout, QWidget, QHBoxLayout, QDoubleSpinBox, \
     QPushButton
 
 from model.match import Match
@@ -9,7 +8,7 @@ from model.match import Match
 class MatchResultPageView(QDialog):
     def __init__(self, parent: QMainWindow, match: Match) -> None:
         super().__init__(parent)
-        self.setMinimumSize(250, 150)
+        self.setMinimumSize(320, 150)
         self.setWindowTitle('Match result')
         self.setModal(True)
 
@@ -19,10 +18,10 @@ class MatchResultPageView(QDialog):
         first_widget = QWidget(self)
         first_layout = QHBoxLayout(first_widget)
         first_label = QLabel(match.participant1.name + ' score:', first_widget)
-        first_label.setStyleSheet('margin-right: 20px')
         first_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.first_score = QDoubleSpinBox(first_widget)
+        self.first_score.setValue(match.score_participant1)
         self.first_score.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.first_score.setMaximumWidth(100)
         self.first_score.setDecimals(0)
@@ -35,10 +34,10 @@ class MatchResultPageView(QDialog):
         second_widget = QWidget(self)
         second_layout = QHBoxLayout(second_widget)
         second_label = QLabel(match.participant2.name + ' score:', second_widget)
-        second_label.setStyleSheet('margin-right: 20px')
         second_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.second_score = QDoubleSpinBox(second_widget)
+        self.second_score.setValue(match.score_participant2)
         self.second_score.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.second_score.setMaximumWidth(100)
         self.second_score.setDecimals(0)

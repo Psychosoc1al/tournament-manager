@@ -83,6 +83,7 @@ class GraphicsView(QGraphicsView):
         super().__init__(parent)
         self._initial_stages_amount = stages_amount
         self._matches = matches
+        self._is_final = False
 
         self._pen = QPen(QColor(175, 177, 179), 2)
         self._scene = QGraphicsScene(self)
@@ -126,14 +127,14 @@ class GraphicsView(QGraphicsView):
         bottom = round_y + round_height / 4 * 3
 
         if stages_left == 0:
-            horizontal_line_right = QGraphicsLineItem(
+            horizontal_line = QGraphicsLineItem(
                 round_x,
                 (top + bottom) / 2,
                 round_x + round_width / 2,
                 (top + bottom) / 2
             )
-            horizontal_line_right.setPen(self._pen)
-            self._scene.addItem(horizontal_line_right)
+            horizontal_line.setPen(self._pen)
+            self._scene.addItem(horizontal_line)
 
             self._print_name_and_score(
                 round_x,
@@ -143,6 +144,7 @@ class GraphicsView(QGraphicsView):
                 branch_index,
                 round_height
             )
+
             self._general_stages_left -= 1
             if self._general_stages_left:
                 return
@@ -159,14 +161,14 @@ class GraphicsView(QGraphicsView):
         vertical_line.setPen(self._pen)
         self._scene.addItem(vertical_line)
 
-        horizontal_line_right = QGraphicsLineItem(
+        horizontal_line = QGraphicsLineItem(
             round_x,
             (top + bottom) / 2,
             round_x + round_width / 2,
             (top + bottom) / 2
         )
-        horizontal_line_right.setPen(self._pen)
-        self._scene.addItem(horizontal_line_right)
+        horizontal_line.setPen(self._pen)
+        self._scene.addItem(horizontal_line)
 
         if stages_left != self._initial_stages_amount:
             self._print_name_and_score(
@@ -174,8 +176,18 @@ class GraphicsView(QGraphicsView):
                 (top + bottom) / 2,
                 round_width,
                 stages_left,
-                branch_index
+                branch_index,
+                round_height
             )
+        elif self._is_final:
+            match = self._matches[stages_left - 1][0]
+            winner = match.participant1 if match.score_participant1 > match.score_participant2 else match.participant2
+
+            name = QGraphicsTextItem(winner.name)
+            name.setPos(round_width / 2, -25)
+            name.setScale(1.75)
+
+            self._scene.addItem(name)
 
         self.create_bracket(
             round_x - round_width / 2,
@@ -207,7 +219,7 @@ class GraphicsView(QGraphicsView):
             return
 
         if branch_index % 2 == 0:
-            name = QGraphicsTextItem(match.participant1.name, )
+            name = QGraphicsTextItem(match.participant1.name)
             score = QGraphicsTextItem(str(match.score_participant1))
         else:
             name = QGraphicsTextItem(match.participant2.name)
@@ -217,13 +229,12 @@ class GraphicsView(QGraphicsView):
         score.setScale(2)
         name.setPos(round_x, round_y - 40)
         score.setPos(round_x + round_width / 2 - 25 - score.boundingRect().width(), round_y - 45)
-        name.setZValue(-1)
-        score.setZValue(-1)
 
         self._scene.addItem(name)
         self._scene.addItem(score)
 
-        if branch_index % 2 == 1:
+        if match.participant1.name != '???' and match.participant2.name != '???' and branch_index % 2 == 1:
+            # if not (match.score_participant1 > 0 or match.score_participant2 > 0):
             background_rect = RectangleObject(
                 round_x,
                 round_y,
@@ -233,6 +244,9 @@ class GraphicsView(QGraphicsView):
                 branch_index // 2
             )
             self._scene.addItem(background_rect)
+
+            if self._initial_stages_amount - stages_left == 1:
+                self._is_final = True
 
     def _scale_view(self, round_width: float) -> None:
         x_center = - (self._initial_stages_amount - 1) / 2 * round_width / 2
@@ -272,7 +286,7 @@ class RectangleObject(QGraphicsObject):
         self._stage = stage
         self._match_number = match_number
 
-        self.setOpacity(0.1)
+        self.setOpacity(0.05)
 
     def paint(self, painter, options, widget=None):
         painter.setBrush(QBrush(QColor(100, 100, 100)))
