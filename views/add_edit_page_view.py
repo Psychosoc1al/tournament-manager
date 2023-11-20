@@ -13,11 +13,9 @@ class AddEditPageView(QDialog):
     def _create_add_edit_form(self) -> None:
         name_label = QLabel('Tournament name:')
         self.name_edit = QLineEdit()
-        self.name_edit.setMaxLength(20)
 
         sport_label = QLabel('Sport type:')
         self.sport_edit = QLineEdit()
-        self.sport_edit.setMaxLength(20)
 
         date_label = QLabel('Date:')
         self.date_edit = QDateEdit()
