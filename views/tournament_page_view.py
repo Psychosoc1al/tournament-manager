@@ -287,7 +287,7 @@ class RectangleObject(QGraphicsObject):
         self._stage = stage
         self._match_number = match_number
 
-        self.setOpacity(0.05)
+        self.setOpacity(0.2)
 
     def paint(self, painter, options, widget=None):
         painter.setBrush(QBrush(QColor(100, 100, 100)))

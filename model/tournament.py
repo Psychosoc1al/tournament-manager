@@ -6,8 +6,8 @@ from model.participant import Participant
 
 
 class TournamentType(str, Enum):
-    SINGLE = "Single elimination"
-    DOUBLE = "Double elimination"
+    SINGLE = 'Single elimination'
+    DOUBLE = 'Double elimination'
 
 
 class Tournament:
@@ -153,11 +153,11 @@ class Tournament:
 
 if __name__ == '__main__':
     tournament = Tournament(
-        name="Test",
-        sport="Test",
+        name='Test',
+        sport='Test',
         tournament_type=TournamentType.DOUBLE,
         tour_date=date.today(),
-        participants=[Participant(f"Test{i}") for i in range(1, 9)],
+        participants=[Participant(f'Test{i}') for i in range(1, 9)],
     )
     bracket0 = tournament.brackets[0]
     bracket1 = tournament.brackets[1]

@@ -47,15 +47,15 @@ class Bracket:
                 self.matches.append([])
                 for i in range(size // 2):
                     self.matches[-1].append(Match(len(self.matches) - 1, i, Participant(), Participant()))
-                    if self.matches[-2][2 * i].participant2.name == "???" and \
-                            self.matches[-2][2 * i].participant1.name != "???":
+                    if self.matches[-2][2 * i].participant2.name == '???' and \
+                            self.matches[-2][2 * i].participant1.name != '???':
                         self.matches[-1][-1].participant1 = self.matches[-2][2 * i].participant1
-                    if self.matches[-2][2 * i + 1].participant2.name == "???" and \
-                            self.matches[-2][2 * i + 1].participant1.name != "???":
+                    if self.matches[-2][2 * i + 1].participant2.name == '???' and \
+                            self.matches[-2][2 * i + 1].participant1.name != '???':
                         self.matches[-1][-1].participant2 = self.matches[-2][2 * i + 1].participant1
                 size //= 2
             for match in self.matches[0]:
-                if match.participant2.name == "???":
+                if match.participant2.name == '???':
                     self.update_result(match.stage, match.match_number_stage, (0, -1))
         elif self.bracket_type == BracketType.LOWER:
             size //= 4
