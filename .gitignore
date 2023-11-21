@@ -1,5 +1,10 @@
-*
+/*
 
 !.gitignore
 !README.md
+!data.json
 !main.py
+!model/*.py
+!views/*.py
+!controllers/*.py
+!icon/*
