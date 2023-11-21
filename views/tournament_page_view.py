@@ -1,7 +1,16 @@
 from PyQt6.QtCore import Qt, QRectF, pyqtSignal
 from PyQt6.QtGui import QPen, QColor, QPainter, QWheelEvent, QBrush
-from PyQt6.QtWidgets import QVBoxLayout, QWidget, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
-    QHBoxLayout, QGraphicsTextItem, QGraphicsObject
+from PyQt6.QtWidgets import (
+    QVBoxLayout,
+    QWidget,
+    QPushButton,
+    QGraphicsScene,
+    QGraphicsView,
+    QGraphicsLineItem,
+    QHBoxLayout,
+    QGraphicsTextItem,
+    QGraphicsObject,
+)
 
 from model.match import Match
 
@@ -11,16 +20,18 @@ class TournamentPageView(QWidget):
     _round_width = 500
     _round_height = _scene_height
     _round_x = 0
-    _round_y = - _scene_height / 2
+    _round_y = -_scene_height / 2
 
-    def __init__(self, parent: QWidget, stages_amount: int, matches: list[list[Match]]) -> None:
+    def __init__(
+        self, parent: QWidget, stages_amount: int, matches: list[list[Match]]
+    ) -> None:
         super().__init__(parent)
         self._stages_amount = stages_amount
 
         main_layout = QVBoxLayout(self)
         self.setLayout(main_layout)
 
-        self.back_button = QPushButton('Back to main menu', self)
+        self.back_button = QPushButton("Back to main menu", self)
         main_layout.addWidget(self.back_button)
 
         self._info_widget = QWidget(self)
@@ -37,7 +48,7 @@ class TournamentPageView(QWidget):
             self._round_width,
             self._round_height,
             stages_amount,
-            0
+            0,
         )
 
         self.show()
@@ -51,7 +62,7 @@ class TournamentPageView(QWidget):
             self._round_width,
             self._round_height,
             self._stages_amount,
-            0
+            0,
         )
 
     def _create_info_widget(self) -> None:
@@ -71,15 +82,19 @@ class TournamentPageView(QWidget):
         self._participants_amount_label = InfoButton(self._info_widget)
         info_layout.addWidget(self._participants_amount_label)
 
-    def set_info_data(self, name: str, sport: str, date: str, participants_amount: str) -> None:
-        self._name_label.setText('Name: ' + name)
-        self._sport_label.setText('Sport: ' + sport)
-        self._date_label.setText('Date: ' + date)
-        self._participants_amount_label.setText('Participants: ' + participants_amount)
+    def set_info_data(
+        self, name: str, sport: str, date: str, participants_amount: str
+    ) -> None:
+        self._name_label.setText("Name: " + name)
+        self._sport_label.setText("Sport: " + sport)
+        self._date_label.setText("Date: " + date)
+        self._participants_amount_label.setText("Participants: " + participants_amount)
 
 
 class GraphicsView(QGraphicsView):
-    def __init__(self, parent: QWidget, stages_amount: int, matches: list[list[Match]]) -> None:
+    def __init__(
+        self, parent: QWidget, stages_amount: int, matches: list[list[Match]]
+    ) -> None:
         super().__init__(parent)
         self._initial_stages_amount = stages_amount
         self._matches = matches
@@ -102,7 +117,9 @@ class GraphicsView(QGraphicsView):
                 self.scale(1.0 / scaleFactor, 1.0 / scaleFactor)
 
         elif event.modifiers() & Qt.KeyboardModifier.ShiftModifier:
-            self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() + event.angleDelta().y())
+            self.horizontalScrollBar().setValue(
+                self.horizontalScrollBar().value() + event.angleDelta().y()
+            )
 
         else:
             super().wheelEvent(event)
@@ -115,13 +132,13 @@ class GraphicsView(QGraphicsView):
                     item.handle_click()
 
     def create_bracket(
-            self,
-            round_x: float,
-            round_y: float,
-            round_width: float,
-            round_height: float,
-            stages_left: int,
-            branch_index: int
+        self,
+        round_x: float,
+        round_y: float,
+        round_width: float,
+        round_height: float,
+        stages_left: int,
+        branch_index: int,
     ) -> None:
         top = round_y + round_height / 4
         bottom = round_y + round_height / 4 * 3
@@ -131,7 +148,7 @@ class GraphicsView(QGraphicsView):
                 round_x,
                 (top + bottom) / 2,
                 round_x + round_width / 2,
-                (top + bottom) / 2
+                (top + bottom) / 2,
             )
             horizontal_line.setPen(self._pen)
             self._scene.addItem(horizontal_line)
@@ -142,7 +159,7 @@ class GraphicsView(QGraphicsView):
                 round_width,
                 stages_left,
                 branch_index,
-                round_height
+                round_height,
             )
 
             self._general_stages_left -= 1
@@ -152,20 +169,12 @@ class GraphicsView(QGraphicsView):
             self._scale_view(round_width)
             return
 
-        vertical_line = QGraphicsLineItem(
-            round_x,
-            top,
-            round_x,
-            bottom
-        )
+        vertical_line = QGraphicsLineItem(round_x, top, round_x, bottom)
         vertical_line.setPen(self._pen)
         self._scene.addItem(vertical_line)
 
         horizontal_line = QGraphicsLineItem(
-            round_x,
-            (top + bottom) / 2,
-            round_x + round_width / 2,
-            (top + bottom) / 2
+            round_x, (top + bottom) / 2, round_x + round_width / 2, (top + bottom) / 2
         )
         horizontal_line.setPen(self._pen)
         self._scene.addItem(horizontal_line)
@@ -177,7 +186,7 @@ class GraphicsView(QGraphicsView):
                 round_width,
                 stages_left,
                 branch_index,
-                round_height
+                round_height,
             )
 
         self.create_bracket(
@@ -186,7 +195,7 @@ class GraphicsView(QGraphicsView):
             round_width,
             round_height / 2,
             stages_left - 1,
-            branch_index * 2
+            branch_index * 2,
         )
         self.create_bracket(
             round_x - round_width / 2,
@@ -194,19 +203,20 @@ class GraphicsView(QGraphicsView):
             round_width,
             round_height / 2,
             stages_left - 1,
-            branch_index * 2 + 1
+            branch_index * 2 + 1,
         )
 
-    def _print_name_and_score(self,
-                              round_x: float,
-                              round_y: float,
-                              round_width: float,
-                              stages_left: int,
-                              branch_index: int,
-                              round_height: float = 0
-                              ) -> None:
+    def _print_name_and_score(
+        self,
+        round_x: float,
+        round_y: float,
+        round_width: float,
+        stages_left: int,
+        branch_index: int,
+        round_height: float = 0,
+    ) -> None:
         match = self._matches[stages_left][branch_index // 2]
-        if match.participant1.name == '???' and match.participant2.name == '???':
+        if match.participant1.name == "???" and match.participant2.name == "???":
             return
 
         if branch_index % 2 == 0:
@@ -219,12 +229,18 @@ class GraphicsView(QGraphicsView):
         name.setScale(1.75)
         score.setScale(2)
         name.setPos(round_x, round_y - 40)
-        score.setPos(round_x + round_width / 2 - 25 - score.boundingRect().width(), round_y - 45)
+        score.setPos(
+            round_x + round_width / 2 - 25 - score.boundingRect().width(), round_y - 45
+        )
 
         self._scene.addItem(name)
         self._scene.addItem(score)
 
-        if match.participant1.name != '???' and match.participant2.name != '???' and branch_index % 2 == 1:
+        if (
+            match.participant1.name != "???"
+            and match.participant2.name != "???"
+            and branch_index % 2 == 1
+        ):
             # if not (match.score_participant1 > 0 or match.score_participant2 > 0):
             background_rect = RectangleObject(
                 round_x,
@@ -232,7 +248,7 @@ class GraphicsView(QGraphicsView):
                 round_width / 2,
                 -(round_height + 40),
                 stages_left,
-                branch_index // 2
+                branch_index // 2,
             )
             self._scene.addItem(background_rect)
 
@@ -241,7 +257,11 @@ class GraphicsView(QGraphicsView):
 
     def _print_winner(self, round_width: float) -> None:
         match = self._matches[-1][0]
-        winner = match.participant1 if match.score_participant1 > match.score_participant2 else match.participant2
+        winner = (
+            match.participant1
+            if match.score_participant1 > match.score_participant2
+            else match.participant2
+        )
 
         name = QGraphicsTextItem(winner.name)
         name.setPos(round_width / 2, -25)
@@ -250,13 +270,13 @@ class GraphicsView(QGraphicsView):
         self._scene.addItem(name)
 
     def _scale_view(self, round_width: float) -> None:
-        x_center = - (self._initial_stages_amount - 1) / 2 * round_width / 2
+        x_center = -(self._initial_stages_amount - 1) / 2 * round_width / 2
 
         horizontal_aligning_line = QGraphicsLineItem(
             x_center - self._scene.width() * 3 / 4,
             0,
             x_center + self._scene.width() * 3 / 4,
-            0
+            0,
         )
         horizontal_aligning_line.setOpacity(0)
         self._scene.addItem(horizontal_aligning_line)
@@ -265,19 +285,30 @@ class GraphicsView(QGraphicsView):
             x_center,
             -self._scene.height() * 3 / 4,
             x_center,
-            self._scene.height() * 3 / 4
+            self._scene.height() * 3 / 4,
         )
         vertical_aligning_line.setOpacity(0)
         self._scene.addItem(vertical_aligning_line)
 
-        self.scale(1 / (self._initial_stages_amount * 1.5), 1 / (self._initial_stages_amount * 1.5))
+        self.scale(
+            1 / (self._initial_stages_amount * 1.5),
+            1 / (self._initial_stages_amount * 1.5),
+        )
         self.scale(self._initial_stages_amount, self._initial_stages_amount)
 
 
 class RectangleObject(QGraphicsObject):
     clicked_signal = pyqtSignal(int, int)
 
-    def __init__(self, x: float, y: float, width: float, height: float, stage: int, match_number: int):
+    def __init__(
+        self,
+        x: float,
+        y: float,
+        width: float,
+        height: float,
+        stage: int,
+        match_number: int,
+    ):
         super().__init__()
         self._x = int(x)
         self._y = int(y)
@@ -305,7 +336,7 @@ class InfoButton(QPushButton):
         super().__init__(parent)
         self._is_enabled = True
         self.setDown(True)
-        self.setStyleSheet('font-size: 14px')
+        self.setStyleSheet("font-size: 14px")
 
     def event(self, event):
         self.setDown(True)

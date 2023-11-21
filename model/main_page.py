@@ -54,7 +54,10 @@ class TournamentSchema(Schema):
             fields.List(
                 fields.Tuple(
                     (
-                        fields.Integer(), fields.Integer(), fields.Integer(), fields.Integer()
+                        fields.Integer(),
+                        fields.Integer(),
+                        fields.Integer(),
+                        fields.Integer(),
                     )
                 )
             )
@@ -67,7 +70,7 @@ class TournamentSchema(Schema):
 
 
 class MainPage:
-    _filename = 'data.json'
+    _filename = "data.json"
     _schema = TournamentSchema(many=True)
 
     def __init__(self) -> None:
@@ -75,19 +78,17 @@ class MainPage:
         self.load_data()
 
     def load_data(self) -> None:
-        with open(self._filename, 'r', encoding='utf-8') as f:
+        with open(self._filename, "r", encoding="utf-8") as f:
             self._tournaments = self._schema.loads(f.read())
 
     def save_data(self) -> None:
         for tournament in self._tournaments:
             tournament.save_results()
 
-        with open(self._filename, 'w', encoding='utf-8') as f:
+        with open(self._filename, "w", encoding="utf-8") as f:
             f.write(
                 json.dumps(
-                    self._schema.dump(self._tournaments),
-                    ensure_ascii=False,
-                    indent=4
+                    self._schema.dump(self._tournaments), ensure_ascii=False, indent=4
                 )
             )
 
@@ -95,12 +96,13 @@ class MainPage:
         self._tournaments.append(tournament)
         self.save_data()
 
-    def update_tournament(self,
-                          tournament: Tournament,
-                          name: str,
-                          sport: str,
-                          start_date: date,
-                          ) -> None:
+    def update_tournament(
+        self,
+        tournament: Tournament,
+        name: str,
+        sport: str,
+        start_date: date,
+    ) -> None:
         tournament_id = self._tournaments.index(tournament)
         self._tournaments[tournament_id].name = name
         self._tournaments[tournament_id].sport = sport

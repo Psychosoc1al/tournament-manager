@@ -1,5 +1,14 @@
-from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QDateEdit, QListWidget, QDialog, \
-    QMainWindow
+from PyQt6.QtWidgets import (
+    QVBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QComboBox,
+    QDateEdit,
+    QListWidget,
+    QDialog,
+    QMainWindow,
+)
 
 
 class AddEditPageView(QDialog):
@@ -11,29 +20,29 @@ class AddEditPageView(QDialog):
         self.show()
 
     def _create_add_edit_form(self) -> None:
-        name_label = QLabel('Tournament name:')
+        name_label = QLabel("Tournament name:")
         self.name_edit = QLineEdit()
 
-        sport_label = QLabel('Sport type:')
+        sport_label = QLabel("Sport type:")
         self.sport_edit = QLineEdit()
 
-        date_label = QLabel('Date:')
+        date_label = QLabel("Date:")
         self.date_edit = QDateEdit()
 
-        format_label = QLabel('Tournament type:')
+        format_label = QLabel("Tournament type:")
         self.format_edit = QComboBox()
         # self.format_edit.addItems(['Single elimination', 'Double elimination'])
-        self.format_edit.addItems(['Single elimination'])
+        self.format_edit.addItems(["Single elimination"])
 
-        participants_label = QLabel('Participants amount:')
+        participants_label = QLabel("Participants amount:")
         self.participants_amount_choose = QComboBox()
-        self.participants_amount_choose.addItems(['4', '8', '16'])
+        self.participants_amount_choose.addItems(["4", "8", "16"])
 
-        participants_form_label = QLabel('Participants:')
+        participants_form_label = QLabel("Participants:")
         self.participants_inputs_list = QListWidget()
         self.participants_inputs_list.setSpacing(1)
 
-        self.save_button = QPushButton('Save')
+        self.save_button = QPushButton("Save")
         self.save_button.setDisabled(True)
 
         main_layout = QVBoxLayout(self)

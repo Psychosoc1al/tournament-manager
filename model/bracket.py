@@ -36,26 +36,45 @@ class Bracket:
         size = 2
         while size < start_size:
             size *= 2
-        if self.bracket_type == BracketType.UPPER or self.bracket_type == BracketType.SINGLE:
+        if (
+            self.bracket_type == BracketType.UPPER
+            or self.bracket_type == BracketType.SINGLE
+        ):
             self.matches.append([])
             for i in range(start_size - size // 2):
-                self.matches[0].append(Match(0, i, participants[2 * i], participants[2 * i + 1]))
+                self.matches[0].append(
+                    Match(0, i, participants[2 * i], participants[2 * i + 1])
+                )
             for i in range((start_size - size // 2) * 2, start_size):
-                self.matches[0].append(Match(0, i - (start_size - size // 2), participants[i], Participant()))
+                self.matches[0].append(
+                    Match(
+                        0, i - (start_size - size // 2), participants[i], Participant()
+                    )
+                )
             size //= 2
             while size > 1:
                 self.matches.append([])
                 for i in range(size // 2):
-                    self.matches[-1].append(Match(len(self.matches) - 1, i, Participant(), Participant()))
-                    if self.matches[-2][2 * i].participant2.name == '???' and \
-                            self.matches[-2][2 * i].participant1.name != '???':
-                        self.matches[-1][-1].participant1 = self.matches[-2][2 * i].participant1
-                    if self.matches[-2][2 * i + 1].participant2.name == '???' and \
-                            self.matches[-2][2 * i + 1].participant1.name != '???':
-                        self.matches[-1][-1].participant2 = self.matches[-2][2 * i + 1].participant1
+                    self.matches[-1].append(
+                        Match(len(self.matches) - 1, i, Participant(), Participant())
+                    )
+                    if (
+                        self.matches[-2][2 * i].participant2.name == "???"
+                        and self.matches[-2][2 * i].participant1.name != "???"
+                    ):
+                        self.matches[-1][-1].participant1 = self.matches[-2][
+                            2 * i
+                        ].participant1
+                    if (
+                        self.matches[-2][2 * i + 1].participant2.name == "???"
+                        and self.matches[-2][2 * i + 1].participant1.name != "???"
+                    ):
+                        self.matches[-1][-1].participant2 = self.matches[-2][
+                            2 * i + 1
+                        ].participant1
                 size //= 2
             for match in self.matches[0]:
-                if match.participant2.name == '???':
+                if match.participant2.name == "???":
                     self.update_result(match.stage, match.match_number_stage, (0, -1))
         elif self.bracket_type == BracketType.LOWER:
             size //= 4
@@ -64,13 +83,20 @@ class Bracket:
                     self.matches.append([])
                     for i in range(size):
                         self.matches[-1].append(
-                            Match(len(self.matches) - 1, i, Participant(), Participant()))
+                            Match(
+                                len(self.matches) - 1, i, Participant(), Participant()
+                            )
+                        )
                 size //= 2
-            self.matches.append([Match(len(self.matches) - 1, 0, Participant(), Participant())])
+            self.matches.append(
+                [Match(len(self.matches) - 1, 0, Participant(), Participant())]
+            )
         else:
             raise ValueError
 
-    def update_result(self, stage: int, match_number_stage: int, result: tuple[int, int]) -> None:
+    def update_result(
+        self, stage: int, match_number_stage: int, result: tuple[int, int]
+    ) -> None:
         self.matches[stage][match_number_stage].score_participant1 = result[0]
         self.matches[stage][match_number_stage].score_participant2 = result[1]
         if result[0] > result[1]:
@@ -78,17 +104,28 @@ class Bracket:
         else:
             winner = self.matches[stage][match_number_stage].participant2
         if stage < len(self.matches) - 1:
-            if self.bracket_type == BracketType.UPPER or self.bracket_type == BracketType.SINGLE:
+            if (
+                self.bracket_type == BracketType.UPPER
+                or self.bracket_type == BracketType.SINGLE
+            ):
                 if match_number_stage % 2 == 0:
-                    self.matches[stage + 1][match_number_stage // 2].participant1 = winner
+                    self.matches[stage + 1][
+                        match_number_stage // 2
+                    ].participant1 = winner
                 else:
-                    self.matches[stage + 1][match_number_stage // 2].participant2 = winner
+                    self.matches[stage + 1][
+                        match_number_stage // 2
+                    ].participant2 = winner
             elif self.bracket_type == BracketType.LOWER:
                 if stage % 2 != 0:
                     if match_number_stage % 2 == 0:
-                        self.matches[stage + 1][match_number_stage // 2].participant1 = winner
+                        self.matches[stage + 1][
+                            match_number_stage // 2
+                        ].participant1 = winner
                     else:
-                        self.matches[stage + 1][match_number_stage // 2].participant2 = winner
+                        self.matches[stage + 1][
+                            match_number_stage // 2
+                        ].participant2 = winner
                 else:
                     self.matches[stage + 1][match_number_stage].participant2 = winner
 
@@ -116,9 +153,15 @@ class Bracket:
             raise ValueError
 
     def take_winner(self) -> Participant:
-        if self.matches[-1][0].score_participant1 > self.matches[-1][0].score_participant2:
+        if (
+            self.matches[-1][0].score_participant1
+            > self.matches[-1][0].score_participant2
+        ):
             return self.matches[-1][0].participant1
-        elif self.matches[-1][0].score_participant1 < self.matches[-1][0].score_participant2:
+        elif (
+            self.matches[-1][0].score_participant1
+            < self.matches[-1][0].score_participant2
+        ):
             return self.matches[-1][0].participant2
         else:
             return Participant()
