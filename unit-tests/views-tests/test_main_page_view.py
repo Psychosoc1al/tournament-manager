@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QPushButton
+from PyQt6.QtWidgets import QPushButton, QApplication
 from pytestqt.qtbot import QtBot  # install as pytest-qt
 
 from model.tournament import Tournament
@@ -61,15 +61,28 @@ class TestMainPageView:
 
         main_window.show_tournaments(tournaments_list)
 
-        for elem in tournaments_list:
-            print(elem.name, id(elem))
-
         with qtbot.waitActive(main_window):
             qtbot.mouseClick(
                 main_window.add_tournament_button, Qt.MouseButton.LeftButton
             )
 
         assert main_window.tournaments_list_widget.count() == tournaments_amount
+
+    def test_window_resizing(self, qtbot: QtBot, main_window: MainPageView):
+        resizing_coefficient = 1.1
+        screen_geometry = QApplication.primaryScreen().availableGeometry()
+        screen_width, screen_height = screen_geometry.width(), screen_geometry.height()
+
+        with qtbot.waitActive(main_window):
+            main_window.resize_screen_percent_and_center(
+                resizing_coefficient, resizing_coefficient
+            )
+
+        new_size = main_window.size()
+
+        assert new_size.height() == max(
+            600, int(screen_height * resizing_coefficient)
+        ) and new_size.width() == max(800, int(screen_width * resizing_coefficient))
 
     @pytest.fixture(autouse=True)
     def main_window(self, qtbot: QtBot):
