@@ -1,5 +1,3 @@
-import time
-
 import pytest
 from pytestqt.qtbot import QtBot  # install as pytest-qt
 
@@ -8,12 +6,12 @@ from views.add_edit_page_view import AddEditPageView
 
 class TestAddEditPageView:
     def test_save_button_inactive_by_default(
-            self, qtbot: QtBot, main_window: AddEditPageView
+        self, qtbot: QtBot, main_window: AddEditPageView
     ):
         with qtbot.waitExposed(main_window):
             assert not main_window.save_button.isEnabled()
 
-    def test_create_participants_form(app, qtbot: QtBot, main_window: AddEditPageView):
+    def test_create_participants_form(self, qtbot: QtBot, main_window: AddEditPageView):
         main_window.participants_amount_choose.setCurrentText("4")
 
         participants_qlines = main_window.create_participants_form()

@@ -1,11 +1,11 @@
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import Mock
 
 import pytest
 from PyQt6.QtWidgets import QPushButton
 from pytestqt.qtbot import QtBot
 
-from match import Match
-from tournament_page_view import TournamentPageView
+from model.match import Match
+from views.tournament_page_view import TournamentPageView
 
 
 class TestTournamentPageView:
@@ -34,8 +34,14 @@ class TestTournamentPageView:
             assert tournament_page_view._name_label.text() == "Name: " + name
             assert tournament_page_view._sport_label.text() == "Sport: " + sport
             assert tournament_page_view._date_label.text() == "Date: " + date
-            assert tournament_page_view._participants_amount_label.text() == "Participants: " + participants_amount
+            assert (
+                tournament_page_view._participants_amount_label.text()
+                == "Participants: " + participants_amount
+            )
 
     def test_back_to_main_menu(self, tournament_page_view, qtbot):
         with qtbot.waitExposed(tournament_page_view):
-            assert tournament_page_view.findChild(QPushButton).text() == "Back to main menu"
+            assert (
+                tournament_page_view.findChild(QPushButton).text()
+                == "Back to main menu"
+            )

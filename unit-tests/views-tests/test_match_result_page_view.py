@@ -1,11 +1,11 @@
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 
 import pytest
 from PyQt6.QtWidgets import QMainWindow
 from pytestqt.qtbot import QtBot
 
-from match import Match
-from match_result_page_view import MatchResultPageView
+from model.match import Match
+from views.match_result_page_view import MatchResultPageView
 
 
 class TestMatchResultPageView:
@@ -26,29 +26,30 @@ class TestMatchResultPageView:
         window.close()
 
     def test_save_button_inactive_by_default(
-            self, qtbot: QtBot, match_result_page_view: MatchResultPageView
+        self, qtbot: QtBot, match_result_page_view: MatchResultPageView
     ):
         with qtbot.waitExposed(match_result_page_view):
             assert not match_result_page_view.save_button.isEnabled()
 
-    def test_change_score(self, qtbot: QtBot, match_result_page_view: MatchResultPageView):
-
+    def test_change_score(
+        self, qtbot: QtBot, match_result_page_view: MatchResultPageView
+    ):
         match_result_page_view.second_score.stepDown()
 
         with qtbot.waitExposed(match_result_page_view):
-            assert match_result_page_view.second_score.text() == '2'
+            assert match_result_page_view.second_score.text() == "2"
 
         match_result_page_view.second_score.stepUp()
 
         with qtbot.waitExposed(match_result_page_view):
-            assert match_result_page_view.second_score.text() == '3'
+            assert match_result_page_view.second_score.text() == "3"
 
         match_result_page_view.first_score.stepDown()
 
         with qtbot.waitExposed(match_result_page_view):
-            assert match_result_page_view.first_score.text() == '3'
+            assert match_result_page_view.first_score.text() == "3"
 
         match_result_page_view.first_score.stepUp()
 
         with qtbot.waitExposed(match_result_page_view):
-            assert match_result_page_view.first_score.text() == '4'
+            assert match_result_page_view.first_score.text() == "4"
