@@ -73,7 +73,8 @@ class MainPage:
     _filename = "data.json"
     _schema = TournamentSchema(many=True)
 
-    def __init__(self) -> None:
+    def __init__(self, filename: str = _filename) -> None:
+        self._filename = filename
         self._tournaments = []
         self.load_data()
 

@@ -76,9 +76,9 @@ class MainController:
 
     def _go_to_tournament(self, tournament: Tournament) -> None:
         tournament_view = TournamentPageView(
-            self._view.central_stacked_widget,
             int(math.log2(len(tournament.participants))),
             tournament.brackets[0].matches,
+            self._view.central_stacked_widget,
         )
         TournamentPageController(tournament, tournament_view, self)
 

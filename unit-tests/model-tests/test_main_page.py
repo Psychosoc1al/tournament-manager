@@ -15,8 +15,8 @@ class TestMainPage:
         return tournament_mock
 
     @pytest.fixture
-    def main_page(self):
-        main_page = MainPage()
+    def main_page(self, json_file_path):
+        main_page = MainPage(json_file_path)
         return main_page
 
     def test_get_tournaments(self, main_page, mock_tournament):

@@ -34,15 +34,24 @@ class TestTournamentPageView:
             assert tournament_page_view._name_label.text() == "Name: " + name
             assert tournament_page_view._sport_label.text() == "Sport: " + sport
             assert tournament_page_view._date_label.text() == "Date: " + date
-            assert tournament_page_view._participants_amount_label.text() == "Participants: " + participants_amount
+            assert (
+                tournament_page_view._participants_amount_label.text()
+                == "Participants: " + participants_amount
+            )
 
     def test_back_to_main_menu(self, tournament_page_view, qtbot):
         with qtbot.waitExposed(tournament_page_view):
-            assert tournament_page_view.findChild(QPushButton).text() == "Back to main menu"
+            assert (
+                tournament_page_view.findChild(QPushButton).text()
+                == "Back to main menu"
+            )
 
     def test_redraw(self, tournament_page_view, qtbot, monkeypatch):
         mock_create_bracket = Mock()
-        monkeypatch.setattr("tournament_page_view.GraphicsView.create_bracket", mock_create_bracket)
+        monkeypatch.setattr(
+            "views.tournament_page_view.GraphicsView.create_bracket",
+            mock_create_bracket,
+        )
         tournament_page_view.redraw()
 
         mock_create_bracket.assert_called_once()
