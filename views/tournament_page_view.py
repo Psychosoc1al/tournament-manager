@@ -23,7 +23,7 @@ class TournamentPageView(QWidget):
     _round_y = -_scene_height / 2
 
     def __init__(
-        self, parent: QWidget, stages_amount: int, matches: list[list[Match]]
+        self, stages_amount: int, matches: list[list[Match]], parent: QWidget = None
     ) -> None:
         super().__init__(parent)
         self._stages_amount = stages_amount
