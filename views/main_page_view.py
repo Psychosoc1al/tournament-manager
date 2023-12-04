@@ -1,4 +1,4 @@
-import qdarktheme  # install as pyqtdarktheme
+#import qdarktheme  # install as pyqtdarktheme
 from PyQt6.QtWidgets import (
     QMainWindow,
     QListWidget,
@@ -25,7 +25,7 @@ class MainPageView(QMainWindow):
 
         self._create_main_menu_widget()
 
-        qdarktheme.setup_theme(custom_colors={"primary": "#d79df1"})
+        #qdarktheme.setup_theme(custom_colors={"primary": "#d79df1"})
         self.show()
 
     def _create_main_menu_widget(self) -> None:
