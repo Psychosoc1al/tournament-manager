@@ -1,11 +1,11 @@
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 
 import pytest
 from PyQt6.QtWidgets import QMainWindow
 from pytestqt.qtbot import QtBot
 
-from match import Match
-from match_result_page_view import MatchResultPageView
+from model.match import Match
+from views.match_result_page_view import MatchResultPageView
 
 
 class TestMatchResultPageView:
