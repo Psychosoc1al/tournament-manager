@@ -57,19 +57,8 @@ class AddEditPageController(QObject):
             self._participants_items.append(new_line)
 
     def _handle_participants_enter(self) -> None:
-        self._view.participants_inputs_list.clear()
         self._participants_items.clear()
-        current_amount_str = self._view.participants_amount_choose.currentText()
-
-        for i in range(int(current_amount_str)):
-            list_item = QListWidgetItem(self._view.participants_inputs_list)
-
-            new_line = QLineEdit(self._view)
-            new_line.setPlaceholderText(f"Participant {i + 1}")
-
-            list_item.setSizeHint(new_line.sizeHint())
-            self._view.participants_inputs_list.setItemWidget(list_item, new_line)
-            self._participants_items.append(new_line)
+        self._participants_items = self._view.create_participants_form()
 
         self._handle_input_validation()
 
