@@ -23,7 +23,7 @@ class TournamentPageView(QWidget):
     _round_y = -_scene_height / 2
 
     def __init__(
-        self, stages_amount: int, matches: list[list[Match]], parent: QWidget = None
+            self, stages_amount: int, matches: list[list[Match]], parent: QWidget = None
     ) -> None:
         super().__init__(parent)
         self._stages_amount = stages_amount
@@ -83,7 +83,7 @@ class TournamentPageView(QWidget):
         info_layout.addWidget(self._participants_amount_label)
 
     def set_info_data(
-        self, name: str, sport: str, date: str, participants_amount: str
+            self, name: str, sport: str, date: str, participants_amount: str
     ) -> None:
         self._name_label.setText("Name: " + name)
         self._sport_label.setText("Sport: " + sport)
@@ -93,7 +93,7 @@ class TournamentPageView(QWidget):
 
 class GraphicsView(QGraphicsView):
     def __init__(
-        self, parent: QWidget, stages_amount: int, matches: list[list[Match]]
+            self, parent: QWidget, stages_amount: int, matches: list[list[Match]]
     ) -> None:
         super().__init__(parent)
         self._initial_stages_amount = stages_amount
@@ -132,13 +132,13 @@ class GraphicsView(QGraphicsView):
                     item.handle_click()
 
     def create_bracket(
-        self,
-        round_x: float,
-        round_y: float,
-        round_width: float,
-        round_height: float,
-        stages_left: int,
-        branch_index: int,
+            self,
+            round_x: float,
+            round_y: float,
+            round_width: float,
+            round_height: float,
+            stages_left: int,
+            branch_index: int,
     ) -> None:
         top = round_y + round_height / 4
         bottom = round_y + round_height / 4 * 3
@@ -207,13 +207,13 @@ class GraphicsView(QGraphicsView):
         )
 
     def _print_name_and_score(
-        self,
-        round_x: float,
-        round_y: float,
-        round_width: float,
-        stages_left: int,
-        branch_index: int,
-        round_height: float = 0,
+            self,
+            round_x: float,
+            round_y: float,
+            round_width: float,
+            stages_left: int,
+            branch_index: int,
+            round_height: float = 0,
     ) -> None:
         match = self._matches[stages_left][branch_index // 2]
         if match.participant1.name == "???" and match.participant2.name == "???":
@@ -237,9 +237,9 @@ class GraphicsView(QGraphicsView):
         self._scene.addItem(score)
 
         if (
-            match.participant1.name != "???"
-            and match.participant2.name != "???"
-            and branch_index % 2 == 1
+                match.participant1.name != "???"
+                and match.participant2.name != "???"
+                and branch_index % 2 == 1
         ):
             # if not (match.score_participant1 > 0 or match.score_participant2 > 0):
             background_rect = RectangleObject(
@@ -253,7 +253,7 @@ class GraphicsView(QGraphicsView):
             self._scene.addItem(background_rect)
 
             if self._initial_stages_amount - stages_left == 1 and (
-                match.score_participant1 > 0 or match.score_participant2 > 0
+                    match.score_participant1 > 0 or match.score_participant2 > 0
             ):
                 self._print_winner(round_width)
 
@@ -303,13 +303,13 @@ class RectangleObject(QGraphicsObject):
     clicked_signal = pyqtSignal(int, int)
 
     def __init__(
-        self,
-        x: float,
-        y: float,
-        width: float,
-        height: float,
-        stage: int,
-        match_number: int,
+            self,
+            x: float,
+            y: float,
+            width: float,
+            height: float,
+            stage: int,
+            match_number: int,
     ):
         super().__init__()
         self._x = int(x)

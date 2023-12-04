@@ -39,5 +39,3 @@ class TestTournamentPageView:
     def test_back_to_main_menu(self, tournament_page_view, qtbot):
         with qtbot.waitExposed(tournament_page_view):
             assert tournament_page_view.findChild(QPushButton).text() == "Back to main menu"
-
-
