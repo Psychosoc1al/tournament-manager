@@ -252,7 +252,9 @@ class GraphicsView(QGraphicsView):
             )
             self._scene.addItem(background_rect)
 
-            if self._initial_stages_amount - stages_left == 1:
+            if self._initial_stages_amount - stages_left == 1 and (
+                match.score_participant1 > 0 or match.score_participant2 > 0
+            ):
                 self._print_winner(round_width)
 
     def _print_winner(self, round_width: float) -> None:
