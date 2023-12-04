@@ -23,7 +23,9 @@ class TestTournamentPageView:
 
         window.close()
 
-    def test_set_info_data(self, tournament_page_view, qtbot):
+    def test_set_info_data(
+        self, tournament_page_view: TournamentPageView, qtbot: QtBot
+    ):
         name = "Tournament 1"
         sport = "Football"
         date = "2023-01-01"
@@ -39,14 +41,16 @@ class TestTournamentPageView:
                 == "Participants: " + participants_amount
             )
 
-    def test_back_to_main_menu(self, tournament_page_view, qtbot):
+    def test_back_to_main_menu(
+        self, tournament_page_view: TournamentPageView, qtbot: QtBot
+    ):
         with qtbot.waitExposed(tournament_page_view):
             assert (
                 tournament_page_view.findChild(QPushButton).text()
                 == "Back to main menu"
             )
 
-    def test_redraw(self, tournament_page_view, qtbot, monkeypatch):
+    def test_redraw(self, tournament_page_view: TournamentPageView, monkeypatch):
         mock_create_bracket = Mock()
         monkeypatch.setattr(
             "views.tournament_page_view.GraphicsView.create_bracket",
