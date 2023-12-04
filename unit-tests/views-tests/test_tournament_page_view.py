@@ -2,6 +2,7 @@ from unittest.mock import Mock, MagicMock, patch
 
 import pytest
 from PyQt6.QtWidgets import QPushButton
+from _pytest import monkeypatch
 from pytestqt.qtbot import QtBot
 
 from match import Match
@@ -39,3 +40,10 @@ class TestTournamentPageView:
     def test_back_to_main_menu(self, tournament_page_view, qtbot):
         with qtbot.waitExposed(tournament_page_view):
             assert tournament_page_view.findChild(QPushButton).text() == "Back to main menu"
+
+    def test_redraw(self, tournament_page_view, qtbot, monkeypatch):
+        mock_create_bracket = Mock()
+        monkeypatch.setattr("tournament_page_view.GraphicsView.create_bracket", mock_create_bracket)
+        tournament_page_view.redraw()
+
+        mock_create_bracket.assert_called_once()

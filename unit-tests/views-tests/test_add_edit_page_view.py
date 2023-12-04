@@ -3,7 +3,7 @@ import time
 import pytest
 from pytestqt.qtbot import QtBot  # install as pytest-qt
 
-from views.add_edit_page_view import AddEditPageView
+from add_edit_page_view import AddEditPageView
 
 
 class TestAddEditPageView:
