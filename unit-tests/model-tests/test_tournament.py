@@ -231,3 +231,122 @@ class TestTournament:
         assert tournament.brackets[0].matches[2][1].participant2 == participants[12]
         assert tournament.brackets[0].matches[3][0].participant1 == participants[0]
         assert tournament.brackets[0].matches[3][0].participant2 == participants[8]
+
+    @patch("model.bracket.Participant", new=MockParticipant)
+    @patch("model.bracket.Match", new=MockMatch)
+    @patch("model.bracket.Bracket", new=MockBracket)
+    def test_update_result_lower(self):
+        participants = [MockParticipant(str(x)) for x in range(1, 15)]
+        tournament = Tournament(
+            "name", "sport", TournamentType.DOUBLE, date(2021, 1, 1), participants
+        )
+
+        tournament.update_result(0, 0, (1, 0), BracketType.UPPER)
+        tournament.update_result(0, 1, (1, 0), BracketType.UPPER)
+        tournament.update_result(0, 2, (1, 0), BracketType.UPPER)
+        tournament.update_result(0, 3, (1, 0), BracketType.UPPER)
+        tournament.update_result(0, 4, (1, 0), BracketType.UPPER)
+        tournament.update_result(0, 5, (1, 0), BracketType.UPPER)
+        tournament.update_result(0, 6, (1, 0), BracketType.UPPER)
+        tournament.update_result(0, 7, (1, 0), BracketType.UPPER)
+        tournament.update_result(1, 0, (1, 0), BracketType.UPPER)
+        tournament.update_result(1, 1, (1, 0), BracketType.UPPER)
+        tournament.update_result(1, 2, (1, 0), BracketType.UPPER)
+        tournament.update_result(1, 3, (1, 0), BracketType.UPPER)
+        tournament.update_result(2, 0, (1, 0), BracketType.UPPER)
+        tournament.update_result(2, 1, (1, 0), BracketType.UPPER)
+        tournament.update_result(3, 0, (1, 0), BracketType.UPPER)
+
+        tournament.update_result(0, 0, (1, 0), BracketType.LOWER)
+        tournament.update_result(0, 1, (1, 0), BracketType.LOWER)
+        tournament.update_result(0, 2, (1, 0), BracketType.LOWER)
+        tournament.update_result(0, 3, (1, 0), BracketType.LOWER)
+        tournament.update_result(1, 0, (1, 0), BracketType.LOWER)
+        tournament.update_result(1, 1, (1, 0), BracketType.LOWER)
+        tournament.update_result(1, 2, (1, 0), BracketType.LOWER)
+        tournament.update_result(1, 3, (1, 0), BracketType.LOWER)
+        tournament.update_result(2, 0, (1, 0), BracketType.LOWER)
+        tournament.update_result(2, 1, (1, 0), BracketType.LOWER)
+        tournament.update_result(3, 0, (1, 0), BracketType.LOWER)
+        tournament.update_result(3, 1, (1, 0), BracketType.LOWER)
+        tournament.update_result(4, 0, (1, 0), BracketType.LOWER)
+        tournament.update_result(5, 0, (1, 0), BracketType.LOWER)
+        tournament.update_result(6, 0, (1, 0), BracketType.LOWER)
+
+        # assert tournament.winner == participants[0]
+        assert len(tournament.brackets) == 2
+        assert len(tournament.brackets[0].matches) == 4
+        assert len(tournament.brackets[0].matches[0]) == 8
+        assert len(tournament.brackets[0].matches[1]) == 4
+        assert len(tournament.brackets[0].matches[2]) == 2
+        assert len(tournament.brackets[0].matches[3]) == 1
+        assert len(tournament.brackets[1].matches) == 7
+        assert len(tournament.brackets[1].matches[0]) == 4
+        assert len(tournament.brackets[1].matches[1]) == 4
+        assert len(tournament.brackets[1].matches[2]) == 2
+        assert len(tournament.brackets[1].matches[3]) == 2
+        assert len(tournament.brackets[1].matches[4]) == 1
+        assert len(tournament.brackets[1].matches[5]) == 1
+        assert len(tournament.brackets[1].matches[6]) == 1
+        assert tournament.brackets[0].matches[0][0].participant1 == participants[0]
+        assert tournament.brackets[0].matches[0][0].participant2 == participants[1]
+        assert tournament.brackets[0].matches[0][1].participant1 == participants[2]
+        assert tournament.brackets[0].matches[0][1].participant2 == participants[3]
+        assert tournament.brackets[0].matches[0][2].participant1 == participants[4]
+        assert tournament.brackets[0].matches[0][2].participant2 == participants[5]
+        assert tournament.brackets[0].matches[0][3].participant1 == participants[6]
+        assert tournament.brackets[0].matches[0][3].participant2 == participants[7]
+        assert tournament.brackets[0].matches[0][4].participant1 == participants[8]
+        assert tournament.brackets[0].matches[0][4].participant2 == participants[9]
+        assert tournament.brackets[0].matches[0][5].participant1 == participants[10]
+        assert tournament.brackets[0].matches[0][5].participant2 == participants[11]
+        assert tournament.brackets[0].matches[0][6].participant1 == participants[12]
+        assert tournament.brackets[0].matches[0][6].participant2.name == "???"
+        assert tournament.brackets[0].matches[0][7].participant1 == participants[13]
+        assert tournament.brackets[0].matches[0][7].participant2.name == "???"
+        assert tournament.brackets[0].matches[1][0].participant1 == participants[0]
+        assert tournament.brackets[0].matches[1][0].participant2 == participants[2]
+        assert tournament.brackets[0].matches[1][1].participant1 == participants[4]
+        assert tournament.brackets[0].matches[1][1].participant2 == participants[6]
+        assert tournament.brackets[0].matches[1][2].participant1 == participants[8]
+        assert tournament.brackets[0].matches[1][2].participant2 == participants[10]
+        assert tournament.brackets[0].matches[1][3].participant1 == participants[12]
+        assert tournament.brackets[0].matches[1][3].participant2 == participants[13]
+        assert tournament.brackets[0].matches[2][0].participant1 == participants[0]
+        assert tournament.brackets[0].matches[2][0].participant2 == participants[4]
+        assert tournament.brackets[0].matches[2][1].participant1 == participants[8]
+        assert tournament.brackets[0].matches[2][1].participant2 == participants[12]
+        assert tournament.brackets[0].matches[3][0].participant1 == participants[0]
+        assert tournament.brackets[0].matches[3][0].participant2 == participants[8]
+
+        assert tournament.brackets[1].matches[0][0].participant1 == participants[1]
+        assert tournament.brackets[1].matches[0][0].participant2 == participants[3]
+        assert tournament.brackets[1].matches[0][1].participant1 == participants[5]
+        assert tournament.brackets[1].matches[0][1].participant2 == participants[7]
+        assert tournament.brackets[1].matches[0][2].participant1 == participants[9]
+        assert tournament.brackets[1].matches[0][2].participant2 == participants[11]
+        assert tournament.brackets[1].matches[0][3].participant1.name == "???"
+        assert tournament.brackets[1].matches[0][3].participant2.name == "???"
+        assert tournament.brackets[1].matches[1][0].participant1 == participants[13]
+        assert tournament.brackets[1].matches[1][0].participant2 == participants[1]
+        assert tournament.brackets[1].matches[1][1].participant1 == participants[10]
+        assert tournament.brackets[1].matches[1][1].participant2 == participants[5]
+        assert tournament.brackets[1].matches[1][2].participant1 == participants[6]
+        assert tournament.brackets[1].matches[1][2].participant2 == participants[9]
+        assert tournament.brackets[1].matches[1][3].participant1 == participants[2]
+        assert tournament.brackets[1].matches[1][3].participant2.name == "???"
+        assert tournament.brackets[1].matches[2][0].participant1 == participants[13]
+        assert tournament.brackets[1].matches[2][0].participant2 == participants[10]
+        assert tournament.brackets[1].matches[2][1].participant1 == participants[6]
+        assert tournament.brackets[1].matches[2][1].participant2 == participants[2]
+        assert tournament.brackets[1].matches[3][0].participant1 == participants[4]
+        assert tournament.brackets[1].matches[3][0].participant2 == participants[13]
+        assert tournament.brackets[1].matches[3][1].participant1 == participants[12]
+        assert tournament.brackets[1].matches[3][1].participant2 == participants[6]
+        assert tournament.brackets[1].matches[4][0].participant1 == participants[4]
+        assert tournament.brackets[1].matches[4][0].participant2 == participants[12]
+        assert tournament.brackets[1].matches[5][0].participant1 == participants[8]
+        assert tournament.brackets[1].matches[5][0].participant2 == participants[4]
+        assert tournament.brackets[1].matches[6][0].participant1 == participants[8]
+        assert tournament.brackets[1].matches[6][0].participant2 == participants[0]
+        assert tournament.winner == participants[8]
