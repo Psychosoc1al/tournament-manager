@@ -10,11 +10,13 @@ class MatchResultPageController(QObject):
         super().__init__()
         self._view = view
 
-        self._view.save_button.clicked.connect(lambda _: self.send_match_result())
-        self._view.first_score.valueChanged.connect(
+        self._view.save_button.clicked.connect(  # pragma: no branch
+            lambda _: self.send_match_result()
+        )
+        self._view.first_score.valueChanged.connect(  # pragma: no branch
             lambda _: self._handle_score_entering()
         )
-        self._view.second_score.valueChanged.connect(
+        self._view.second_score.valueChanged.connect(  # pragma: no branch
             lambda _: self._handle_score_entering()
         )
 
