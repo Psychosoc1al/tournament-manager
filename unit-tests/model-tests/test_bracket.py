@@ -267,48 +267,48 @@ class TestBracket:
         assert bracket.matches[6][0].participant1.name == "???"
         assert bracket.matches[6][0].participant2.name == "???"
 
-        @patch("model.bracket.Participant", new=MockParticipant)
-        @patch("model.bracket.Match", new=MockMatch)
-        def test_generate_bracket_lower_negative(self):
-            bracket = Bracket(BracketType.LOWER)
-            participants = [MockParticipant(str(x)) for x in range(1, 15)]
-            bracket.generate_bracket(participants)
+    @patch("model.bracket.Participant", new=MockParticipant)
+    @patch("model.bracket.Match", new=MockMatch)
+    def test_generate_bracket_lower_negative(self):
+        bracket = Bracket(BracketType.LOWER)
+        participants = [MockParticipant(str(x)) for x in range(1, 15)]
+        bracket.generate_bracket(participants)
 
-            assert len(bracket.matches) == 6
-            assert len(bracket.matches[0]) == 4
-            assert len(bracket.matches[1]) == 4
-            assert len(bracket.matches[2]) == 2
-            assert len(bracket.matches[3]) == 2
-            assert len(bracket.matches[4]) == 1
-            assert len(bracket.matches[5]) == 1
-            assert bracket.matches[0][0].participant1.name == "???"
-            assert bracket.matches[0][0].participant2.name == "???"
-            assert bracket.matches[0][1].participant1.name == "???"
-            assert bracket.matches[0][1].participant2.name == "???"
-            assert bracket.matches[0][2].participant1.name == "???"
-            assert bracket.matches[0][2].participant2.name == "???"
-            assert bracket.matches[0][3].participant1.name == "???"
-            assert bracket.matches[0][3].participant2.name == "???"
-            assert bracket.matches[1][0].participant1.name == "???"
-            assert bracket.matches[1][0].participant2.name == "???"
-            assert bracket.matches[1][1].participant1.name == "???"
-            assert bracket.matches[1][1].participant2.name == "???"
-            assert bracket.matches[1][2].participant1.name == "???"
-            assert bracket.matches[1][2].participant2.name == "???"
-            assert bracket.matches[1][3].participant1.name == "???"
-            assert bracket.matches[1][3].participant2.name == "???"
-            assert bracket.matches[2][0].participant1.name == "???"
-            assert bracket.matches[2][0].participant2.name == "???"
-            assert bracket.matches[2][1].participant1.name == "???"
-            assert bracket.matches[2][1].participant2.name == "???"
-            assert bracket.matches[3][0].participant1.name == "???"
-            assert bracket.matches[3][0].participant2.name == "???"
-            assert bracket.matches[3][1].participant1.name == "???"
-            assert bracket.matches[3][1].participant2.name == "???"
-            assert bracket.matches[4][0].participant1.name == "???"
-            assert bracket.matches[4][0].participant2.name == "???"
-            assert bracket.matches[5][0].participant1.name == "???"
-            assert bracket.matches[5][0].participant2.name == "???"
+        assert len(bracket.matches) == 7
+        assert len(bracket.matches[0]) == 4
+        assert len(bracket.matches[1]) == 4
+        assert len(bracket.matches[2]) == 2
+        assert len(bracket.matches[3]) == 2
+        assert len(bracket.matches[4]) == 1
+        assert len(bracket.matches[5]) == 1
+        assert bracket.matches[0][0].participant1.name == "???"
+        assert bracket.matches[0][0].participant2.name == "???"
+        assert bracket.matches[0][1].participant1.name == "???"
+        assert bracket.matches[0][1].participant2.name == "???"
+        assert bracket.matches[0][2].participant1.name == "???"
+        assert bracket.matches[0][2].participant2.name == "???"
+        assert bracket.matches[0][3].participant1.name == "???"
+        assert bracket.matches[0][3].participant2.name == "???"
+        assert bracket.matches[1][0].participant1.name == "???"
+        assert bracket.matches[1][0].participant2.name == "???"
+        assert bracket.matches[1][1].participant1.name == "???"
+        assert bracket.matches[1][1].participant2.name == "???"
+        assert bracket.matches[1][2].participant1.name == "???"
+        assert bracket.matches[1][2].participant2.name == "???"
+        assert bracket.matches[1][3].participant1.name == "???"
+        assert bracket.matches[1][3].participant2.name == "???"
+        assert bracket.matches[2][0].participant1.name == "???"
+        assert bracket.matches[2][0].participant2.name == "???"
+        assert bracket.matches[2][1].participant1.name == "???"
+        assert bracket.matches[2][1].participant2.name == "???"
+        assert bracket.matches[3][0].participant1.name == "???"
+        assert bracket.matches[3][0].participant2.name == "???"
+        assert bracket.matches[3][1].participant1.name == "???"
+        assert bracket.matches[3][1].participant2.name == "???"
+        assert bracket.matches[4][0].participant1.name == "???"
+        assert bracket.matches[4][0].participant2.name == "???"
+        assert bracket.matches[5][0].participant1.name == "???"
+        assert bracket.matches[5][0].participant2.name == "???"
 
     @patch("model.bracket.Participant", new=MockParticipant)
     @patch("model.bracket.Match", new=MockMatch)
