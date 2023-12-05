@@ -373,6 +373,7 @@ class TestBracket:
         bracket.generate_bracket(participants)
         match = MockMatch(0, 0, participants[0], participants[1], 0, 1)
         bracket.take_loser(match)
+        print("qwertyuiopokjhgfdszxcvbnm,l;poiuytreds")
 
         assert len(bracket.matches) == 7
         assert len(bracket.matches[0]) == 4
@@ -415,7 +416,7 @@ class TestBracket:
 
     @patch("model.bracket.Participant", new=MockParticipant)
     @patch("model.bracket.Match", new=MockMatch)
-    def test_take_loser(self):
+    def test_create_final(self):
         bracket = Bracket(BracketType.LOWER)
         participants = [MockParticipant(str(x)) for x in range(1, 17)]
         bracket.generate_bracket(participants)

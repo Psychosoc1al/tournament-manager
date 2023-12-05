@@ -160,58 +160,8 @@ class Tournament:
 
 
 if __name__ == "__main__":
+    participants = [Participant(str(x)) for x in range(1, 17)]
     tournament = Tournament(
-        name="Test",
-        sport="Test",
-        tournament_type=TournamentType.DOUBLE,
-        tour_date=date.today(),
-        participants=[Participant(f"Test{i}") for i in range(1, 9)],
+        "name", "sport", TournamentType.SINGLE, date(2021, 1, 1), participants
     )
-    bracket0 = tournament.brackets[0]
-    bracket1 = tournament.brackets[1]
-
-    tournament.update_result(0, 0, (1, 0), BracketType.UPPER)
-    tournament.update_result(0, 1, (1, 0), BracketType.UPPER)
-    tournament.update_result(0, 2, (1, 0), BracketType.UPPER)
-    tournament.update_result(0, 3, (1, 0), BracketType.UPPER)
-    tournament.update_result(1, 0, (1, 0), BracketType.UPPER)
-    tournament.update_result(1, 1, (1, 0), BracketType.UPPER)
-    tournament.update_result(2, 0, (1, 0), BracketType.UPPER)
-
-    tournament.update_result(0, 0, (1, 0), BracketType.LOWER)
-    tournament.update_result(0, 1, (1, 0), BracketType.LOWER)
-    tournament.update_result(1, 0, (1, 0), BracketType.LOWER)
-    tournament.update_result(1, 1, (1, 0), BracketType.LOWER)
-    tournament.update_result(2, 0, (1, 0), BracketType.LOWER)
-    tournament.update_result(3, 0, (1, 0), BracketType.LOWER)
-    tournament.update_result(4, 0, (1, 0), BracketType.LOWER)
-
-    print(
-        *[
-            [
-                (
-                    bracket0.matches[i][j].participant1.name,
-                    bracket0.matches[i][j].participant2.name,
-                )
-                for j in range(len(bracket0.matches[i]))
-            ]
-            for i in range(len(bracket0.matches))
-        ],
-        sep="\n",
-    )
-    print()
-    print(
-        *[
-            [
-                (
-                    bracket1.matches[i][j].participant1.name,
-                    bracket1.matches[i][j].participant2.name,
-                )
-                for j in range(len(bracket1.matches[i]))
-            ]
-            for i in range(len(bracket1.matches))
-        ],
-        sep="\n",
-    )
-    print()
-    print(tournament.winner)
+    tournament.create_brackets()
