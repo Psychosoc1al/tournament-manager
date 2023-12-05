@@ -1,6 +1,8 @@
 from unittest.mock import Mock
 
 import pytest
+from PyQt6.QtCore import Qt, QPoint
+from PyQt6.QtGui import QWheelEvent
 from PyQt6.QtWidgets import QPushButton
 from pytestqt.qtbot import QtBot
 
@@ -59,3 +61,52 @@ class TestTournamentPageView:
         tournament_page_view.redraw()
 
         mock_create_bracket.assert_called_once()
+
+    def test_wheel_event(self, tournament_page_view: TournamentPageView, qtbot: QtBot):
+        with qtbot.waitExposed(tournament_page_view):
+            qtbot.keyPress(
+                tournament_page_view, " ", Qt.KeyboardModifier.ControlModifier
+            )
+            event = Mock(spec=QWheelEvent)
+            event.angleDelta.return_value.y.return_value = 1
+            event.modifiers.return_value = Qt.KeyboardModifier.ControlModifier
+            tournament_page_view.graphics_view.wheelEvent(event)
+
+            event.angleDelta.return_value.y.assert_called_once()
+
+            event.angleDelta.return_value.y.return_value = -1
+            event.modifiers.return_value = Qt.KeyboardModifier.ControlModifier
+            tournament_page_view.graphics_view.wheelEvent(event)
+            qtbot.keyRelease(
+                tournament_page_view, " ", Qt.KeyboardModifier.ControlModifier
+            )
+            assert event.angleDelta.return_value.y.call_count == 3
+
+            event.modifiers.return_value = Qt.KeyboardModifier.NoModifier
+            with pytest.raises(TypeError):
+                tournament_page_view.graphics_view.wheelEvent(event)
+
+    def test_wheel_event_with_shift(
+        self, tournament_page_view: TournamentPageView, qtbot: QtBot
+    ):
+        with qtbot.waitExposed(tournament_page_view):
+            event = Mock(spec=QWheelEvent)
+            event.angleDelta.return_value.y.return_value = 1
+            event.modifiers.return_value = Qt.KeyboardModifier.ShiftModifier
+
+            qtbot.keyPress(tournament_page_view, " ", Qt.KeyboardModifier.ShiftModifier)
+            tournament_page_view.graphics_view.wheelEvent(event)
+
+            event.angleDelta.return_value.y.assert_called_once()
+
+    def test_mouse_double_click_event(self, tournament_page_view, qtbot):
+        with qtbot.waitExposed(tournament_page_view):
+            qtbot.mouseClick(
+                tournament_page_view.graphics_view, Qt.MouseButton.LeftButton
+            )
+            event = Mock()
+            event.button.return_value = Qt.MouseButton.LeftButton
+            event.pos.return_value = QPoint(0, 0)
+            tournament_page_view.graphics_view.mouseDoubleClickEvent(event)
+
+            event.pos.assert_called_once()
