@@ -143,7 +143,7 @@ class Tournament:
         else:
             self.brackets[0].update_result(stage, match_number_stage, result)
             if self.tournament_type == TournamentType.DOUBLE:
-                self.brackets[1].take_losers(
+                self.brackets[1].take_loser(
                     self.brackets[0].matches[stage][match_number_stage]
                 )
                 self.brackets[1].create_final(self.brackets[0].take_winner())
