@@ -5,6 +5,7 @@
 !data.json
 !main.py
 !pytest.ini
+!.coveragerc
 
 !model
 !model/*.py
