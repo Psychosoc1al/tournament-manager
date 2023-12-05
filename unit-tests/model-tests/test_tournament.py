@@ -85,7 +85,7 @@ class TestTournament:
         tournament = Tournament(
             "name", "sport", TournamentType.SINGLE, date(2021, 1, 1), participants
         )
-        tournament.create_brackets()
+
         bracket = tournament.brackets[0]
         assert len(bracket.matches) == 4
         assert len(bracket.matches[0]) == 8
@@ -131,7 +131,7 @@ class TestTournament:
         tournament = Tournament(
             "name", "sport", TournamentType.SINGLE, date(2021, 1, 1), participants
         )
-        tournament.create_brackets()
+
         bracket = tournament.brackets[0]
         assert len(bracket.matches) == 4
         assert len(bracket.matches[0]) == 8
@@ -177,7 +177,7 @@ class TestTournament:
         tournament = Tournament(
             "name", "sport", TournamentType.SINGLE, date(2021, 1, 1), participants
         )
-        tournament.create_brackets()
+
         tournament.update_result(0, 0, (1, 0))
         tournament.update_result(0, 1, (1, 0))
         tournament.update_result(0, 2, (1, 0))
