@@ -1,6 +1,5 @@
-import pytest
-
 from model.participant import Participant
+
 
 class TestParticipant:
     def test_name_getter(self):

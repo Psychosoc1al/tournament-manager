@@ -1,12 +1,10 @@
 from datetime import date
 from typing import Any
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
-import pytest
 from model.tournament import (
     Tournament,
     TournamentType,
-    Bracket,
     BracketType,
     Participant,
 )
