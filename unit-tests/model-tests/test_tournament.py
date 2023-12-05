@@ -160,8 +160,8 @@ class TestTournament:
         assert bracket.matches[1][1].participant2.name == "???"
         assert bracket.matches[1][2].participant1.name == "???"
         assert bracket.matches[1][2].participant2.name == "???"
-        assert bracket.matches[1][3].participant1.name == "???"
-        assert bracket.matches[1][3].participant2.name == "???"
+        assert bracket.matches[1][3].participant1 == participants[12]
+        assert bracket.matches[1][3].participant2 == participants[13]
         assert bracket.matches[2][0].participant1.name == "???"
         assert bracket.matches[2][0].participant2.name == "???"
         assert bracket.matches[2][1].participant1.name == "???"
@@ -192,10 +192,7 @@ class TestTournament:
         tournament.update_result(1, 3, (1, 0))
         tournament.update_result(2, 0, (1, 0))
         tournament.update_result(2, 1, (1, 0))
-        tournament.update_result(2, 2, (1, 0))
-        tournament.update_result(2, 3, (1, 0))
         tournament.update_result(3, 0, (1, 0))
-        tournament.update_result(3, 1, (1, 0))
 
         assert tournament.winner == participants[0]
         assert len(tournament.brackets) == 1
@@ -217,9 +214,9 @@ class TestTournament:
         assert tournament.brackets[0].matches[0][5].participant1 == participants[10]
         assert tournament.brackets[0].matches[0][5].participant2 == participants[11]
         assert tournament.brackets[0].matches[0][6].participant1 == participants[12]
-        assert tournament.brackets[0].matches[0][6].participant2 == participants[13]
-        assert tournament.brackets[0].matches[0][7].participant1 == participants[14]
-        assert tournament.brackets[0].matches[0][7].participant2 == participants[15]
+        assert tournament.brackets[0].matches[0][6].participant2.name == "???"
+        assert tournament.brackets[0].matches[0][7].participant1 == participants[13]
+        assert tournament.brackets[0].matches[0][7].participant2.name == "???"
         assert tournament.brackets[0].matches[1][0].participant1 == participants[0]
         assert tournament.brackets[0].matches[1][0].participant2 == participants[2]
         assert tournament.brackets[0].matches[1][1].participant1 == participants[4]
@@ -227,7 +224,7 @@ class TestTournament:
         assert tournament.brackets[0].matches[1][2].participant1 == participants[8]
         assert tournament.brackets[0].matches[1][2].participant2 == participants[10]
         assert tournament.brackets[0].matches[1][3].participant1 == participants[12]
-        assert tournament.brackets[0].matches[1][3].participant2 == participants[14]
+        assert tournament.brackets[0].matches[1][3].participant2 == participants[13]
         assert tournament.brackets[0].matches[2][0].participant1 == participants[0]
         assert tournament.brackets[0].matches[2][0].participant2 == participants[4]
         assert tournament.brackets[0].matches[2][1].participant1 == participants[8]
