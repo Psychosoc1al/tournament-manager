@@ -157,11 +157,3 @@ class Tournament:
             self.winner = match.participant1
         elif match.score_participant1 < match.score_participant2:
             self.winner = match.participant2
-
-
-if __name__ == "__main__":
-    participants = [Participant(str(x)) for x in range(1, 17)]
-    tournament = Tournament(
-        "name", "sport", TournamentType.SINGLE, date(2021, 1, 1), participants
-    )
-    tournament.create_brackets()

@@ -1,12 +1,10 @@
 from datetime import date
 from typing import Any
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
-import pytest
 from model.tournament import (
     Tournament,
     TournamentType,
-    Bracket,
     BracketType,
     Participant,
 )
@@ -87,6 +85,7 @@ class TestTournament:
         tournament = Tournament(
             "name", "sport", TournamentType.SINGLE, date(2021, 1, 1), participants
         )
+
         bracket = tournament.brackets[0]
         assert len(bracket.matches) == 4
         assert len(bracket.matches[0]) == 8
@@ -132,6 +131,7 @@ class TestTournament:
         tournament = Tournament(
             "name", "sport", TournamentType.SINGLE, date(2021, 1, 1), participants
         )
+
         bracket = tournament.brackets[0]
         assert len(bracket.matches) == 4
         assert len(bracket.matches[0]) == 8
@@ -177,6 +177,7 @@ class TestTournament:
         tournament = Tournament(
             "name", "sport", TournamentType.SINGLE, date(2021, 1, 1), participants
         )
+
         tournament.update_result(0, 0, (1, 0))
         tournament.update_result(0, 1, (1, 0))
         tournament.update_result(0, 2, (1, 0))

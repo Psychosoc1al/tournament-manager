@@ -16,7 +16,7 @@ class MainController:
         self._model = model
         self._view = view
 
-        self._view.add_tournament_button.clicked.connect(
+        self._view.add_tournament_button.clicked.connect(  # pragma: no branch
             lambda _: self._add_tournament_show()
         )
         self.show_main_page()
@@ -37,17 +37,17 @@ class MainController:
         for button_type, buttons in buttons_to_connect.items():
             for index, button in enumerate(buttons):
                 if button_type == "update":
-                    button.clicked.connect(
+                    button.clicked.connect(  # pragma: no branch
                         lambda _, ind=index: self._update_tournament_show(
                             tournaments[ind]
                         )
                     )
                 elif button_type == "remove":
-                    button.clicked.connect(
+                    button.clicked.connect(  # pragma: no branch
                         lambda _, ind=index: self._remove_tournament(tournaments[ind])
                     )
                 else:
-                    button.clicked.connect(
+                    button.clicked.connect(  # pragma: no branch
                         lambda _, ind=index: self._go_to_tournament(tournaments[ind])
                     )
 
@@ -76,9 +76,9 @@ class MainController:
 
     def _go_to_tournament(self, tournament: Tournament) -> None:
         tournament_view = TournamentPageView(
-            self._view.central_stacked_widget,
             int(math.log2(len(tournament.participants))),
             tournament.brackets[0].matches,
+            self._view.central_stacked_widget,
         )
         TournamentPageController(tournament, tournament_view, self)
 

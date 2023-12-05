@@ -1,6 +1,8 @@
-import pytest
-from match import Match
 from unittest.mock import Mock, MagicMock
+
+import pytest
+
+from model.match import Match
 
 
 class TestMatch:

@@ -31,14 +31,16 @@ class TournamentPageController:
             if isinstance(item, RectangleObject)
         ]
         for area in match_result_areas:
-            area.clicked_signal.connect(lambda x, y: self._show_match_result_page(x, y))
+            area.clicked_signal.connect(  # pragma: no branch
+                lambda x, y: self._show_match_result_page(x, y)
+            )
 
     def _show_match_result_page(self, match_stage: int, match_number: int) -> None:
         match = self._model.brackets[0].matches[match_stage][match_number]
         match_result_window = MatchResultPageView(self._main_controller.view, match)
         match_result_controller = MatchResultPageController(match_result_window)
 
-        match_result_controller.match_result_submitted.connect(
+        match_result_controller.match_result_submitted.connect(  # pragma: no branch
             lambda score1, score2: self._update_match_result(
                 match, match_stage, match_number, score1, score2
             )

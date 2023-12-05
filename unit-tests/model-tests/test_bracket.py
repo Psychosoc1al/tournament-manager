@@ -1,7 +1,6 @@
 from typing import Any
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
-import pytest
 from model.bracket import Bracket, BracketType, Participant
 
 
