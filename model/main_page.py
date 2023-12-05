@@ -9,16 +9,15 @@ from model.participant import Participant
 from model.tournament import Tournament
 
 
-# noinspection PyUnusedLocal
 class ParticipantSchema(Schema):
     name = fields.String()
 
     @post_load
-    def make_participant(self, data, **kwargs) -> Participant:
+    def make_participant(self, data, _) -> Participant:
         return Participant(**data)
 
 
-# noinspection PyTypeChecker,PyUnusedLocal
+# noinspection PyTypeChecker
 class MatchSchema(Schema):
     stage = fields.Integer()
     match_number_stage = fields.Integer()
@@ -28,21 +27,21 @@ class MatchSchema(Schema):
     score_participant2 = fields.Integer()
 
     @post_load
-    def make_match(self, data, **kwargs) -> Match:
+    def make_match(self, data, _) -> Match:
         return Match(**data)
 
 
-# noinspection PyTypeChecker,PyUnusedLocal
+# noinspection PyTypeChecker
 class BracketSchema(Schema):
     bracket_type = fields.Integer()
     matches = fields.List(fields.List(fields.Nested(MatchSchema)))
 
     @post_load
-    def make_bracket(self, data, **kwargs) -> Bracket:
+    def make_bracket(self, data, _) -> Bracket:
         return Bracket(**data)
 
 
-# noinspection PyTypeChecker,PyUnusedLocal
+# noinspection PyTypeChecker
 class TournamentSchema(Schema):
     name = fields.String()
     sport = fields.String()
@@ -65,7 +64,7 @@ class TournamentSchema(Schema):
     )
 
     @post_load
-    def make_tournament(self, data, **kwargs) -> Tournament:
+    def make_tournament(self, data, _) -> Tournament:
         return Tournament(**data)
 
 
