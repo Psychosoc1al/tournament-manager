@@ -30,7 +30,7 @@ class AddEditPageController(QObject):
 
         self._handle_input_validation()
         self._view.save_button.clicked.connect(self.send_data_to_main)
-        self._view.participants_amount_choose.currentIndexChanged.connect(
+        self._view.participants_amount_choose.currentIndexChanged.connect(  # pragma: no branch
             lambda _: self._handle_participants_enter()
         )
 
@@ -100,14 +100,13 @@ class AddEditPageController(QObject):
         self._view.save_button.setEnabled(True)
 
     def send_data_to_main(self) -> None:
+        name = self._view.name_edit.text()
+        sport = self._view.sport_edit.text()
+        tournament_format = self._view.format_edit.currentText()
+        tournament_date = self._view.date_edit.date().toPyDate()
         participants = "\n".join(
             list_item.text() for list_item in self._participants_items
         )
-
-        name = self._view.name_edit.text()
-        sport = self._view.sport_edit.text()
-        tournament_date = self._view.date_edit.date().toPyDate()
-        tournament_format = self._view.format_edit.currentText()
 
         self.form_submitted.emit(
             name, sport, tournament_format, tournament_date, participants
