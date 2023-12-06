@@ -1,6 +1,6 @@
 class Participant:
     def __init__(self, name: str = None) -> None:
-        self.name = name if name else '???'
+        self.name = name if name else "???"
 
     @property
     def name(self) -> str:

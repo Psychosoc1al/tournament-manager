@@ -2,14 +2,15 @@ from model.participant import Participant
 
 
 class Match:
-    def __init__(self,
-                 stage: int,
-                 match_number_stage: int,
-                 participant1: Participant,
-                 participant2: Participant,
-                 score_participant1: int = 0,
-                 score_participant2: int = 0
-                 ) -> None:
+    def __init__(
+        self,
+        stage: int,
+        match_number_stage: int,
+        participant1: Participant,
+        participant2: Participant,
+        score_participant1: int = 0,
+        score_participant2: int = 0,
+    ) -> None:
         self.stage = stage
         self.match_number_stage = match_number_stage
         self.participant1 = participant1
@@ -66,5 +67,12 @@ class Match:
         self._score_participant2 = value
 
     def __str__(self) -> str:
-        return (str(self.participant1) + ' ' + str(self.score_participant1) + ' vs ' +
-                str(self.score_participant2) + ' ' + str(self.participant2))
+        return (
+            str(self.participant1)
+            + " "
+            + str(self.score_participant1)
+            + " vs "
+            + str(self.score_participant2)
+            + " "
+            + str(self.participant2)
+        )
