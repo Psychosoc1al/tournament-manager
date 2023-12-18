@@ -21,30 +21,30 @@ class AddEditPageView(QDialog):
         self.show()
 
     def _create_add_edit_form(self) -> None:
-        name_label = QLabel("Tournament name:")
+        name_label = QLabel("Название:")
         self.name_edit = QLineEdit(self)
 
-        sport_label = QLabel("Sport type:")
+        sport_label = QLabel("Вид спорта:")
         self.sport_edit = QLineEdit(self)
 
-        date_label = QLabel("Date:")
+        date_label = QLabel("Дата проведения:")
         self.date_edit = QDateEdit(self)
 
-        format_label = QLabel("Tournament type:")
+        format_label = QLabel("Тип турнира:")
         self.format_edit = QComboBox(self)
         # self.format_edit.addItems(['Single elimination', 'Double elimination'])
         self.format_edit.addItems(["Single elimination"])
 
-        participants_label = QLabel("Participants amount:")
+        participants_label = QLabel("Количество участников:")
         self.participants_amount_choose = QComboBox(self)
         self.participants_amount_choose.addItems(["4", "8", "16"])
 
-        participants_form_label = QLabel("Participants:")
+        participants_form_label = QLabel("Участники:")
         self.participants_inputs_list = QListWidget(self)
         self.participants_inputs_list.setSpacing(1)
         self.create_participants_form()
 
-        self.save_button = QPushButton("Save")
+        self.save_button = QPushButton("Сохранить")
         self.save_button.setDisabled(True)
 
         main_layout = QVBoxLayout(self)
@@ -74,7 +74,7 @@ class AddEditPageView(QDialog):
             list_item = QListWidgetItem(self.participants_inputs_list)
 
             new_line = QLineEdit(self)
-            new_line.setPlaceholderText(f"Participant {i + 1}")
+            new_line.setPlaceholderText(f"Участник {i + 1}")
 
             list_item.setSizeHint(new_line.sizeHint())
             self.participants_inputs_list.setItemWidget(list_item, new_line)

@@ -22,11 +22,11 @@ class AddEditPageController(QObject):
 
         if self._page_type == "edit":
             self._set_edit_form()
-            self._view.setWindowTitle("Edit tournament - " + self._model.name)
+            self._view.setWindowTitle("Редактирование - " + self._model.name)
             self._view.save_button.setEnabled(True)
         else:
             self._handle_participants_enter()
-            self._view.setWindowTitle("Add tournament")
+            self._view.setWindowTitle("Добавление турнира")
 
         self._handle_input_validation()
         self._view.save_button.clicked.connect(self.send_data_to_main)

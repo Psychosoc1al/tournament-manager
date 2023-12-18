@@ -31,7 +31,7 @@ class TournamentPageView(QWidget):
         main_layout = QVBoxLayout(self)
         self.setLayout(main_layout)
 
-        self.back_button = QPushButton("Back to main menu", self)
+        self.back_button = QPushButton("В главное меню", self)
         main_layout.addWidget(self.back_button)
 
         self._info_widget = QWidget(self)
@@ -85,10 +85,10 @@ class TournamentPageView(QWidget):
     def set_info_data(
         self, name: str, sport: str, date: str, participants_amount: str
     ) -> None:
-        self._name_label.setText("Name: " + name)
-        self._sport_label.setText("Sport: " + sport)
-        self._date_label.setText("Date: " + date)
-        self._participants_amount_label.setText("Participants: " + participants_amount)
+        self._name_label.setText("Название: " + name)
+        self._sport_label.setText("Вид спорта: " + sport)
+        self._date_label.setText("Дата проведения: " + date)
+        self._participants_amount_label.setText("Участники: " + participants_amount)
 
 
 class GraphicsView(QGraphicsView):

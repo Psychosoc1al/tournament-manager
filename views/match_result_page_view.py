@@ -17,7 +17,7 @@ class MatchResultPageView(QDialog):
     def __init__(self, parent: QMainWindow, match: Match) -> None:
         super().__init__(parent)
         self.setMinimumSize(320, 150)
-        self.setWindowTitle("Match result")
+        self.setWindowTitle("Результат матча")
         self.setModal(True)
 
         main_layout = QVBoxLayout(self)
@@ -25,7 +25,7 @@ class MatchResultPageView(QDialog):
 
         first_widget = QWidget(self)
         first_layout = QHBoxLayout(first_widget)
-        first_label = QLabel(match.participant1.name + " score:", first_widget)
+        first_label = QLabel(f"Счёт {match.participant1.name}:", first_widget)
         first_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.first_score = QDoubleSpinBox(first_widget)
@@ -41,7 +41,7 @@ class MatchResultPageView(QDialog):
 
         second_widget = QWidget(self)
         second_layout = QHBoxLayout(second_widget)
-        second_label = QLabel(match.participant2.name + " score:", second_widget)
+        second_label = QLabel(f"Счёт {match.participant2.name}:", second_widget)
         second_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.second_score = QDoubleSpinBox(second_widget)
@@ -61,7 +61,7 @@ class MatchResultPageView(QDialog):
         main_layout.addWidget(vs_label)
         main_layout.addWidget(second_widget)
 
-        self.save_button = QPushButton("Save")
+        self.save_button = QPushButton("Сохранить")
         self.save_button.setDisabled(True)
         main_layout.addWidget(self.save_button)
 

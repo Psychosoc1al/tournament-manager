@@ -17,7 +17,7 @@ from model.tournament import Tournament
 class MainPageView(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("Main menu")
+        self.setWindowTitle("Главное меню")
         self.setMinimumSize(800, 600)
 
         self.central_stacked_widget = QStackedWidget()
@@ -33,7 +33,7 @@ class MainPageView(QMainWindow):
         main_layout = QVBoxLayout(main_widget)
         main_widget.setLayout(main_layout)
 
-        self.add_tournament_button = QPushButton("Add tournament", main_widget)
+        self.add_tournament_button = QPushButton("Добавить турнир", main_widget)
         main_layout.addWidget(self.add_tournament_button)
 
         self.tournaments_list_widget = QListWidget(main_widget)
@@ -57,11 +57,11 @@ class MainPageView(QMainWindow):
             )
             buttons["tournament"].append(tournament_button)
 
-            update_button = QPushButton("Edit", item_inner_widget)
+            update_button = QPushButton("Редактировать", item_inner_widget)
             update_button.setStyleSheet("padding: 5px 10px 5px 10px;")
             buttons["update"].append(update_button)
 
-            remove_button = QPushButton("Delete", item_inner_widget)
+            remove_button = QPushButton("Удалить", item_inner_widget)
             remove_button.setStyleSheet("padding: 5px 10px 5px 10px;")
             buttons["remove"].append(remove_button)
 
