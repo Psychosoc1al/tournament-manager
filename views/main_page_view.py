@@ -79,6 +79,9 @@ class MainPageView(QMainWindow):
     def resize_screen_percent_and_center(
         self, width_percent: float, height_percent: float
     ) -> None:
+        if self.isMaximized():
+            return
+
         screen_geometry = QApplication.primaryScreen().availableGeometry()
         screen_width, screen_height = screen_geometry.width(), screen_geometry.height()
         self.resize(
