@@ -13,6 +13,7 @@
 - [Технологии, планирование, VCS](https://docs.google.com/document/d/1mNphDUWtFwheFkt4yPRStIarjfm5LjjoRpQgwWy5r3M/edit)
 - [Жизненный цикл](https://docs.google.com/document/d/1fnt9h2fw9CpI7fYONOtvXMkEJDRgJs5Y3sPZC7UKjj0/edit)
 - [Тестирование](https://docs.google.com/document/d/1tgfHYo2WUkyu_u3EjnzzIupFYmeO3g9Wu0tDs0XXHGw)
+- [Экономическая эффективность](https://docs.google.com/document/d/1h1KpNo3CPeG0hb-HypytEG59LAz2YvmP_Hu-zVus-Xc/edit?usp=sharing)
 
 ---
 
