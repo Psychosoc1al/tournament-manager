@@ -70,7 +70,7 @@ class TournamentSchema(Schema):
 
 
 class MainPage:
-    _filename = "D:/Study/KPO/tournament-manager/load-testing/D:/Study/KPO/tournament-manager/load-testing/D:/Study/KPO/tournament-manager/load-testing/D:/Study/KPO/tournament-manager/load-testing/D:/Study/KPO/tournament-manager/load-testing/data_1k.json"
+    _filename = "data.json"
     _schema = TournamentSchema(many=True)
 
     def __init__(
