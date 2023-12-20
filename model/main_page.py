@@ -70,13 +70,19 @@ class TournamentSchema(Schema):
 
 
 class MainPage:
-    _filename = "data.json"
+    _filename = "D:/Study/KPO/tournament-manager/load-testing/D:/Study/KPO/tournament-manager/load-testing/D:/Study/KPO/tournament-manager/load-testing/D:/Study/KPO/tournament-manager/load-testing/D:/Study/KPO/tournament-manager/load-testing/data_1k.json"
     _schema = TournamentSchema(many=True)
 
-    def __init__(self, filename: str = _filename) -> None:
+    def __init__(
+        self, filename: str = _filename, tournaments: list[Tournament] = None
+    ) -> None:
         self._filename = filename
-        self._tournaments = []
-        self.load_data()
+
+        if tournaments is not None:
+            self._tournaments = tournaments
+        else:
+            self._tournaments = []
+            self.load_data()
 
     def load_data(self) -> None:
         with open(self._filename, "r", encoding="utf-8") as f:
