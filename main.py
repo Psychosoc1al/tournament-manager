@@ -20,6 +20,7 @@ def main():
     MainController(model, window)
 
     app.exec()
+    app.quit()
 
 
 if __name__ == "__main__":
