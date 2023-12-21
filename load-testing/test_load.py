@@ -1,5 +1,4 @@
 import os
-import re
 import time
 from datetime import datetime
 
@@ -57,26 +56,8 @@ class TestLoad:
         print(*sizes, sep="\n")
         print()
 
-        file_path = (
-            os.path.abspath(__file__).split("\\load-testing")[0]
-            + "\\model\\main_page.py"
-        )
-        pattern = r"data.*\.json"
-
-        with open(file_path, "r") as file:
-            original_contents = file.read()
-
         for size in sizes:
             generate_json(size)
-            with open(file_path, "r") as file:
-                file_contents = file.read()
-
-            updated_contents = re.sub(
-                pattern, get_json_file_path(size).replace("\\", "/"), file_contents
-            )
-
-            with open(file_path, "w") as file:
-                file.write(updated_contents)
 
             with qtbot.waitExposed(main_window):
                 start_time = time.time()
@@ -90,8 +71,10 @@ class TestLoad:
 
                 main_window.tournaments_list_widget.clear()
 
-                with open(file_path, "w") as file:
-                    file.write(original_contents)
+    # def test_ijson(self):
+    #     with open("data_100.json", "rb") as f:
+    #         for item in ijson.items(f, "item.name"):
+    #             print(item)
 
     @pytest.fixture()
     def main_window(self, qtbot: QtBot):
