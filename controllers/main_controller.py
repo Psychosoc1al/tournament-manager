@@ -39,16 +39,23 @@ class MainController:
                 if button_type == "update":
                     button.clicked.connect(  # pragma: no branch
                         lambda _, ind=index: self._update_tournament_show(
-                            tournaments[ind]
+                            ind
+                            # optimised from: tournaments[ind]
                         )
                     )
                 elif button_type == "remove":
                     button.clicked.connect(  # pragma: no branch
-                        lambda _, ind=index: self._remove_tournament(tournaments[ind])
+                        lambda _, ind=index: self._remove_tournament(
+                            ind
+                            # optimised from: tournaments[ind]
+                        )
                     )
                 else:
                     button.clicked.connect(  # pragma: no branch
-                        lambda _, ind=index: self._go_to_tournament(tournaments[ind])
+                        lambda _, ind=index: self._go_to_tournament(
+                            ind
+                            # optimised from: tournaments[ind]
+                        )
                     )
 
         self._view.central_stacked_widget.setCurrentIndex(0)
@@ -61,7 +68,11 @@ class MainController:
 
         add_tournament_controller.form_submitted.connect(self._add_tournament)
 
-    def _update_tournament_show(self, tournament: Tournament) -> None:
+    def _update_tournament_show(self, tournament: Tournament | int) -> None:
+        # optimised (added)
+        if isinstance(tournament, int):
+            tournament = self._model.get_tournament_by_index_optimised(tournament)
+
         update_tournament_window = AddEditPageView(self._view)
         update_tournament_controller = AddEditPageController(
             update_tournament_window, "edit", tournament

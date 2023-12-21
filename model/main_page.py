@@ -82,7 +82,22 @@ class MainPage:
             self._tournaments = tournaments
         else:
             self._tournaments = []
-            self.load_data()
+            self.load_data_optimised()
+
+    def load_data_optimised(self) -> None:
+        with open(self._filename, "r", encoding="utf-8") as f:
+            self._tournaments = [elem["name"] for elem in json.load(f)]
+        print(self._tournaments)
+
+    def get_tournament_by_index_optimised(self, index: int) -> Tournament:
+        with open(self._filename, "r", encoding="utf-8") as f:
+            tournament = json.load(f)[index]
+            tournament["tour_date"] = date.fromisoformat(tournament["tour_date"])
+            tournament["participants"] = [
+                Participant(**participant) for participant in tournament["participants"]
+            ]
+
+            return Tournament(**tournament)
 
     def load_data(self) -> None:
         with open(self._filename, "r", encoding="utf-8") as f:

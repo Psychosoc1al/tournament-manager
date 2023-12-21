@@ -51,7 +51,11 @@ class MainPageView(QMainWindow):
             item_inner_widget = QWidget(self.tournaments_list_widget)
             item_inner_layout = QHBoxLayout(item_inner_widget)
 
-            tournament_button = QPushButton(tournament.name, item_inner_widget)
+            # optimised
+            tournament_button = QPushButton(
+                tournament if isinstance(tournament, str) else tournament.name,
+                item_inner_widget,
+            )
             tournament_button.setStyleSheet(
                 "padding: 5px 0px 5px 0px; margin: 3px 0px 3px 0px;"
             )

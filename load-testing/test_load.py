@@ -12,13 +12,7 @@ from views.main_page_view import MainPageView
 
 
 def get_json_file_path(size: int) -> str:
-    size_str = 0
-    if 0 < size < 1000:
-        size_str = str(size)
-    elif size >= 1000:
-        size_str = str(size // 1000) + "k"
-
-    return os.path.join(os.path.dirname(__file__), f"data_{size_str}.json")
+    return os.path.join(os.path.dirname(__file__), f"data_{size}.json")
 
 
 def generate_json(amount: int):
@@ -48,7 +42,7 @@ class TestLoad:
         print(f"\nTest {request.node.name} took {duration:.4f} seconds")
 
     # def test_generate_json(self, timer):
-    #     generate_json(2000)
+    #     generate_json(50000)
 
     def test_json_sizes(self, qtbot: QtBot, main_window: MainPageView, timer):
         sizes = [100, 250, 500, 750, 1000, 1250, 1500, 1750]
@@ -62,19 +56,30 @@ class TestLoad:
             with qtbot.waitExposed(main_window):
                 start_time = time.time()
                 main_window.show_tournaments(
-                    MainPage(get_json_file_path(size))._tournaments
+                    MainPage(get_json_file_path(size))._tournaments[:10]
                 )
 
                 duration = time.time() - start_time
-                qtbot.wait(50)
+                # if size == 1500:
+                qtbot.wait(5)
                 print(f"{duration:.2f}".replace(".", ","))
 
                 main_window.tournaments_list_widget.clear()
 
-    # def test_ijson(self):
-    #     with open("data_100.json", "rb") as f:
-    #         for item in ijson.items(f, "item.name"):
-    #             print(item)
+    # def test_ijson(self, timer):
+    #     for _ in range(50):
+    #         with open("data_50k.json", "r") as f:
+    #             for item in ijson.items(f, "item.name"):
+    #                 print(item)
+    #         with open("data_50k.json", "rb") as f:
+    #             for item in ijson.items(f, "item.name"):
+    #                 print(item)
+    #         with open("data_50k.json", "r") as f:
+    #             for elem in json.loads(f.read()):
+    #                 print(elem["name"])
+    #         with open("data_50k.json", "r") as f:
+    #             for elem in json.load(f):
+    #                 print(elem["name"])
 
     @pytest.fixture()
     def main_window(self, qtbot: QtBot):
