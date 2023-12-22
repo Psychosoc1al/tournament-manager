@@ -52,7 +52,7 @@ class MainController:
                     )
 
         self._view.central_stacked_widget.setCurrentIndex(0)
-        self._view.setWindowTitle("Main menu")
+        self._view.setWindowTitle("Главное меню")
         self._view.resize_screen_percent_and_center(1 / 2, 1 / 2)
 
     def _add_tournament_show(self) -> None:
@@ -85,7 +85,7 @@ class MainController:
         self._view.resize_screen_percent_and_center(3 / 4, 5 / 6)
         self._view.central_stacked_widget.addWidget(tournament_view)
         self._view.central_stacked_widget.setCurrentWidget(tournament_view)
-        self._view.setWindowTitle(tournament.name + " - bracket")
+        self._view.setWindowTitle("Сетка турнира " + tournament.name)
 
     def _add_tournament(
         self,

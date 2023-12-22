@@ -12,7 +12,7 @@ class TestAddEditPageController:
     def test_correct_add_window_title(
         self, _, __, add_controller: AddEditPageController
     ):
-        add_controller._view.setWindowTitle.assert_called_once_with("Add tournament")
+        add_controller._view.setWindowTitle.assert_called_once_with("Добавить турнир")
 
     def test_correct_edit_window_title(
         self, _, __, edit_controller: AddEditPageController
