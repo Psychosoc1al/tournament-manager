@@ -11,7 +11,7 @@ from views.main_page_view import MainPageView
 class TestMainPageView:
     def test_add_button_shown(self, qtbot: QtBot, main_window: MainPageView):
         with qtbot.waitExposed(main_window):
-            assert main_window.findChild(QPushButton).text() == "Add tournament"
+            assert main_window.findChild(QPushButton).text() == "Добавить турнир"
 
     def test_add_button_click(self, qtbot: QtBot, main_window: MainPageView):
         is_button_clicked = False

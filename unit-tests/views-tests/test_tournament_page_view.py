@@ -35,12 +35,12 @@ class TestTournamentPageView:
 
         tournament_page_view.set_info_data(name, sport, date, participants_amount)
         with qtbot.waitExposed(tournament_page_view):
-            assert tournament_page_view._name_label.text() == "Name: " + name
-            assert tournament_page_view._sport_label.text() == "Sport: " + sport
-            assert tournament_page_view._date_label.text() == "Date: " + date
+            assert tournament_page_view._name_label.text() == "Название: " + name
+            assert tournament_page_view._sport_label.text() == "Вид спорта: " + sport
+            assert tournament_page_view._date_label.text() == "Дата проведения: " + date
             assert (
                 tournament_page_view._participants_amount_label.text()
-                == "Participants: " + participants_amount
+                == "Участники: " + participants_amount
             )
 
     def test_back_to_main_menu(
@@ -48,8 +48,7 @@ class TestTournamentPageView:
     ):
         with qtbot.waitExposed(tournament_page_view):
             assert (
-                tournament_page_view.findChild(QPushButton).text()
-                == "Back to main menu"
+                tournament_page_view.findChild(QPushButton).text() == "В главное меню"
             )
 
     def test_redraw(self, tournament_page_view: TournamentPageView, monkeypatch):
