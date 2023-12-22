@@ -12,13 +12,15 @@ class TestAddEditPageController:
     def test_correct_add_window_title(
         self, _, __, add_controller: AddEditPageController
     ):
-        add_controller._view.setWindowTitle.assert_called_once_with("Добавить турнир")
+        add_controller._view.setWindowTitle.assert_called_once_with(
+            "Добавление турнира"
+        )
 
     def test_correct_edit_window_title(
         self, _, __, edit_controller: AddEditPageController
     ):
         edit_controller._view.setWindowTitle.assert_called_once_with(
-            "Edit tournament - Name"
+            "Редактирование - Name"
         )
 
     @patch("controllers.add_edit_page_controller.QLineEdit")
@@ -42,9 +44,9 @@ class TestAddEditPageController:
         for elem in edit_controller._view.findChildren.return_value:
             elem.textChanged.connect.assert_called_once()
 
-        edit_controller._view.findChildren.return_value[
-            0
-        ].text.side_effect = RuntimeError()
+        edit_controller._view.findChildren.return_value[0].text.side_effect = (
+            RuntimeError()
+        )
         edit_controller._view.findChildren.return_value[-1].text.return_value = "Name"
         edit_controller._handle_button_enabling()
 

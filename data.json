@@ -1,51 +1,5 @@
 [
     {
-        "name": "3214ек",
-        "sport": "ап",
-        "tournament_type": "Single elimination",
-        "tour_date": "2000-01-01",
-        "participants": [
-            {
-                "name": "124"
-            },
-            {
-                "name": "ё5епи"
-            },
-            {
-                "name": "екнц"
-            },
-            {
-                "name": "ткр"
-            }
-        ],
-        "results": [
-            [
-                [
-                    [
-                        0,
-                        0,
-                        5,
-                        1
-                    ],
-                    [
-                        0,
-                        1,
-                        0,
-                        5
-                    ]
-                ],
-                [
-                    [
-                        1,
-                        0,
-                        6,
-                        3
-                    ]
-                ]
-            ]
-        ]
-    },
-    {
         "name": "16 participants",
         "sport": "Cyberpunk ",
         "tournament_type": "Single elimination",
