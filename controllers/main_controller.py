@@ -21,7 +21,9 @@ class MainController:
             self._connect_tournament_buttons
         )
 
-        self._view.add_tournament_button.clicked.connect(self._add_tournament_show)
+        self._view.add_tournament_button.clicked.connect(  # pragma: no branch
+            lambda _: self._add_tournament_show()
+        )
         self.show_main_page()
 
     @property
@@ -61,7 +63,7 @@ class MainController:
             lambda _, ind=tournament_index: self._go_to_tournament(tournaments[ind])
         )
 
-    def _add_tournament_show(self, _: bool = False) -> None:
+    def _add_tournament_show(self) -> None:
         add_tournament_window = AddEditPageView(self._view)
         add_tournament_controller = AddEditPageController(add_tournament_window, "add")
 

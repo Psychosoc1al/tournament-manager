@@ -30,8 +30,8 @@ class AddEditPageController(QObject):
 
         self._handle_input_validation()
         self._view.save_button.clicked.connect(self.send_data_to_main)
-        self._view.participants_amount_choose.currentIndexChanged.connect(
-            self._handle_participants_enter
+        self._view.participants_amount_choose.currentIndexChanged.connect(  # pragma: no branch
+            lambda _: self._handle_participants_enter()
         )
 
     def _set_edit_form(self) -> None:
@@ -56,7 +56,7 @@ class AddEditPageController(QObject):
             self._view.participants_inputs_list.setItemWidget(list_item, new_line)
             self._participants_items.append(new_line)
 
-    def _handle_participants_enter(self, _: int = 0) -> None:
+    def _handle_participants_enter(self) -> None:
         self._participants_items.clear()
         self._participants_items = self._view.create_participants_form()
 
