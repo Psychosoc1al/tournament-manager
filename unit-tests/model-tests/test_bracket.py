@@ -414,7 +414,7 @@ class TestBracket:
 
     @patch("model.bracket.Participant", new=MockParticipant)
     @patch("model.bracket.Match", new=MockMatch)
-    def test_take_loser(self):
+    def test_create_final(self):
         bracket = Bracket(BracketType.LOWER)
         participants = [MockParticipant(str(x)) for x in range(1, 17)]
         bracket.generate_bracket(participants)

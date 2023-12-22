@@ -27,3 +27,7 @@ unit-tests/.pytest_cache
 !load-testing
 !load-testing/*.py
 load-testing/*.json
+
+!features
+!features/*.feature
+!features/*/*.py
