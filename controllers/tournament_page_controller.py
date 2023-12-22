@@ -31,9 +31,7 @@ class TournamentPageController:
             if isinstance(item, RectangleObject)
         ]
         for area in match_result_areas:
-            area.clicked_signal.connect(  # pragma: no branch
-                lambda x, y: self._show_match_result_page(x, y)
-            )
+            area.clicked_signal.connect(self._show_match_result_page)
 
     def _show_match_result_page(self, match_stage: int, match_number: int) -> None:
         match = self._model.brackets[0].matches[match_stage][match_number]
