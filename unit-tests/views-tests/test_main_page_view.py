@@ -33,7 +33,7 @@ class TestMainPageView:
         mock_tournament = Mock()
         mock_tournament.name = "Mocked Tournament"
 
-        main_window.show_tournaments(
+        main_window.pre_show_tournaments(
             [
                 mock_tournament,
             ]
@@ -58,7 +58,7 @@ class TestMainPageView:
             tournament.name = f"Mocked Tournament {i}"
             tournaments_list.append(tournament)
 
-        main_window.show_tournaments(tournaments_list)
+        main_window.pre_show_tournaments(tournaments_list)
 
         with qtbot.waitExposed(main_window):
             qtbot.mouseClick(

@@ -65,7 +65,9 @@ class TestMainController:
             lambda _: main_controller._update_tournament_show(tournament)
         )
 
-        main_controller.view.show_tournaments.return_value = {"update": [update_button]}
+        main_controller.view.pre_show_tournaments.return_value = {
+            "update": [update_button]
+        }
         main_controller.show_main_page()
 
         AddEditPageController.return_value.form_submitted.connect.assert_called_once()
@@ -84,7 +86,7 @@ class TestMainController:
             lambda _: main_controller._remove_tournament(tournament)
         )
 
-        main_controller.view.show_tournaments.side_effect = [
+        main_controller.view.pre_show_tournaments.side_effect = [
             {"remove": [remove_button]},
             {},
         ]
@@ -105,7 +107,7 @@ class TestMainController:
         )
         tournament_view = TournamentPageView.return_value
 
-        main_controller.view.show_tournaments.return_value = {
+        main_controller.view.pre_show_tournaments.return_value = {
             "tournaments": [tournament_button]
         }
         main_controller.show_main_page()

@@ -82,7 +82,7 @@ class MainPage:
             self._tournaments = tournaments
         else:
             self._tournaments = []
-            self.load_data_optimised()
+            self.load_data()
 
     def load_data_optimised(self) -> None:
         with open(self._filename, "r", encoding="utf-8") as f:

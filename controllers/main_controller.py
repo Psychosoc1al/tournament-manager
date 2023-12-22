@@ -7,7 +7,7 @@ from model.main_page import MainPage
 from model.participant import Participant
 from model.tournament import Tournament
 from views.add_edit_page_view import AddEditPageView
-from views.main_page_view import MainPageView
+from views.main_page_view import MainPageView, CustomListInnerWidget
 from views.tournament_page_view import TournamentPageView
 
 
@@ -15,6 +15,11 @@ class MainController:
     def __init__(self, model: MainPage, view: MainPageView) -> None:
         self._model = model
         self._view = view
+        self.tournaments_to_show = []
+
+        self._view.tournament_buttons_created_signal.connect(
+            self._connect_tournament_buttons
+        )
 
         self._view.add_tournament_button.clicked.connect(  # pragma: no branch
             lambda _: self._add_tournament_show()
@@ -31,36 +36,32 @@ class MainController:
 
     def show_main_page(self) -> None:
         self._view.tournaments_list_widget.clear()
-        tournaments = self._model.get_tournaments()
-        buttons_to_connect = self._view.show_tournaments(tournaments)
-
-        for button_type, buttons in buttons_to_connect.items():
-            for index, button in enumerate(buttons):
-                if button_type == "update":
-                    button.clicked.connect(  # pragma: no branch
-                        lambda _, ind=index: self._update_tournament_show(
-                            ind
-                            # optimised from: tournaments[ind]
-                        )
-                    )
-                elif button_type == "remove":
-                    button.clicked.connect(  # pragma: no branch
-                        lambda _, ind=index: self._remove_tournament(
-                            ind
-                            # optimised from: tournaments[ind]
-                        )
-                    )
-                else:
-                    button.clicked.connect(  # pragma: no branch
-                        lambda _, ind=index: self._go_to_tournament(
-                            ind
-                            # optimised from: tournaments[ind]
-                        )
-                    )
+        self._view.pre_show_tournaments(self._model.get_tournaments())
 
         self._view.central_stacked_widget.setCurrentIndex(0)
         self._view.setWindowTitle("Главное меню")
         self._view.resize_screen_percent_and_center(1 / 2, 1 / 2)
+
+    def _connect_tournament_buttons(
+        self,
+        tournament_index: int,
+        item_inner_widget: CustomListInnerWidget,
+    ) -> None:
+        tournaments = self._model.get_tournaments()
+
+        item_inner_widget.update_button.clicked.connect(  # pragma: no branch
+            lambda _, ind=tournament_index: self._update_tournament_show(
+                tournaments[ind]
+            )
+        )
+
+        item_inner_widget.remove_button.clicked.connect(  # pragma: no branch
+            lambda _, ind=tournament_index: self._remove_tournament(tournaments[ind])
+        )
+
+        item_inner_widget.tournament_button.clicked.connect(  # pragma: no branch
+            lambda _, ind=tournament_index: self._go_to_tournament(tournaments[ind])
+        )
 
     def _add_tournament_show(self) -> None:
         add_tournament_window = AddEditPageView(self._view)
@@ -68,11 +69,7 @@ class MainController:
 
         add_tournament_controller.form_submitted.connect(self._add_tournament)
 
-    def _update_tournament_show(self, tournament: Tournament | int) -> None:
-        # optimised (added)
-        if isinstance(tournament, int):
-            tournament = self._model.get_tournament_by_index_optimised(tournament)
-
+    def _update_tournament_show(self, tournament: Tournament) -> None:
         update_tournament_window = AddEditPageView(self._view)
         update_tournament_controller = AddEditPageController(
             update_tournament_window, "edit", tournament

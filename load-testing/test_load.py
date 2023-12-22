@@ -55,31 +55,15 @@ class TestLoad:
 
             with qtbot.waitExposed(main_window):
                 start_time = time.time()
-                main_window.show_tournaments(
-                    MainPage(get_json_file_path(size))._tournaments[:10]
+                main_window.pre_show_tournaments(
+                    MainPage(get_json_file_path(size))._tournaments
                 )
 
                 duration = time.time() - start_time
-                # if size == 1500:
-                qtbot.wait(5)
+                qtbot.wait(50)
                 print(f"{duration:.2f}".replace(".", ","))
 
                 main_window.tournaments_list_widget.clear()
-
-    # def test_ijson(self, timer):
-    #     for _ in range(50):
-    #         with open("data_50k.json", "r") as f:
-    #             for item in ijson.items(f, "item.name"):
-    #                 print(item)
-    #         with open("data_50k.json", "rb") as f:
-    #             for item in ijson.items(f, "item.name"):
-    #                 print(item)
-    #         with open("data_50k.json", "r") as f:
-    #             for elem in json.loads(f.read()):
-    #                 print(elem["name"])
-    #         with open("data_50k.json", "r") as f:
-    #             for elem in json.load(f):
-    #                 print(elem["name"])
 
     @pytest.fixture()
     def main_window(self, qtbot: QtBot):
