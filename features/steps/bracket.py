@@ -1,7 +1,7 @@
 from behave import use_step_matcher, given, when, then
 
-from model.match import Match
 from model.bracket import Bracket, BracketType
+from model.match import Match
 from model.participant import Participant
 
 use_step_matcher("re")
@@ -51,7 +51,8 @@ def step_impl(context, name):
 
 
 @given(
-    "I have match (?P<number>\\d+) on stage (?P<stage>\\d+) (?P<name1>\\d+) - (?P<name2>\\d+) (?P<store1>\\d):(?P<store2>\\d)"
+    "I have match (?P<number>\\d+) on stage (?P<stage>\\d+) (?P<name1>\\d+) - (?P<name2>\\d+) "
+    "(?P<store1>\\d):(?P<store2>\\d)"
 )
 def step_impl(context, number, stage, name1, name2, store1, store2):
     context.match = Match(

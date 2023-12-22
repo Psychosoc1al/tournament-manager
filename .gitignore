@@ -23,3 +23,7 @@ unit-tests/.pytest_cache
 !unit-tests
 !unit-tests/*.py
 !unit-tests/*/*.py
+
+!features
+!features/*.feature
+!features/*/*.py

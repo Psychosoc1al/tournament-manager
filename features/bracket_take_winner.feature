@@ -1,6 +1,6 @@
-Feature: take winner
+Feature: Take winner
 
-  Scenario: upper bracket
+  Scenario: Upper bracket
     Given I create upper bracket
     And I generate 8 participants
     When I generate bracket
