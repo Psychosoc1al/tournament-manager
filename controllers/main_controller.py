@@ -35,12 +35,12 @@ class MainController:
         return self._model
 
     def show_main_page(self) -> None:
+        self._view.resize_screen_percent_and_center(1 / 2, 1 / 2)
         self._view.tournaments_list_widget.clear()
         self._view.pre_show_tournaments(self._model.get_tournaments())
 
         self._view.central_stacked_widget.setCurrentIndex(0)
         self._view.setWindowTitle("Главное меню")
-        self._view.resize_screen_percent_and_center(1 / 2, 1 / 2)
 
     def _connect_tournament_buttons(
         self,
