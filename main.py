@@ -1,3 +1,5 @@
+from os.path import abspath, dirname
+
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication
 from win32comext.shell.shell import (
@@ -13,7 +15,7 @@ def main():
     app = QApplication([])
     myappid = "tornament.manager"
     SetCurrentProcessExplicitAppUserModelID(myappid)
-    app.setWindowIcon(QIcon("icon/icon.png"))
+    app.setWindowIcon(QIcon(dirname(abspath(__file__)) + "/icon/icon.ico"))
 
     model = MainPage()
     window = MainPageView()

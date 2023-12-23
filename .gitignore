@@ -6,6 +6,7 @@
 !main.py
 !pytest.ini
 !.coveragerc
+!build.py
 
 !model
 !model/*.py
@@ -15,6 +16,9 @@
 
 !controllers
 !controllers/*.py
+
+!data/
+!data/data.json
 
 !icon
 !icon/*

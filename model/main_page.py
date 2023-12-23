@@ -1,5 +1,7 @@
 import json
 from datetime import date
+from os import makedirs
+from os.path import exists, dirname
 
 from marshmallow import Schema, fields, post_load
 
@@ -70,7 +72,7 @@ class TournamentSchema(Schema):
 
 
 class MainPage:
-    _filename = "data.json"
+    _filename = "data/data.json"
     _schema = TournamentSchema(many=True)
 
     def __init__(
@@ -84,24 +86,15 @@ class MainPage:
             self._tournaments = []
             self.load_data()
 
-    def load_data_optimised(self) -> None:
-        with open(self._filename, "r", encoding="utf-8") as f:
-            self._tournaments = [elem["name"] for elem in json.load(f)]
-        print(self._tournaments)
-
-    def get_tournament_by_index_optimised(self, index: int) -> Tournament:
-        with open(self._filename, "r", encoding="utf-8") as f:
-            tournament = json.load(f)[index]
-            tournament["tour_date"] = date.fromisoformat(tournament["tour_date"])
-            tournament["participants"] = [
-                Participant(**participant) for participant in tournament["participants"]
-            ]
-
-            return Tournament(**tournament)
-
     def load_data(self) -> None:
-        with open(self._filename, "r", encoding="utf-8") as f:
-            self._tournaments = self._schema.loads(f.read())
+        makedirs(dirname(self._filename), exist_ok=True)
+        if not exists(self._filename):
+            with open(self._filename, "w", encoding="utf-8") as f:
+                f.write("[]")
+            self._tournaments = []
+        else:
+            with open(self._filename, "r", encoding="utf-8") as f:
+                self._tournaments = self._schema.loads(f.read())
 
     def save_data(self) -> None:
         for tournament in self._tournaments:
