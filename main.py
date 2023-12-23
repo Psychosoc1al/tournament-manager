@@ -21,6 +21,14 @@ def main():
     window = MainPageView()
     MainController(model, window)
 
+    # splash closing for a .exe dist
+    try:
+        import pyi_splash
+
+        pyi_splash.close()
+    except ModuleNotFoundError:
+        ...
+
     app.exec()
 
 

@@ -45,6 +45,7 @@ class AddEditPageController(QObject):
         )
         self._view.participants_amount_choose.setDisabled(True)
 
+        self._view.participants_inputs_list.clear()
         for ind, participant in enumerate(self._model.participants):
             list_item = QListWidgetItem(self._view.participants_inputs_list)
 
