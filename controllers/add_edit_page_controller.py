@@ -82,7 +82,7 @@ class AddEditPageController(QObject):
 
         self._line_edits = self._view.findChildren(QLineEdit)
         for ind, widget in enumerate(self._line_edits):
-            if ind < 3:
+            if ind > 3:
                 widget.setValidator(
                     QRegularExpressionValidator(
                         QRegularExpression(r"[\wа-яА-ЯёЁ][\wа-яА-ЯёЁ ]{9}"),
