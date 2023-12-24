@@ -29,11 +29,11 @@ class MatchResultPageView(QDialog):
         first_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.first_score = QDoubleSpinBox(first_widget)
+        self.first_score.setRange(0, 999)
         self.first_score.setValue(match.score_participant1)
         self.first_score.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.first_score.setMaximumWidth(100)
         self.first_score.setDecimals(0)
-        self.first_score.setRange(0, 999)
 
         first_layout.addWidget(first_label)
         first_layout.addWidget(self.first_score)
@@ -45,11 +45,11 @@ class MatchResultPageView(QDialog):
         second_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         self.second_score = QDoubleSpinBox(second_widget)
+        self.second_score.setRange(0, 999)
         self.second_score.setValue(match.score_participant2)
         self.second_score.setAlignment(Qt.AlignmentFlag.AlignRight)
         self.second_score.setMaximumWidth(100)
         self.second_score.setDecimals(0)
-        self.second_score.setRange(0, 999)
 
         second_layout.addWidget(second_label)
         second_layout.addWidget(self.second_score)
