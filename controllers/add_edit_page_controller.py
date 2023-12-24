@@ -40,6 +40,9 @@ class AddEditPageController(QObject):
         self._view.date_edit.setDate(self._model.tour_date)
         self._view.format_edit.setCurrentIndex(len(self._model.brackets) - 1)
         self._view.format_edit.setDisabled(True)
+        self._view.date_edit.dateChanged.connect(
+            lambda _: self._handle_button_enabling()
+        )
         self._view.participants_amount_choose.setCurrentText(
             str(len(self._model.participants))
         )
