@@ -9,6 +9,7 @@ PyInstaller.__main__.run(
         "--add-data=icon/icon.ico:icon",
         "--windowed",
         "--splash=./icon/splash.png",
+        "--icon=./icon/icon.ico",
         "--name=TourMan",
         "main.py",
     ]
